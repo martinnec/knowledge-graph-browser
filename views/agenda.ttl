@@ -2,7 +2,7 @@
 @prefix dct: <http://purl.org/dc/terms/> .
 
 <https://martin.necasky.solid.community/profile/kgbrowser/views/agenda1> a view:View ;
-  dct:title "Agenda se svými ohlašovateli a vykonavateli"@cs ;
+  dct:title "Agenda se svými ohlašovateli a vykonavateli"@cs 
   view:sparql """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/> 
 PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/>
 
