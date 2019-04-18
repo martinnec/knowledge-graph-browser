@@ -1,7 +1,7 @@
 @prefix view: <https://linked.opendata.cz/ontology/view#> .
 @prefix dct: <http://purl.org/dc/terms/> .
 
-<https://example.org/views/agenda/1> a view:View ;
+<https://raw.githubusercontent.com/martinnec/kgbrowser/master/views/agenda.ttl> a view:View ;
   dct:title "Agenda se svými ohlašovateli a vykonavateli"@cs ;
   view:sparql """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/> 
 PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/>
