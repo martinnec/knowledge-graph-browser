@@ -7,15 +7,37 @@
 PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/>
 
 CONSTRUCT {
-  ?node a l:agenda .
-  ?node l:má-název-agendy ?MaNazevAgendy .
-  ?node l:má-kód-agendy ?MaKodAgendy .
+  ?node l:má-název-agendy ?nazev ;
+    l:má-kód-agendy ?kod .
+  
+  ?ohlasovatel l:ohlašuje-agendu ?node .
+  
+  ?vykonavatel l:vykonává-agendu ?node .
 } WHERE {
-  ?node l:má-název-agendy ?MaNazevAgendy ; 
-    l:má-kód-agendy ?MaKodAgendy .
-  FILTER (LANG(?MaNazevAgendy) = "cs")
+  ?node l:má-název-agendy ?nazev ; 
+    l:má-kód-agendy ?kod .
+  FILTER (LANG(?nazev) = "cs")
   
   ?ohlasovatel l:ohlašuje-agendu ?node .
   
   ?vykonavatel l:vykonává-agendu ?node . 
+}""" .
+
+
+<https://martin.necasky.solid.community/profile/kgbrowser/views/agenda2> a view:View ;
+  dct:title "Agenda a činnosti v ní vykonávané"@cs ; 
+  view:sparql """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/> 
+PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/>
+
+CONSTRUCT {
+  ?node l:má-název-agendy ?nazev ;
+    l:má-kód-agendy ?kod .
+  
+  ?cinnost l:je-vykonávána-v-agendě ?node .
+} WHERE {
+  ?node l:má-název-agendy ?nazev ; 
+    l:má-kód-agendy ?kod .
+  FILTER (LANG(?nazev) = "cs")
+  
+  ?cinnost l:je-vykonávána-v-agendě ?node .
 }""" .
