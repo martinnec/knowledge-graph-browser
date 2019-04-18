@@ -1,21 +1,7 @@
-@prefix view: <https://linked.opendata.cz/ontology/view#> .
-@prefix dct: <http://purl.org/dc/terms/> .
-
-<https://martin.necasky.solid.community/profile/kgbrowser/views/agenda1> a view:View ;
-  dct:title "Agenda se svými ohlašovateli a vykonavateli"@cs 
-  view:sparql """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/> 
-PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/>
-
-CONSTRUCT {
-  ?node a l:agenda .
-  ?node l:má-název-agendy ?MaNazevAgendy .
-  ?node l:má-kód-agendy ?MaKodAgendy .
-} WHERE {
-  ?node l:má-název-agendy ?MaNazevAgendy ; 
-    l:má-kód-agendy ?MaKodAgendy .
-  FILTER (LANG(?MaNazevAgendy) = "cs")
-  
-  ?ohlasovatel l:ohlašuje-agendu ?node .
-  
-  ?vykonavatel l:vykonává-agendu ?node . 
-}""" .
+@prefix rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ns1:	<http://szrcr.cz/odrpp/zdroj/agenda/> .
+@prefix ns2:	<https://slovn\u00EDk.gov.cz/legislativn\u00ED/sb\u00EDrka/111/2009/pojem/> .
+ns1:A1081	rdf:type	ns2:agenda .
+@prefix xsd:	<http://www.w3.org/2001/XMLSchema#> .
+ns1:A1081	<https://slovn\u00EDk.gov.cz/legislativn\u00ED/sb\u00EDrka/111/2009/pojem/m\u00E1-k\u00F3d-agendy>	"A1081"^^xsd:string ;
+	<https://slovn\u00EDk.gov.cz/legislativn\u00ED/sb\u00EDrka/111/2009/pojem/m\u00E1-n\u00E1zev-agendy>	"Ve\u0159ejn\u00E9 zdravotn\u00ED poji\u0161t\u011Bn\u00ED"@cs .
