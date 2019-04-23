@@ -1,5 +1,7 @@
 @prefix view: <https://linked.opendata.cz/ontology/view#> .
 @prefix dct: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
 
 <https://martin.necasky.solid.community/profile/kgbrowser/configuration1> a view:Configuration ;
