@@ -36,11 +36,10 @@ PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 CONSTRUCT {
-  ?node a ?type ;
+  ?node a l:agenda ;
     rdfs:label ?label .
 } WHERE {
-  ?node a ?type ;
-    l:má-název-agendy ?nazev ; 
+  ?node l:má-název-agendy ?nazev ; 
     l:má-kód-agendy ?kod .
   FILTER (LANG(?nazev) = "cs")
   
@@ -84,11 +83,10 @@ PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 CONSTRUCT {
-  ?node a ?type ;
+  ?node a l:agenda ;
     rdfs:label ?label .
 } WHERE {
-  ?node a ?type ;
-    l:má-název-agendy ?nazev ; 
+  ?node l:má-název-agendy ?nazev ; 
     l:má-kód-agendy ?kod .
   FILTER (LANG(?nazev) = "cs")
   
