@@ -8,6 +8,7 @@
 
 <https://martin.necasky.solid.community/profile/kgbrowser/configuration/agenda> a view:Configuration ;
   dct:title "Pohledy na agendy"@cs ;
+  view:endpointurl "http://rpp-opendata.egon.gov.cz/odrpp/sparql" ;
   view:condition """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/> 
 PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/>
 ASK {
