@@ -6,35 +6,44 @@
 @prefix a: <https://slovník.gov.cz/agendový/104/pojem/> .
 
 
-<https://martin.necasky.solid.community/profile/kgbrowser/configuration1> a view:Configuration ;
-  view:hasView <https://martin.necasky.solid.community/profile/kgbrowser/views/agenda1>, <https://martin.necasky.solid.community/profile/kgbrowser/views/agenda2> . 
-
-<https://martin.necasky.solid.community/profile/kgbrowser/views/agenda1> a view:View ;
-  dct:title "Agenda se svými ohlašovateli a vykonavateli"@cs ;
-  view:endpointurl "http://rpp-opendata.egon.gov.cz/odrpp/sparql" ;
+<https://martin.necasky.solid.community/profile/kgbrowser/configuration/agenda> a view:Configuration ;
+  dct:title "Pohledy na agendy"@cs ;
   view:condition """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/> 
 PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/>
 ASK {
   ?node a l:agenda .    
 }"""; 
+  view:hasView <https://martin.necasky.solid.community/profile/kgbrowser/views/agenda1>, <https://martin.necasky.solid.community/profile/kgbrowser/views/agenda2> . 
+
+<https://martin.necasky.solid.community/profile/kgbrowser/views/agenda1> a view:View ;
+  dct:title "Agenda se svými ohlašovateli a vykonavateli"@cs ;
+  view:endpointurl "http://rpp-opendata.egon.gov.cz/odrpp/sparql" ;
   view:expansion """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/> 
 PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/>
 
 CONSTRUCT {
-  ?node l:má-název-agendy ?nazev ;
-    l:má-kód-agendy ?kod .
-  
   ?ohlasovatel l:ohlašuje-agendu ?node .
   
   ?vykonavatel l:vykonává-agendu ?node .
-} WHERE {
-  ?node l:má-název-agendy ?nazev ; 
-    l:má-kód-agendy ?kod .
-  FILTER (LANG(?nazev) = "cs")
-  
+} WHERE {  
   ?ohlasovatel l:ohlašuje-agendu ?node .
   
   ?vykonavatel l:vykonává-agendu ?node . 
+}""" ;
+  view:preview """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/> 
+PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+CONSTRUCT {
+  ?node a ?type ;
+    rdfs:label ?label .
+} WHERE {
+  ?node a ?type ;
+    l:má-název-agendy ?nazev ; 
+    l:má-kód-agendy ?kod .
+  FILTER (LANG(?nazev) = "cs")
+  
+  BIND(CONCAT(?kod, " - ", ?nazev) AS ?label) 
 }""" ;
   view:detail """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/> 
 PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/>
@@ -61,25 +70,28 @@ SELECT {
 <https://martin.necasky.solid.community/profile/kgbrowser/views/agenda2> a view:View ;
   dct:title "Agenda a činnosti v ní vykonávané"@cs ;
   view:endpointurl "http://rpp-opendata.egon.gov.cz/odrpp/sparql" ;
-  view:condition """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/> 
-PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/>
-ASK {
-  ?node a l:agenda .    
-}"""; 
   view:expansion """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/> 
 PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/>
 
 CONSTRUCT {
-  ?node l:má-název-agendy ?nazev ;
-    l:má-kód-agendy ?kod .
-  
   ?cinnost l:je-vykonávána-v-agendě ?node .
 } WHERE {
-  ?node l:má-název-agendy ?nazev ; 
+  ?cinnost l:je-vykonávána-v-agendě ?node .
+}""" ;
+  view:preview """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/> 
+PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+CONSTRUCT {
+  ?node a ?type ;
+    rdfs:label ?label .
+} WHERE {
+  ?node a ?type ;
+    l:má-název-agendy ?nazev ; 
     l:má-kód-agendy ?kod .
   FILTER (LANG(?nazev) = "cs")
   
-  ?cinnost l:je-vykonávána-v-agendě ?node .
+  BIND(CONCAT(?kod, " - ", ?nazev) AS ?label) 
 }""" ;
   view:detail """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/> 
 PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/>
@@ -110,4 +122,19 @@ CONSTRUCT {
 <https://martin.necasky.solid.community/profile/kgbrowser/vocabulary/má-počet-vykonavatelů> a owl:DatatypeProperty ;
   rdfs:label "má počet vykonavatelů"@cs ;
   rdfs:domain l:agenda ;
-  rdfs:range rdfs:Literal . 
+  rdfs:range rdfs:Literal .
+  
+l:agenda view:background-color "lightskyblue" ;
+  view:border-color "navy" ;
+  view:color "black" ;
+  view:shape "rectangle" ;
+  view:emoji "&#128451;" .
+  
+l:ohlašuje-agendu view:border-color "lime" ;
+  view:color "black" .
+  
+l:vykonává-agendu view:border-color "tomato" ;
+  view:color "black" .
+  
+l:je-vykonávána-v-agendě view:border-color "orchid" ;
+  view:color "black" .    
