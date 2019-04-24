@@ -123,7 +123,7 @@ CONSTRUCT {
   rdfs:domain l:agenda ;
   rdfs:range rdfs:Literal .
   
-l:agenda view:background-color "lightskyblue" ;
+<https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/agenda> view:background-color "lightskyblue" ;
   view:border-color "navy" ;
   view:color "black" ;
   view:shape "rectangle" ;
