@@ -1,31 +1,19 @@
 const express = require('express');
 const request = require('request');
+const URI = require('uri-js');
 const $rdf = require('rdflib');
 
 const app = express();
 const port = 3000;
 
 app.get('/', function (req, res) {
-  res.send(`<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<title>Knowledge graph browser</title>
-<link rel="stylesheet" href="styles/main.css">
-</head>
-<body>
-<h1>Knowledge graph viewer</h1>
-<a href="http://localhost:3000/configurations?resourceiri=http://szrcr.cz/odrpp/zdroj/agenda/A1081&configurl=https://raw.githubusercontent.com/martinnec/kgbrowser/master/views/agenda.ttl&configiri=https://martin.necasky.solid.community/profile/kgbrowser/configuration/agenda">sample</a>
-</body>
-</html>`);
+  
 })
 
 app.get('/view-sets', function (req, res)  {
 
   const configIRI = req.query.config ;
   const resourceIRI = req.query.resource ;
-  
-  const configStore = $rdf.graph();
 
   const RDF = $rdf.Namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
   const DCT = $rdf.Namespace("http://purl.org/dc/terms/");
@@ -33,24 +21,77 @@ app.get('/view-sets', function (req, res)  {
   const BROWSER = $rdf.Namespace("https://linked.opendata.cz/ontology/knowledge-graph-browser/");
   const RS = $rdf.Namespace("http://www.w3.org/2005/sparql-results#");
   
-  const requestOptions = {
-    url: configIRI,
-    headers: {
-      'Accept': 'text/turtle'
-    }
-  };
+  let store = $rdf.graph();
+  const config = $rdf.sym(configIRI);
+  const fetcher = new $rdf.Fetcher(store);
+    
+  fetcher.load(configIRI).then(response => {
+    let viewSets = store.each(config, BROWSER("hasViewSet"), undefined);
+    Promise.all(
+      viewSets.map(
+        function (viewSet)  {
+          return new Promise((resolve, reject) => {
+            fetcher.load(viewSet.value).then(response => {
+              const condition = store.any(viewSet, BROWSER("hasCondition"), undefined);
+              const dataset = store.any(viewSet, BROWSER("hasDataset"), undefined);
+              fetcher.load(dataset.value).then( reponse => {
+                const endpoint = store.any(dataset, VOID("sparqlEndpoint"), undefined);
+                const groundedCondition = condition.value.replace('ASK {', 'ASK { VALUES ?node {<' + resourceIRI + '>}');
+                const groundedConditionQueryURL = endpoint.value + '?query=' + encodeURI(groundedCondition) + '&format=text%2Fplain'; 
+                request(groundedConditionQueryURL, function (error, response, body) {
+                  try{
+                    if(error) {
+                      res.send("Oops, something happened and couldn't fetch data");
+                      reject(viewSet.value);
+                    } else {
+                      if(body.includes('true')) {
+                        resolve(viewSet.value);
+                      }
+                      resolve(null);
+                    }
+                  } catch (e) {
+                    console.log(e);
+                    reject(viewSet.value);
+                  }                  
+                });              
+              }, err => {
+                console.log("Load failed " +  err);
+                reject(viewSet.value);
+              });
+            }, err => {
+               console.log("Load failed " +  err);
+               reject(viewSet.value);
+            });
+          });
+        }
+      )
+    ).then(response => {
+      res.contentType('application/json');
+      let output = [];
+      for(i in response)  {
+        if(response[i]) {
+          output.push(response[i]);
+        }      
+      }
+      res.send(JSON.stringify(output));
+    }, err => {
+       console.log("Load failed " +  err);
+    });    
+  }, err => {
+     console.log("Load failed " +  err);
+  });
   
-  request(requestOptions, function (error, response, body) {   
+  return;  
+  
+  options.url = configIRI;
+  request(options, function (error, response, body) {   
     try {
-      $rdf.parse(body, configStore, configIRI, "text/turtle");
-      const config = $rdf.sym(configIRI);
-      var viewSets = configStore.each(config, BROWSER("hasViewSet"), undefined);
-      var output = [];
+      $rdf.parse(body, store, configIRI, "text/turtle");
+      let viewSets = store.each(config, BROWSER("hasViewSet"), undefined);
       
       buildViewSets(viewSets, 0);
       
       function buildViewSets(viewSets, i)  {
-        console.log("viewSets: " + viewSets);
         if(viewSets.length == i) {
           console.log(output);
           res.contentType('application/json');
@@ -58,66 +99,49 @@ app.get('/view-sets', function (req, res)  {
         } else {
           const viewSet = viewSets[i];
           console.log("viewSet: " + viewSet); 
-          const viewSetIRI = viewSet.value ;
-          
-          const viewSetRequestOptions = {
-            url: viewSetIRI,
-            headers: {
-              'Accept': 'text/turtle'
-            }
-          };
-          const viewSetStore = $rdf.graph();
-          request(viewSetRequestOptions, function (errorVS, responseVS, bodyVS) {
+          options.url = viewSet.value;
+          request(options, function (error, response, body) {
             try {
-              $rdf.parse(bodyVS, viewSetStore, viewSetIRI, "text/turtle");
-              const viewSet = $rdf.sym(viewSetIRI);
-              const condition = viewSetStore.any(viewSet, BROWSER("hasCondition"), undefined).value;
-              const datasetIRI = viewSetStore.any(viewSet, BROWSER("hasDataset"), undefined).value;
-              const datasetRequestOptions = {
-                url: datasetIRI,
-                headers: {
-                  'Accept': 'text/turtle'
-                }
-              };
-              const datasetStore = $rdf.graph();
-              console.log("datasetIRI: " + datasetIRI);
-              request(datasetRequestOptions, function (errorDS, responseDS, bodyDS) {
+              $rdf.parse(body, store, viewSet.value, "text/turtle");
+              const condition = store.any(viewSet, BROWSER("hasCondition"), undefined);
+              const dataset = store.any(viewSet, BROWSER("hasDataset"), undefined);
+              options.url = dataset.value;
+              request(options, function (error, response, body) {
                 try {
-                  $rdf.parse(bodyDS, datasetStore, datasetIRI, "text/turtle");
-                  const dataset = $rdf.sym(datasetIRI);
-                  const endpoint = datasetStore.any(dataset, VOID("sparqlEndpoint"), undefined).value;
-                  const groundedCondition = condition.replace('ASK {', 'ASK { VALUES ?node {<' + resourceIRI + '>}');
-                  const groundedConditionQueryURL = endpoint + '?query=' + encodeURI(groundedCondition) + '&format=text%2Fplain'; 
+                  $rdf.parse(body, store, dataset.value, "text/turtle");
+                  const endpoint = store.any(dataset, VOID("sparqlEndpoint"), undefined);
+                  const groundedCondition = condition.value.replace('ASK {', 'ASK { VALUES ?node {<' + resourceIRI + '>}');
+                  const groundedConditionQueryURL = endpoint.value + '?query=' + encodeURI(groundedCondition) + '&format=text%2Fplain'; 
                   console.log("groundedConditionQueryURL: " + groundedConditionQueryURL);
-                  request(groundedConditionQueryURL, function (conditionerror, conditionresponse, conditionbody) {
+                  request(groundedConditionQueryURL, function (error, response, body) {
                     try{
-                      if(conditionerror) {
-                        console.log("Oops, something happened and couldn't fetch data: " + conditionerror);
+                      if(error) {
+                        console.log("Oops, something happened and couldn't fetch data: " + error);
                         res.send("Oops, something happened and couldn't fetch data");
                       } else {
-                        console.log("ASK result of " + viewSetIRI +" for " + resourceIRI + ": " + conditionbody);
-                        if(conditionbody.includes('true')) {
-                          output.push(viewSetIRI);
+                        console.log("ASK result of " + viewSet.value +" for " + resourceIRI + ": " + body);
+                        if(body.includes('true')) {
+                          output.push(viewSet.value);
                         }
                         buildViewSets(viewSets, i+1);
                       }
-                    } catch (conditionerr) {
-                      console.log(conditionerr);
+                    } catch (e) {
+                      console.log(e);
                     }                  
                   });             
-                } catch (errVS) {
-                  console.log(errVS);
+                } catch (e) {
+                  console.log(e);
                 }
               });
-            } catch (errVS) {
-              console.log(errVS);
+            } catch (e) {
+              console.log(e);
             }                                                                              
           });
         }
       }
       
-    } catch (err) {
-      console.log(err);
+    } catch (e) {
+      console.log(e);
     }    
   });  
                                     
