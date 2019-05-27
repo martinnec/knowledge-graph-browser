@@ -1,0 +1,381 @@
+{
+	"info": {
+		"_postman_id": "fd4bb7e6-9c07-4196-9515-ff042f86f12e",
+		"name": "kgbrowser-RPP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Stylesheet",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/stylesheet?stylesheet=https://linked.opendata.cz/resource/knowledge-graph-browser/rpp/style-sheet",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"stylesheet"
+					],
+					"query": [
+						{
+							"key": "stylesheet",
+							"value": "https://linked.opendata.cz/resource/knowledge-graph-browser/rpp/style-sheet",
+							"description": "IRI of a stylesheet to retrieve"
+						}
+					]
+				},
+				"description": "Get a stylesheet with visual styles to display graph nodes and edges."
+			},
+			"response": []
+		},
+		{
+			"name": "ViewSets pro agendu",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/view-sets?config=https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/rpp&resource=https://rpp-opendata.egon.gov.cz/odrpp/zdroj/agenda/A1081",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"view-sets"
+					],
+					"query": [
+						{
+							"key": "config",
+							"value": "https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/rpp",
+							"description": "IRI of a configuration\n"
+						},
+						{
+							"key": "resource",
+							"value": "https://rpp-opendata.egon.gov.cz/odrpp/zdroj/agenda/A1081",
+							"description": "IRI of a resource"
+						}
+					]
+				},
+				"description": "Get view sets defined in the given configuration applicable on a given resource."
+			},
+			"response": []
+		},
+		{
+			"name": "View agendy expand 1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/expand?view=https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/struktura-agendy&resource=https://rpp-opendata.egon.gov.cz/odrpp/zdroj/agenda/A1081",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"expand"
+					],
+					"query": [
+						{
+							"key": "view",
+							"value": "https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/struktura-agendy"
+						},
+						{
+							"key": "resource",
+							"value": "https://rpp-opendata.egon.gov.cz/odrpp/zdroj/agenda/A1081"
+						}
+					]
+				},
+				"description": "Expand a given resource using a given view"
+			},
+			"response": []
+		},
+		{
+			"name": "View agendy preview 1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/preview?view=https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/struktura-agendy&resource=https://rpp-opendata.egon.gov.cz/odrpp/zdroj/agenda/A1081",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"preview"
+					],
+					"query": [
+						{
+							"key": "view",
+							"value": "https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/struktura-agendy"
+						},
+						{
+							"key": "resource",
+							"value": "https://rpp-opendata.egon.gov.cz/odrpp/zdroj/agenda/A1081"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ViewSets pro činnost",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/view-sets?config=https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/rpp&resource=https://rpp-opendata.egon.gov.cz/odrpp/zdroj/činnost/A1081/CR6238",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"view-sets"
+					],
+					"query": [
+						{
+							"key": "config",
+							"value": "https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/rpp",
+							"description": "IRI of a configuration\n"
+						},
+						{
+							"key": "resource",
+							"value": "https://rpp-opendata.egon.gov.cz/odrpp/zdroj/činnost/A1081/CR6238",
+							"description": "IRI of a resource"
+						}
+					]
+				},
+				"description": "Get view sets defined in the given configuration applicable on a given resource."
+			},
+			"response": []
+		},
+		{
+			"name": "View činnost preview",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/preview?view=https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/struktura-činnosti&resource=https://rpp-opendata.egon.gov.cz/odrpp/zdroj/činnost/A1081/CR6238",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"preview"
+					],
+					"query": [
+						{
+							"key": "view",
+							"value": "https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/struktura-činnosti"
+						},
+						{
+							"key": "resource",
+							"value": "https://rpp-opendata.egon.gov.cz/odrpp/zdroj/činnost/A1081/CR6238"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ViewSets pro ovm",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/view-sets?config=https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/rpp&resource=https://rpp-opendata.egon.gov.cz/odrpp/zdroj/orgán-veřejné-moci/00024341",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"view-sets"
+					],
+					"query": [
+						{
+							"key": "config",
+							"value": "https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/rpp",
+							"description": "IRI of a configuration\n"
+						},
+						{
+							"key": "resource",
+							"value": "https://rpp-opendata.egon.gov.cz/odrpp/zdroj/orgán-veřejné-moci/00024341",
+							"description": "IRI of a resource"
+						}
+					]
+				},
+				"description": "Get view sets defined in the given configuration applicable on a given resource."
+			},
+			"response": []
+		},
+		{
+			"name": "View ovm preview",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/preview?view=https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/agendy-ovm&resource=https://rpp-opendata.egon.gov.cz/odrpp/zdroj/orgán-veřejné-moci/00024341",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"preview"
+					],
+					"query": [
+						{
+							"key": "view",
+							"value": "https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/agendy-ovm"
+						},
+						{
+							"key": "resource",
+							"value": "https://rpp-opendata.egon.gov.cz/odrpp/zdroj/orgán-veřejné-moci/00024341"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "View činnost expand",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/expand?view=https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/struktura-činnosti&resource=https://rpp-opendata.egon.gov.cz/odrpp/zdroj/činnost/A1081/CR6230",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"expand"
+					],
+					"query": [
+						{
+							"key": "view",
+							"value": "https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/struktura-činnosti"
+						},
+						{
+							"key": "resource",
+							"value": "https://rpp-opendata.egon.gov.cz/odrpp/zdroj/činnost/A1081/CR6230"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "View agendy expand 2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/expand?view=https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/výkon-agendy&resource=https://rpp-opendata.egon.gov.cz/odrpp/zdroj/agenda/A1081",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"expand"
+					],
+					"query": [
+						{
+							"key": "view",
+							"value": "https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/výkon-agendy"
+						},
+						{
+							"key": "resource",
+							"value": "https://rpp-opendata.egon.gov.cz/odrpp/zdroj/agenda/A1081"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "View agendy preview 2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/preview?view=https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/výkon-agendy&resource=https://rpp-opendata.egon.gov.cz/odrpp/zdroj/agenda/A1081",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"preview"
+					],
+					"query": [
+						{
+							"key": "view",
+							"value": "https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/výkon-agendy"
+						},
+						{
+							"key": "resource",
+							"value": "https://rpp-opendata.egon.gov.cz/odrpp/zdroj/agenda/A1081"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "View agendy detail 1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/detail?view=https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/struktura-agendy&resource=https://rpp-opendata.egon.gov.cz/odrpp/zdroj/agenda/A1081",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"detail"
+					],
+					"query": [
+						{
+							"key": "view",
+							"value": "https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/struktura-agendy"
+						},
+						{
+							"key": "resource",
+							"value": "https://rpp-opendata.egon.gov.cz/odrpp/zdroj/agenda/A1081"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "View agendy detail 2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/detail?view=https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/výkon-agendy&resource=https://rpp-opendata.egon.gov.cz/odrpp/zdroj/agenda/A1081",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"detail"
+					],
+					"query": [
+						{
+							"key": "view",
+							"value": "https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/výkon-agendy"
+						},
+						{
+							"key": "resource",
+							"value": "https://rpp-opendata.egon.gov.cz/odrpp/zdroj/agenda/A1081"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
