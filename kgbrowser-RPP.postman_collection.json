@@ -63,6 +63,34 @@
 			"response": []
 		},
 		{
+			"name": "View agendy preview 1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/preview?view=https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/struktura-agendy&resource=https://rpp-opendata.egon.gov.cz/odrpp/zdroj/agenda/A1081",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"preview"
+					],
+					"query": [
+						{
+							"key": "view",
+							"value": "https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/struktura-agendy"
+						},
+						{
+							"key": "resource",
+							"value": "https://rpp-opendata.egon.gov.cz/odrpp/zdroj/agenda/A1081"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "View agendy expand 1",
 			"request": {
 				"method": "GET",
@@ -88,34 +116,6 @@
 					]
 				},
 				"description": "Expand a given resource using a given view"
-			},
-			"response": []
-		},
-		{
-			"name": "View agendy preview 1",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:3000/preview?view=https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/struktura-agendy&resource=https://rpp-opendata.egon.gov.cz/odrpp/zdroj/agenda/A1081",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"preview"
-					],
-					"query": [
-						{
-							"key": "view",
-							"value": "https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/struktura-agendy"
-						},
-						{
-							"key": "resource",
-							"value": "https://rpp-opendata.egon.gov.cz/odrpp/zdroj/agenda/A1081"
-						}
-					]
-				}
 			},
 			"response": []
 		},
