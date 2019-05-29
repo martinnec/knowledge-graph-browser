@@ -80,7 +80,7 @@ app.get('/view-sets', function (req, res)  {
           let views = store.each(viewSet, BROWSER("hasView"), undefined);
           let viewSetOutput = {
             iri: unicodeToUTF8(viewSet.value),
-            title: store.any(viewSet, DCT("title"), undefined).value,
+            label: store.any(viewSet, DCT("title"), undefined).value,
             defaultView: unicodeToUTF8(store.any(viewSet, BROWSER("hasDefaultView"), undefined).value),
             views: store.each(viewSet, BROWSER("hasView"), undefined).map(
               function (view) {
