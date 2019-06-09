@@ -15,10 +15,14 @@ const SKOS = $rdf.Namespace("http://www.w3.org/2004/02/skos/core#");
 const RDFS = $rdf.Namespace("http://www.w3.org/2000/01/rdf-schema#");
 
 app.get('/', function (req, res) {
+
+  res.setHeader('Access-Control-Allow-Origin', '*');
   
 })
 
 app.get('/view-sets', function (req, res)  {
+
+  res.setHeader('Access-Control-Allow-Origin', '*');
 
   const configIRI = req.query.config ;
   const resourceIRI = req.query.resource ;
@@ -132,6 +136,8 @@ app.get('/view-sets', function (req, res)  {
 
 app.get('/expand', function (req, res)  {
 
+  res.setHeader('Access-Control-Allow-Origin', '*');
+
   const viewIRI = req.query.view ;
   const resourceIRI = req.query.resource ;
   
@@ -148,6 +154,7 @@ app.get('/expand', function (req, res)  {
       fetcher.load(fetchableURI(dataset.value)).then( reponse => {
         const endpoint = store.any(dataset, VOID("sparqlEndpoint"), undefined);
         const groundedQueryURL = endpoint.value + '?query=' + encodeURI(groundedQuery) + '&format=text%2Fplain';
+        console.log(groundedQueryURL);
         request(groundedQueryURL, function (error, response, body) {
           try{
             if(error) {
@@ -162,28 +169,49 @@ app.get('/expand', function (req, res)  {
                 types: []
               };
               let nodesMap = new Map();
+              let nodeNamesMap = new Map();
+              let nodeTypesMap = new Map();
               let typesSet = new Set();
               for(let i in statements)  {
-                if(statements[i].object.termType='NamedNode') {
-                  if(!nodesMap.get(statements[i].subject.value)) {
-                    nodesMap.set(statements[i].subject.value, {iri:unicodeToUTF8(statements[i].subject.value)});
-                  }
-                  if(!nodesMap.get(statements[i].object.value)) {
-                    nodesMap.set(statements[i].object.value, {iri:unicodeToUTF8(statements[i].object.value)});
-                  }
-                  if(!typesSet.has(statements[i].predicate.value)) {
-                    typesSet.add(statements[i].predicate.value);
-                  }
-                  edge = {
-                    source: unicodeToUTF8(statements[i].subject.value),
-                    target: unicodeToUTF8(statements[i].object.value),
-                    type: unicodeToUTF8(statements[i].predicate.value)
-                  } 
-                  output.edges.push(edge);
+                let statement = statements[i];
+                let subjectIRI = statement.subject.value;
+                let predicateIRI = statement.predicate.value;
+                let objectValue = statement.object.value;
+                let subject = nodesMap.get(subjectIRI);
+                if(!subject)  {
+                  subject = {iri:unicodeToUTF8(subjectIRI)};
                 }
+                if(statement.object.termType=='NamedNode') {
+                  if(predicateIRI==RDF("type").value) {
+                    if(!typesSet.has(objectValue)) {
+                      typesSet.add(objectValue);
+                    }
+                    subject.type = unicodeToUTF8(objectValue) ;
+                  } else {
+                    if(!nodesMap.get(objectValue)) {
+                      nodesMap.set(objectValue, {iri:unicodeToUTF8(objectValue)});
+                    }
+                    if(!typesSet.has(predicateIRI)) {
+                      typesSet.add(predicateIRI);
+                    }
+                    edge = {
+                      source: unicodeToUTF8(subjectIRI),
+                      target: unicodeToUTF8(objectValue),
+                      type: unicodeToUTF8(predicateIRI)
+                    } 
+                    output.edges.push(edge);
+                  }
+                } else {
+                  if(predicateIRI==RDFS("label").value) {
+                    subject.label = objectValue ;
+                  }
+                }
+                nodesMap.set(subjectIRI, subject);
               }
               for(let value of nodesMap.values()) {
-                output.nodes.push(value);
+                if(value.iri!=resourceIRI)  {
+                  output.nodes.push(value);
+                }
               }
               
               let promises = [];
@@ -238,6 +266,8 @@ app.get('/expand', function (req, res)  {
 });
 
 app.get('/preview', function (req, res)  {
+
+  res.setHeader('Access-Control-Allow-Origin', '*');
 
   const viewIRI = req.query.view ;
   const resourceIRI = req.query.resource ;
@@ -332,6 +362,8 @@ app.get('/preview', function (req, res)  {
 });
 
 app.get('/detail', function (req, res)  {
+
+  res.setHeader('Access-Control-Allow-Origin', '*');
 
   const viewIRI = req.query.view ;
   const resourceIRI = req.query.resource ;
@@ -428,6 +460,8 @@ app.get('/detail', function (req, res)  {
 });
 
 app.get('/stylesheet', function (req, res)  {
+
+  res.setHeader('Access-Control-Allow-Origin', '*');
 
   const stylesheetIRI = req.query.stylesheet ;
   
