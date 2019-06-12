@@ -1,5 +1,18 @@
 #cy {
-  width: 1600px;
-  height: 900px;
-  display: block;
+  border: 1px solid black;
+  position: fixed;
+  width: 70%;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+}
+
+#detail {
+  border: 1px solid black;
+  padding: 5px;
+  position: fixed;
+  width: 29%;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
 }

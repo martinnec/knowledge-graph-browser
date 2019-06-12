@@ -109,14 +109,19 @@ ASK {
   browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/rpp> ;
   browser:query """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/> 
 PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX browser: <https://linked.opendata.cz/ontology/knowledge-graph-browser/>
 
 CONSTRUCT {
   ?cinnost a l:činnost ;
     rdfs:label ?labelCinnosti ;
-    l:je-vykonávána-v-agendě ?node .
+    l:je-vykonávána-v-agendě ?node ;
+    browser:class "cinnost" .
+    
   ?ovm a l:orgán-veřejné-moci ;
     rdfs:label ?labelOvm ;
-    l:ohlašuje-agendu ?node .
+    l:ohlašuje-agendu ?node ;
+    browser:class "ovm" .
 } WHERE {
   ?cinnost l:je-vykonávána-v-agendě ?node ;
     a:má-název-činnosti ?nazevCinnosti ; 
@@ -135,12 +140,15 @@ CONSTRUCT {
 <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/rpp/vykonavatelé-agendy> a browser:ExpansionQuery ;
   dct:title "Vykonavatelé agendy" ;
   browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/rpp> ;
-  browser:query """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/> 
+  browser:query """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX browser: <https://linked.opendata.cz/ontology/knowledge-graph-browser/> 
 
 CONSTRUCT {
   ?vykonavatel a l:orgán-veřejné-moci ;
     rdfs:label ?labelOvm ;
-    l:vykonává-agendu ?node .
+    l:vykonává-agendu ?node  ;
+    browser:class "ovm" .
 } WHERE {  
   ?vykonavatel l:vykonává-agendu ?node ;
     l:má-název-orgánu-veřejné-moci ?nazevOvm ; 
@@ -153,17 +161,21 @@ CONSTRUCT {
 <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/rpp/ohlašované-a-vykonávané-agendy> a browser:ExpansionQuery ;
   dct:title "Ohlášené a vykonávané agendy" ;
   browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/rpp> ;
-  browser:query """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/> 
+  browser:query """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX browser: <https://linked.opendata.cz/ontology/knowledge-graph-browser/>
 
 CONSTRUCT {
   ?node l:ohlašuje-agendu ?ohlasenaAgenda ;
     l:vykonává-agendu ?vykonavanaAgenda .
     
   ?ohlasenaAgenda a l:agenda ;
-    rdfs:label ?labelOhlasena .
+    rdfs:label ?labelOhlasena ;
+    browser:class "agenda" .
     
   ?vykonavanaAgenda a l:agenda ;
-    rdfs:label ?labelVykonavana .
+    rdfs:label ?labelVykonavana ;
+    browser:class "agenda" .
 } WHERE {
   ?node l:ohlašuje-agendu ?ohlasenaAgenda ;
     l:vykonává-agendu ?vykonavanaAgenda .
@@ -184,12 +196,15 @@ CONSTRUCT {
 <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/rpp/činnost> a browser:ExpansionQuery ;
   dct:title "Agenda, ve které je činnost vykonávána" ;
   browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/rpp> ;
-  browser:query """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/> 
+  browser:query """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX browser: <https://linked.opendata.cz/ontology/knowledge-graph-browser/> 
 
 CONSTRUCT {
   ?node l:je-vykonávána-v-agendě ?agenda .
   ?agenda a l:agenda ;
-    rdfs:label ?labelAgenda .
+    rdfs:label ?labelAgenda ;
+    browser:class "agenda" .
 } WHERE {
   ?node l:je-vykonávána-v-agendě ?agenda .
   
@@ -205,17 +220,21 @@ CONSTRUCT {
   browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/rpp> ;
   browser:query """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/>
 PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/>
-PREFIX v: <https://linked.opendata.cz/resource/vocabulary/knowledge-graph-browser/rpp/> 
+PREFIX v: <https://linked.opendata.cz/resource/vocabulary/knowledge-graph-browser/rpp/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX browser: <https://linked.opendata.cz/ontology/knowledge-graph-browser/> 
 
 CONSTRUCT {
   ?node l:vykonává-agendu ?vykonavanaAgenda ;
     v:obsahuje-orgán-veřejné-moci ?ovm .
     
   ?vykonavanaAgenda a l:agenda ;
-    rdfs:label ?labelVykonavana .
+    rdfs:label ?labelVykonavana ;
+    browser:class "agenda" .
     
   ?ovm a l:orgán-veřejné-moci ;
-    rdfs:label ?labelOvm .
+    rdfs:label ?labelOvm ;
+    browser:class "ovm" .
 } WHERE {
   ?node l:vykonává-agendu ?vykonavanaAgenda .
   ?vykonavanaAgenda l:má-název-agendy ?nazevVykonavana ; 
@@ -240,10 +259,12 @@ CONSTRUCT {
   browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/rpp> ;
   browser:query """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/> 
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX browser: <https://linked.opendata.cz/ontology/knowledge-graph-browser/>
 
 CONSTRUCT {
   ?node a l:agenda ;
-    rdfs:label ?label .
+    rdfs:label ?label ;
+    browser:class "agenda" .
 } WHERE {
   ?node l:má-název-agendy ?nazev ; 
     l:má-kód-agendy ?kod .
@@ -258,10 +279,12 @@ CONSTRUCT {
   browser:query """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/> 
 PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/> 
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX browser: <https://linked.opendata.cz/ontology/knowledge-graph-browser/>
 
 CONSTRUCT {
   ?node a l:činnost ;
-    rdfs:label ?label .
+    rdfs:label ?label ;
+    browser:class "cinnost" .
 } WHERE {
   ?node a:má-název-činnosti ?nazev ; 
     a:má-kód-činnosti ?kod .
@@ -275,10 +298,12 @@ CONSTRUCT {
   browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/rpp> ;
   browser:query """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/> 
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX browser: <https://linked.opendata.cz/ontology/knowledge-graph-browser/>
 
 CONSTRUCT {
   ?node a l:orgán-veřejné-moci ;
-    rdfs:label ?label .
+    rdfs:label ?label ;
+    browser:class "ovm" .
 } WHERE {
   ?node l:má-název-orgánu-veřejné-moci ?nazev ; 
     l:má-identifikátor-orgánu-veřejné-moci ?kod .
@@ -292,10 +317,12 @@ CONSTRUCT {
   browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/rpp> ;
   browser:query """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/> 
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX browser: <https://linked.opendata.cz/ontology/knowledge-graph-browser/>
 
 CONSTRUCT {
   ?node a l:kategorie-orgánů-veřejné-moci ;
-    rdfs:label ?label .
+    rdfs:label ?label ;
+    browser:class "kategorieovm" .
 } WHERE {
   ?node l:má-název-kategorie ?nazev ; 
     l:má-identifikátor-kategorie ?kod .
@@ -339,6 +366,7 @@ CONSTRUCT {
     WHERE {
       ?vykonavatel l:vykonává-agendu ?node .
     }
+    GROUP BY ?node
   }
   
   {
@@ -346,6 +374,7 @@ CONSTRUCT {
     WHERE {
       ?cinnost l:je-vykonávána-v-agendě ?node .
     }
+    GROUP BY ?node
   }    
 }""" .
 
@@ -357,8 +386,8 @@ PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 CONSTRUCT {
-  ?node a l:činnost ;
-    rdfs:label ?label .
+  ?node a:má-název-činnosti ?nazev ; 
+    a:má-kód-činnosti ?kod .
 } WHERE {
   ?node a:má-název-činnosti ?nazev ; 
     a:má-kód-činnosti ?kod .
@@ -449,8 +478,13 @@ CONSTRUCT {
   browser:border-width "2px" ;
   browser:color "black" ;
   browser:shape "round-rectangle" ;
-  browser:label 'data(label)' ;
-  browser:hasSelector <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/agenda> .
+  browser:label "data(label)" ;
+  browser:width "label" ;
+  browser:height "label" ;
+  browser:padding "2px" ;
+  browser:text-halign "center" ;
+  browser:text-valign "center" ;
+  browser:hasSelector ".agenda" .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/rpp/style/slovník.gov.cz/legislativní/sbírka/111/2009/pojem/činnost> a browser:VisualStyle ;
   browser:background-color "#8DE969" ;
@@ -459,7 +493,12 @@ CONSTRUCT {
   browser:color "black" ;
   browser:shape "round-rectangle" ;
   browser:label 'data(label)' ;
-  browser:hasSelector <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/činnost> .
+  browser:width "label" ;
+  browser:height "label" ;
+  browser:padding "2px" ;
+  browser:text-halign "center" ;
+  browser:text-valign "center" ;
+  browser:hasSelector ".cinnost" .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/rpp/style/slovník.gov.cz/legislativní/sbírka/111/2009/pojem/orgán-veřejné-moci> a browser:VisualStyle ;
   browser:background-color "#8BB8A3" ;
@@ -468,7 +507,12 @@ CONSTRUCT {
   browser:color "black" ;
   browser:shape "round-rectangle" ;
   browser:label 'data(label)' ;
-  browser:hasSelector <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/orgán-veřejné-moci> .
+  browser:width "label" ;
+  browser:height "label" ;
+  browser:padding "2px" ;  
+  browser:text-halign "center" ;
+  browser:text-valign "center" ;
+  browser:hasSelector ".ovm" .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/rpp/style/slovník.gov.cz/legislativní/sbírka/111/2009/pojem/kategorie-orgánů-veřejné-moci> a browser:VisualStyle ;
   browser:background-color "#8396A1" ;
@@ -477,27 +521,36 @@ CONSTRUCT {
   browser:color "black" ;
   browser:shape "round-rectangle" ;
   browser:label 'data(label)' ;
-  browser:hasSelector <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/kategorie-orgánů-veřejné-moci> .
+  browser:width "label" ;
+  browser:height "label" ;
+  browser:padding "2px" ;
+  browser:text-halign "center" ;
+  browser:text-valign "center" ;
+  browser:hasSelector ".kategorieovm" .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/rpp/style/slovník.gov.cz/legislativní/sbírka/111/2009/pojem/ohlašuje-agendu> a browser:VisualStyle ;
   browser:line-color "lime" ;
   browser:line-style "solid" ;
-  browser:hasSelector <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/ohlašuje-agendu> .
+  browser:hasSelector ".ohlasujeagendu" ;
+  browser:appliesTo <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/ohlašuje-agendu> .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/rpp/style/slovník.gov.cz/legislativní/sbírka/111/2009/pojem/vykonává-agendu> a browser:VisualStyle ;
   browser:line-color "tomato" ;
   browser:line-style "solid" ;
-  browser:hasSelector <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/vykonává-agendu> .
+  browser:hasSelector ".ohlasujeagendu" ;
+  browser:appliesTo <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/vykonává-agendu> .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/rpp/style/slovník.gov.cz/legislativní/sbírka/111/2009/pojem/je-vykonávána-v-agendě> a browser:VisualStyle ;
   browser:line-color "orchid" ;
   browser:line-style "dotted" ;
-  browser:hasSelector <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/je-vykonávána-v-agendě> .
+  browser:hasSelector ".ohlasujeagendu" ;
+  browser:appliesTo <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/je-vykonávána-v-agendě> .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/rpp/style/linked.opendata.cz/resource/vocabulary/knowledge-graph-browser/rpp/obsahuje-orgán-veřejné-moci> a browser:VisualStyle ;
   browser:line-color "dodgerblue" ;
   browser:line-style "dotted" ;
-  browser:hasSelector <https://linked.opendata.cz/resource/vocabulary/knowledge-graph-browser/rpp/obsahuje-orgán-veřejné-moci> .
+  browser:hasSelector ".ohlasujeagendu" ;
+  browser:appliesTo <https://linked.opendata.cz/resource/vocabulary/knowledge-graph-browser/rpp/obsahuje-orgán-veřejné-moci> .
 
 <https://linked.opendata.cz/resource/knowledge-graph-browser/rpp/style/node> a browser:VisualStyle ;
   browser:background-color "#A9A5A7" ;

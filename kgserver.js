@@ -153,8 +153,8 @@ app.get('/expand', function (req, res)  {
       const groundedQuery = query.value.replace('WHERE {', 'WHERE { VALUES ?node {<' + resourceIRI + '>}');
       fetcher.load(fetchableURI(dataset.value)).then( reponse => {
         const endpoint = store.any(dataset, VOID("sparqlEndpoint"), undefined);
-        const groundedQueryURL = endpoint.value + '?query=' + encodeURI(groundedQuery) + '&format=text%2Fplain';
-        console.log(groundedQueryURL);
+        const groundedQueryURL = endpoint.value + '?query=' + encodeURIComponent(groundedQuery) + '&format=text%2Fplain';
+        console.log("EXPAND: " + groundedQuery);
         request(groundedQueryURL, function (error, response, body) {
           try{
             if(error) {
@@ -204,6 +204,11 @@ app.get('/expand', function (req, res)  {
                 } else {
                   if(predicateIRI==RDFS("label").value) {
                     subject.label = objectValue ;
+                  } else if(predicateIRI==BROWSER("class").value) {
+                    if(!subject.classes)  {
+                      subject.classes = [];
+                    }
+                    subject.classes.push(objectValue) ;
                   }
                 }
                 nodesMap.set(subjectIRI, subject);
@@ -285,6 +290,7 @@ app.get('/preview', function (req, res)  {
       fetcher.load(fetchableURI(dataset.value)).then( reponse => {
         const endpoint = store.any(dataset, VOID("sparqlEndpoint"), undefined);
         const groundedQueryURL = endpoint.value + '?query=' + encodeURIComponent(groundedQuery) + '&format=text%2Fplain';
+        console.log("PREVIEW: " + groundedQuery);
         request(groundedQueryURL, function (error, response, body) {
           try{
             if(error) {
@@ -298,9 +304,15 @@ app.get('/preview', function (req, res)  {
                 nodes: [{
                   iri: unicodeToUTF8(resourceIRI),
                   type: unicodeToUTF8(resultStore.any(resource, RDF("type"), undefined).value),
-                  label: label.value
+                  label: label.value                  
                 }],
                 types: []
+              }
+              const stmtsClasses = resultStore.match(resource, BROWSER("class"));
+              output.nodes[0].classes = [];
+              for(let i in stmtsClasses) {
+                const stmtClass = stmtsClasses[i];
+                output.nodes[0].classes.push(stmtClass.object.value);
               }
               const stmts = resultStore.match(resource, RDF("type"));
               let typesSet = new Set();
@@ -376,10 +388,12 @@ app.get('/detail', function (req, res)  {
     fetcher.load(fetchableURI(detail.value)).then( reponse => {
       const dataset = store.any(detail, BROWSER("hasDataset"), undefined);
       const query = store.any(detail, BROWSER("query"), undefined);
-      const groundedQuery = query.value.replace('WHERE {', 'WHERE { VALUES ?node {<' + resourceIRI + '>}');
+      //const groundedQuery = query.value.replace('WHERE {', 'WHERE { VALUES ?node {<' + resourceIRI + '>}');
+      const groundedQuery = query.value.replace(/\?node/g, '<' + resourceIRI + '>');
       fetcher.load(fetchableURI(dataset.value)).then( reponse => {
         const endpoint = store.any(dataset, VOID("sparqlEndpoint"), undefined);
         const groundedQueryURL = endpoint.value + '?query=' + encodeURIComponent(groundedQuery) + '&format=text%2Fplain';
+        console.log("DETAIL: " + groundedQuery);
         request(groundedQueryURL, function (error, response, body) {
           try{
             if(error) {
@@ -474,6 +488,8 @@ app.get('/stylesheet', function (req, res)  {
     let output = {
       styles: []
     }
+    let nodeStyleOutput;
+    let edgeStyleOutput;
     Promise.all(
       styles.map(
         function (style)  {
@@ -485,8 +501,10 @@ app.get('/stylesheet', function (req, res)  {
                 selector = "node";
               } else if (selectorLiteral=="edge") {
                 selector = "edge";
+              } else if (selectorLiteral.startsWith("."))  {
+                selector = selectorLiteral;              
               } else {
-                selector = "node[type='" + unicodeToUTF8(selectorLiteral) + "']"
+                selector = "node[type='" + unicodeToUTF8(selectorLiteral) + "']";
               }
               let styleOutput = {
                 selector: selector,
@@ -500,7 +518,13 @@ app.get('/stylesheet', function (req, res)  {
                   styleOutput.properties[unicodeToUTF8(stmt.predicate.uri).substr(60)] = stmt.object.value;
                 }
               }
-              output.styles.push(styleOutput);
+              if (selector == "node") {
+                nodeStyleOutput = styleOutput;
+              } else if (selector == "edge") {
+                edgeStyleOutput = styleOutput;
+              } else  { 
+                output.styles.push(styleOutput);
+              }
               resolve(style);
             }, err => {
                console.log("Load failed " +  err);
@@ -510,6 +534,14 @@ app.get('/stylesheet', function (req, res)  {
         }
       )
     ).then(response => {
+      let finalStyles = [];
+      if(nodeStyleOutput) {
+        finalStyles.push(nodeStyleOutput);
+      }
+      if(edgeStyleOutput) {
+        finalStyles.push(edgeStyleOutput);
+      }
+      output.styles = finalStyles.concat(output.styles);      
       res.contentType('application/json');
       res.send(JSON.stringify(output));
     }, err => {
