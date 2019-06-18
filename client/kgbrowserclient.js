@@ -2,16 +2,23 @@ var cy;
 var detail = document.getElementById('detail');
 /*var layoutOptions =  {
 	name: 'euler',
-  springLength: edge => 160,
+  springLength: edge => 240,
 	randomize: true,
 	animate: true
 };*/
+var startingLayoutOptions = {
+  name: 'concentric'  
+}
 var layoutOptions = {
   name: 'cola',
-  maxSimulationTime: 60000
+  maxSimulationTime: 30000,
+  fit: false,
+  infinite: false,
+  handleDisconnected: false  
 }
 var config = 'https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/rpp';
 var styles = [];
+var layout ;
 
 /*var graphP = $.ajax({
   url: 'http://localhost:3000/expand?view=https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/struktura-agendy&resource=https://rpp-opendata.egon.gov.cz/odrpp/zdroj/agenda/A1081',
@@ -60,43 +67,57 @@ function initCy( then ) {
     var previousTapStamp = 0;
     
     cy.on('tap', 'node', function(e) {
-        let currentTapStamp = e.timeStamp;
-        let msFromLastTap = currentTapStamp - previousTapStamp;
-        previousTapStamp = currentTapStamp;
-        let node = e.target;
-        let nodeIRI = node.data('id');
-        let nodeViewSetsPromise = $.ajax({
-          url: 'http://localhost:3000/view-sets?config='+ config + '&resource=' + nodeIRI,
-          type: 'GET',
-          dataType: 'json'
-        });    
-        if (msFromLastTap < doubleClickDelayMs) {
-          nodeViewSetsPromise.then(function() {
-            let viewIRI = nodeViewSetsPromise.responseJSON.viewSets[0].defaultView;
-            expand(viewIRI, node);
-          });
-        } else {
-          nodeViewSetsPromise.then(function() {
-            let viewIRI = nodeViewSetsPromise.responseJSON.viewSets[0].defaultView;
-            showDetail(viewIRI, node);
-          });
-        }
+      let currentTapStamp = e.timeStamp;
+      let msFromLastTap = currentTapStamp - previousTapStamp;
+      previousTapStamp = currentTapStamp;
+      let node = e.target;
+      let nodeIRI = node.data('id');
+      let nodeViewSetsPromise = $.ajax({
+        url: 'http://localhost:3000/view-sets?config='+ config + '&resource=' + nodeIRI,
+        type: 'GET',
+        dataType: 'json'
+      });    
+      if (msFromLastTap < doubleClickDelayMs) {
+        nodeViewSetsPromise.then(function() {
+          let viewIRI = nodeViewSetsPromise.responseJSON.viewSets[0].defaultView;
+          expand(viewIRI, node);
+        });
+      } else {
+        nodeViewSetsPromise.then(function() {
+          if(node && node.isNode() && node.locked()) {
+            node.unlock();
+          }
+          let viewIRI = nodeViewSetsPromise.responseJSON.viewSets[0].defaultView;
+          showDetail(viewIRI, node);
+        });
+      }
+      console.log("POSITION: " + node.position('x') + "," + node.position('y'));
     });
 
-    cy.on('taphold', 'node', function(evt){
-      let node = evt.target;
-      if(node && node.isNode() && node.locked()) {
-        node.unlock();
-      }
-    });    
     
     cy.on('dragfree', 'node', function(evt){
       let node = evt.target;
       if(node && node.isNode()) {
         node.lock();
-        cy.elements().layout(layoutOptions).run();  
+        layout.run();
       }
     });
+    
+    /*cy.on('position', 'node', function(evt){
+      let node = evt.target;
+      if(node && node.isNode() && node.data('id') == 'https://rpp-opendata.egon.gov.cz/odrpp/zdroj/činnost/A1081/CR6229') {
+        console.log("POSITION: " + node.position('x') + "," + node.position('y'));  
+      }
+    });*/
+
+
+    /*cy.on('layoutstart', function(evt){
+      console.log("LAYOUT START");
+    });*/
+    
+    /*cy.on('layoutstop', function(evt){
+      console.log("LAYOUT STOP");
+    });*/
 
     preview('https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/struktura-agendy', 'https://rpp-opendata.egon.gov.cz/odrpp/zdroj/agenda/A1081');    
   });
@@ -124,7 +145,8 @@ function preview(view, resource) {
       },
       classes: node.classes
     });
-    cy.elements().layout(layoutOptions).run();
+    layout = cy.layout(startingLayoutOptions);
+    layout.run();
   });
 }
 
@@ -194,7 +216,6 @@ function expand(view, node) {
           y: node.position('y')+50
         }
       }
-      console.log(node.position()); 
       elements.push(nodeElement);
     });
   }).then(function()  {
@@ -209,10 +230,8 @@ function expand(view, node) {
     });
   }).then(function()  {
     cy.add(elements);
-  }).then(function() {
-    console.log(cy.elements().jsons());
     cy.style().fromJson(styles);
-    console.log(cy.style().json());
-    cy.elements().layout(layoutOptions).run();
+    layout = cy.layout(layoutOptions);
+    layout.run();
   });
 }
