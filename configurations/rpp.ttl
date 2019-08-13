@@ -431,7 +431,7 @@ CONSTRUCT {
 
 <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/rpp> a void:Dataset ;
   dct:title "Registr práv a povinností" ;
-  void:sparqlEndpoint <http://rpp-opendata.egon.gov.cz/odrpp/sparql> .
+  void:sparqlEndpoint <https://rpp-opendata.egon.gov.cz/odrpp/sparql> .
 
 #####################################
 # View vocabularies

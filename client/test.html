@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<meta name="viewport" content="width=device-width, user-scalable=no" />
+
+<title>Knowledge Graph Browser</title>
+  <link href="style.css" rel="stylesheet">
+</head>
+<body>
+  <div id="cy"></div>
+  <div id="loading">
+    <span class="fa fa-refresh fa-spin"></span>
+  </div>
+
+  <div id="info">
+  </div>
+
+  <script src="jquery.min.js"></script>
+  <script src="cytoscape.min.js"></script>
+
+  <script>
+var cy = cytoscape({
+
+  container: document.getElementById('cy'), // container to render in
+
+  elements: [
+  {
+    "data": {
+      "id": "https://rpp-opendata.egon.gov.cz/odrpp/zdroj/agenda/A1081",
+      "label": "A1081 - Veřejné zdravotní pojišt",
+      "type": "https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/agenda"
+    },
+    "position": {
+      "x": 800,
+      "y": 450
+    },
+    "group": "nodes",
+    "removed": false,
+    "selected": true,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": "agenda"
+  },
+  {
+    "data": {
+      "id": "https://rpp-opendata.egon.gov.cz/odrpp/zdroj/činnost/A1081/CR6231",
+      "label": "CR6231 - VZP - kontrola placení ",
+      "type": "https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/činnost"
+    },
+    "position": {
+      "x": 0,
+      "y": 0
+    },
+    "group": "nodes",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": "cinnost"
+  }
+],
+
+  style: [
+  {
+    "selector": ".kategorieovm",
+    "style": {
+      "background-color": "rgb(131,150,161)",
+      "border-color": "rgb(56,82,99)",
+      "color": "rgb(0,0,0)",
+      "shape": "round-rectangle",
+      "border-width": "2px",
+      "label": "data(label)"
+    }
+  },
+  {
+    "selector": "edge",
+    "style": {
+      "line-color": "rgb(0,0,0)",
+      "line-style": "solid"
+    }
+  },
+  {
+    "selector": "node",
+    "style": {
+      "background-color": "rgb(169,165,167)",
+      "border-color": "rgb(84,75,80)",
+      "color": "rgb(0,0,0)",
+      "shape": "rectangle",
+      "border-width": "2px",
+      "label": "data(label)"
+    }
+  },
+  {
+    "selector": ".cinnost",
+    "style": {
+      "background-color": "rgb(141,233,105)",
+      "border-color": "rgb(103,170,77)",
+      "color": "rgb(0,0,0)",
+      "shape": "round-rectangle",
+      "border-width": "2px",
+      "label": "data(label)"
+    }
+  },
+  {
+    "selector": ".ovm",
+    "style": {
+      "background-color": "rgb(139,184,163)",
+      "border-color": "rgb(94,139,118)",
+      "color": "rgb(0,0,0)",
+      "shape": "round-rectangle",
+      "border-width": "2px",
+      "label": "data(label)"
+    }
+  },
+  {
+    "selector": ".agenda",
+    "style": {
+      "background-color": "rgb(212,241,101)",
+      "border-color": "rgb(167,196,55)",
+      "color": "rgb(0,0,0)",
+      "shape": "round-rectangle",
+      "border-width": "2px",
+      "label": "data(label)"
+    }
+  }
+]
+,
+
+  layout: {
+    name: 'grid',
+    rows: 1
+  }
+
+});  
+  </script>
+
+</body>
+</html>

@@ -16,7 +16,10 @@ var layoutOptions = {
   infinite: false,
   handleDisconnected: false  
 }
-var config = 'https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/rpp';
+var configIRI ;
+var stylesheetIRI ;
+var startResourceIRI ;
+var startViewIRI ;
 var styles = [];
 var layout ;
 
@@ -29,13 +32,58 @@ var layout ;
 
 Promise.all([ graphP ]).then(initCy);*/
 
-initCy();
+//initCy();
+
+$('#startForm').submit(function(e) {
+
+  configIRI = $('#startForm input[name=config]').val();
+  startResourceIRI = $('#startForm input[name=resource]').val();
+  stylesheetIRI = $('#startForm input[name=stylesheet]').val();
+  startViewIRI = $('#startForm select[name=view]').val();
+   
+  if(configIRI && startResourceIRI && stylesheetIRI)  {
+    if(startViewIRI)  {
+      if(!cy)  {
+        initCy();
+      } else {
+        preview(startViewIRI, startResourceIRI);
+      }
+    } else {
+      let nodeViewSetsPromise = $.ajax({
+        url: 'http://localhost:3000/view-sets?config='+ configIRI + '&resource=' + startResourceIRI,
+        type: 'GET',
+        dataType: 'json'
+      });
+      nodeViewSetsPromise.then(function() {
+        console.log(nodeViewSetsPromise.responseJSON);
+        let viewsMap = new Map();
+        let nodeViews = [];
+        for(let i in nodeViewSetsPromise.responseJSON.views) {
+          viewsMap.set(nodeViewSetsPromise.responseJSON.views[i].iri, nodeViewSetsPromise.responseJSON.views[i]);
+        }
+        for(let i in nodeViewSetsPromise.responseJSON.viewSets) {
+          for(let j in nodeViewSetsPromise.responseJSON.viewSets[i].views) {
+            let view = viewsMap.get(nodeViewSetsPromise.responseJSON.viewSets[i].views[j]);
+            $('#startForm select[name=view]').append($('<option>', {
+              value: view.iri,
+              text: view.label
+            }));
+          }
+        }
+      });
+    }
+  }
+  
+  e.preventDefault();
+
+});
 
 function initCy( then ) {
   
   let stylesP = $.ajax({
-    url: 'http://localhost:3000/stylesheet?stylesheet=https://linked.opendata.cz/resource/knowledge-graph-browser/rpp/style-sheet',
+    //url: 'http://localhost:3000/stylesheet?stylesheet=https://linked.opendata.cz/resource/knowledge-graph-browser/rpp/style-sheet',
     // url: './data.json',
+    url: 'http://localhost:3000/stylesheet?stylesheet=' + stylesheetIRI,
     type: 'GET',
     dataType: 'json'
   });
@@ -72,26 +120,45 @@ function initCy( then ) {
       previousTapStamp = currentTapStamp;
       let node = e.target;
       let nodeIRI = node.data('id');
-      let nodeViewSetsPromise = $.ajax({
-        url: 'http://localhost:3000/view-sets?config='+ config + '&resource=' + nodeIRI,
-        type: 'GET',
-        dataType: 'json'
-      });    
-      if (msFromLastTap < doubleClickDelayMs) {
-        nodeViewSetsPromise.then(function() {
-          let viewIRI = nodeViewSetsPromise.responseJSON.viewSets[0].defaultView;
+      
+      if(node.data('views'))  {
+        let viewIRI;
+        for(let i in node.data('views')) {
+          let view = node.data('views')[i];
+          if(view.isSelected)  {
+            viewIRI = view.iri;
+            break;
+          }
+        }
+        if (msFromLastTap < doubleClickDelayMs) {
           expand(viewIRI, node);
-        });
-      } else {
-        nodeViewSetsPromise.then(function() {
+        } else {
           if(node && node.isNode() && node.locked()) {
             node.unlock();
           }
-          let viewIRI = nodeViewSetsPromise.responseJSON.viewSets[0].defaultView;
           showDetail(viewIRI, node);
-        });
+        }
+      } else {
+        let nodeViewSetsPromise = $.ajax({
+          url: 'http://localhost:3000/view-sets?config='+ configIRI + '&resource=' + nodeIRI,
+          type: 'GET',
+          dataType: 'json'
+        });    
+        if (msFromLastTap < doubleClickDelayMs) {
+          nodeViewSetsPromise.then(function() {
+            let viewIRI = nodeViewSetsPromise.responseJSON.viewSets[0].defaultView;
+            expand(viewIRI, node);
+          });
+        } else {
+          nodeViewSetsPromise.then(function() {
+            if(node && node.isNode() && node.locked()) {
+              node.unlock();
+            }
+            let viewIRI = nodeViewSetsPromise.responseJSON.viewSets[0].defaultView;
+            showDetail(viewIRI, node);
+          });
+        }
       }
-      console.log("POSITION: " + node.position('x') + "," + node.position('y'));
     });
 
     
@@ -119,7 +186,7 @@ function initCy( then ) {
       console.log("LAYOUT STOP");
     });*/
 
-    preview('https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/struktura-agendy', 'https://rpp-opendata.egon.gov.cz/odrpp/zdroj/agenda/A1081');    
+    preview(startViewIRI, startResourceIRI);    
   });
   
 }
@@ -181,11 +248,64 @@ function showDetail(view, node) {
       }  
     }
     html += "</table>";
-    
     detail.innerHTML = html;
+    
+    if(!node.data('views')) {
+      
+      let nodeViewSetsPromise = $.ajax({
+        url: 'http://localhost:3000/view-sets?config='+ configIRI + '&resource=' + resource,
+        type: 'GET',
+        dataType: 'json'
+      });
+      nodeViewSetsPromise.then(function() {
+        let viewsMap = new Map();
+        let nodeViews = [];
+        for(let i in nodeViewSetsPromise.responseJSON.views) {
+          viewsMap.set(nodeViewSetsPromise.responseJSON.views[i].iri, nodeViewSetsPromise.responseJSON.views[i]);
+        }
+        for(let i in nodeViewSetsPromise.responseJSON.viewSets) {
+          for(let j in nodeViewSetsPromise.responseJSON.viewSets[i].views) {
+            let view = viewsMap.get(nodeViewSetsPromise.responseJSON.viewSets[0].views[j]);
+            view.isSelected = (view.iri == nodeViewSetsPromise.responseJSON.viewSets[0].defaultView);
+            nodeViews.push(view);
+          }
+        }
+        node.data('views', nodeViews);
+        html += showDetailViewHTML(node);
+        detail.innerHTML = html;
+      });
+    } else {
+      html += showDetailViewHTML(node);
+      detail.innerHTML = html;
+    }
 
   });
 }
+
+function showDetailViewHTML(node) {
+  let html = "<p>Available views:</p><table>";
+  for(let i in node.data('views')) {
+    let view = node.data('views')[i];
+    if(view.isSelected) {
+      html += "<tr><td><input type='radio' name='view' value='" + view.iri + "' checked='checked' onchange='switchView(\"" + node.id() + "\", this.value)' /></td><td>" + view.label + "</td></tr>";
+    } else {
+      html += "<tr><td><input type='radio' name='view' value='" + view.iri + "' onchange='switchView(\"" + node.id() + "\", this.value)' /></td><td>" + view.label + "</td></tr>";
+    }
+  }
+  html += "</table>";
+  return html;
+}
+
+function switchView(nodeIRI, viewIRI)  {
+  let node = cy.getElementById(nodeIRI);
+  for(let i in node.data('views')) {
+    let view = node.data('views')[i];
+    view.isSelected = false;
+    if(view.iri == viewIRI)  {
+      view.isSelected = true;
+    }
+  }
+} 
 
 function expand(view, node) {
 

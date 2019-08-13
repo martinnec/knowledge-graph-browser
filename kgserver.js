@@ -43,7 +43,8 @@ app.get('/view-sets', function (req, res)  {
               fetcher.load(fetchableURI(dataset.value)).then( reponse => {
                 const endpoint = store.any(dataset, VOID("sparqlEndpoint"), undefined);
                 const groundedCondition = condition.value.replace('ASK {', 'ASK { VALUES ?node {<' + resourceIRI + '>}');
-                const groundedConditionQueryURL = endpoint.value + '?query=' + encodeURI(groundedCondition) + '&format=text%2Fplain'; 
+                const groundedConditionQueryURL = endpoint.value + '?query=' + encodeURI(groundedCondition) + '&format=text%2Fplain';
+                console.log(groundedConditionQueryURL); 
                 request(groundedConditionQueryURL, function (error, response, body) {
                   try{
                     if(error) {
