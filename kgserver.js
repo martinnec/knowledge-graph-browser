@@ -44,7 +44,7 @@ app.get('/view-sets', function (req, res)  {
                 const endpoint = store.any(dataset, VOID("sparqlEndpoint"), undefined);
                 const groundedCondition = condition.value.replace('ASK {', 'ASK { VALUES ?node {<' + resourceIRI + '>}');
                 const groundedConditionQueryURL = endpoint.value + '?query=' + encodeURI(groundedCondition) + '&format=text%2Fplain';
-                console.log(groundedConditionQueryURL); 
+                console.log("view-sets:\n" + groundedConditionQueryURL); 
                 request(groundedConditionQueryURL, function (error, response, body) {
                   try{
                     if(error) {
@@ -155,7 +155,7 @@ app.get('/expand', function (req, res)  {
       fetcher.load(fetchableURI(dataset.value)).then( reponse => {
         const endpoint = store.any(dataset, VOID("sparqlEndpoint"), undefined);
         const groundedQueryURL = endpoint.value + '?query=' + encodeURIComponent(groundedQuery) + '&format=text%2Fplain';
-        console.log("EXPAND: " + groundedQuery);
+        console.log("expand:\n" + groundedQueryURL);
         request(groundedQueryURL, function (error, response, body) {
           try{
             if(error) {
@@ -291,7 +291,7 @@ app.get('/preview', function (req, res)  {
       fetcher.load(fetchableURI(dataset.value)).then( reponse => {
         const endpoint = store.any(dataset, VOID("sparqlEndpoint"), undefined);
         const groundedQueryURL = endpoint.value + '?query=' + encodeURIComponent(groundedQuery) + '&format=text%2Fplain';
-        console.log("PREVIEW: " + groundedQuery);
+        console.log("preview:\n" + groundedQueryURL);
         request(groundedQueryURL, function (error, response, body) {
           try{
             if(error) {
@@ -394,7 +394,7 @@ app.get('/detail', function (req, res)  {
       fetcher.load(fetchableURI(dataset.value)).then( reponse => {
         const endpoint = store.any(dataset, VOID("sparqlEndpoint"), undefined);
         const groundedQueryURL = endpoint.value + '?query=' + encodeURIComponent(groundedQuery) + '&format=text%2Fplain';
-        console.log("DETAIL: " + groundedQuery);
+        console.log("detail:\n" + groundedQueryURL);
         request(groundedQueryURL, function (error, response, body) {
           try{
             if(error) {
@@ -554,13 +554,15 @@ app.get('/stylesheet', function (req, res)  {
                                     
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`Knowledge graph browser server listening on port ${port}!`));
 
 function fetchableURI(source) {
   let state=0;
   let chars=0;
   let value="";
   let result = "";
+               
+  console.log("fetchableURI-1: " + source);
 
   for (let i=0; i<source.length; i++) {
     switch (state) {
@@ -592,9 +594,13 @@ function fetchableURI(source) {
     }
   }
   
+  console.log("fetchableURI-2: " + result);
+  
   let pattern = new RegExp(/(http(s)?:\/\/([^\/]+)\/)(.*)/g);
   let e = result.replace(pattern, "$4");
   let b = result.replace(pattern, "$1");
+  
+  console.log("fetchableURI-3: " + b+encodeURI(e));
 
   return b+encodeURI(e);
 }
