@@ -8,6 +8,7 @@ const port = 3000;
 
 const RDF = $rdf.Namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 const DCT = $rdf.Namespace("http://purl.org/dc/terms/");
+const DCE = $rdf.Namespace("http://purl.org/dc/elements/1.1/");
 const VOID = $rdf.Namespace("http://rdfs.org/ns/void#");
 const BROWSER = $rdf.Namespace("https://linked.opendata.cz/ontology/knowledge-graph-browser/");
 const RS = $rdf.Namespace("http://www.w3.org/2005/sparql-results#");
@@ -175,30 +176,31 @@ app.get('/expand', function (req, res)  {
               let typesSet = new Set();
               for(let i in statements)  {
                 let statement = statements[i];
-                let subjectIRI = statement.subject.value;
-                let predicateIRI = statement.predicate.value;
+                let subjectIRI = unicodeToUTF8(statement.subject.value);
+                let predicateIRI = unicodeToUTF8(statement.predicate.value);
                 let objectValue = statement.object.value;
                 let subject = nodesMap.get(subjectIRI);
                 if(!subject)  {
-                  subject = {iri:unicodeToUTF8(subjectIRI)};
+                  subject = {iri:subjectIRI};
                 }
                 if(statement.object.termType=='NamedNode') {
+                  objectValue = unicodeToUTF8(objectValue);
                   if(predicateIRI==RDF("type").value) {
                     if(!typesSet.has(objectValue)) {
                       typesSet.add(objectValue);
                     }
-                    subject.type = unicodeToUTF8(objectValue) ;
+                    subject.type = objectValue ;
                   } else {
                     if(!nodesMap.get(objectValue)) {
-                      nodesMap.set(objectValue, {iri:unicodeToUTF8(objectValue)});
+                      nodesMap.set(objectValue, {iri:objectValue});
                     }
                     if(!typesSet.has(predicateIRI)) {
                       typesSet.add(predicateIRI);
                     }
                     edge = {
-                      source: unicodeToUTF8(subjectIRI),
-                      target: unicodeToUTF8(objectValue),
-                      type: unicodeToUTF8(predicateIRI)
+                      source: subjectIRI,
+                      target: objectValue,
+                      type: predicateIRI
                     } 
                     output.edges.push(edge);
                   }
@@ -216,16 +218,25 @@ app.get('/expand', function (req, res)  {
               }
               for(let value of nodesMap.values()) {
                 if(value.iri!=resourceIRI)  {
-                  output.nodes.push(value);
+                  if(typesSet.has(value.iri)) {
+                    output.edges.forEach(function(edge) {
+                      if(edge.type == value.iri) {
+                        edge.classes = value.classes;
+                      }
+                    });
+                  } else {
+                    output.nodes.push(value);
+                  }
                 }
               }
               
               let promises = [];
-              for(let typeIRIUnicode of typesSet)  {
+              for(let typeIRIUTF8 of typesSet)  {
                 promises.push(new Promise((resolve, reject) => {
                   let store = $rdf.graph();
                   const fetcher = new $rdf.Fetcher(store);
-                  const typeIRI = fetchableURI(typeIRIUnicode);
+                  const typeIRI = fetchableURI(typeIRIUTF8);
+                  const typeIRIUnicode = utf8ToUnicode(typeIRIUTF8);
                   const type = $rdf.sym(typeIRIUnicode);
                   fetcher.load(typeIRI).then(response => {
                     const label = getResourceLabel(store, type);
@@ -562,8 +573,6 @@ function fetchableURI(source) {
   let value="";
   let result = "";
                
-  console.log("fetchableURI-1: " + source);
-
   for (let i=0; i<source.length; i++) {
     switch (state) {
       case 0:
@@ -593,15 +602,11 @@ function fetchableURI(source) {
       break;
     }
   }
-  
-  console.log("fetchableURI-2: " + result);
-  
+   
   let pattern = new RegExp(/(http(s)?:\/\/([^\/]+)\/)(.*)/g);
   let e = result.replace(pattern, "$4");
   let b = result.replace(pattern, "$1");
   
-  console.log("fetchableURI-3: " + b+encodeURI(e));
-
   return b+encodeURI(e);
 }
 
@@ -671,7 +676,7 @@ function utf8ToUnicode(source) {
 
 function getResourceLabel(store, resource)  {
 
-  const properties = [RDFS("label"), DCT("title"), SKOS("prefLabel")];
+  const properties = [RDFS("label"), DCT("title"), SKOS("prefLabel"), DCE("title")];
   for(let i in properties)  {
     const label = store.any(resource, properties[i], undefined);
     if(label) {
@@ -685,7 +690,7 @@ function getResourceLabel(store, resource)  {
 
 function getResourceDescription(store, resource)  {
 
-  const properties = [RDFS("comment"), DCT("description"), SKOS("definition")];
+  const properties = [RDFS("comment"), DCT("description"), SKOS("definition"), DCE("description")];
   for(let i in properties)  {
     const desc = store.any(resource, properties[i], undefined);
     if(desc) {

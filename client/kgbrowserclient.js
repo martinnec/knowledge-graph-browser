@@ -113,6 +113,13 @@ function initCy( then ) {
     
     var doubleClickDelayMs = 350;
     var previousTapStamp = 0;
+
+    cy.on('taphold', 'node', function(e) {
+      let node = e.target;
+      if(node && node.isNode() && node.locked()) {
+        node.unlock();
+      }
+    });
     
     cy.on('tap', 'node', function(e) {
       let currentTapStamp = e.timeStamp;
@@ -133,9 +140,6 @@ function initCy( then ) {
         if (msFromLastTap < doubleClickDelayMs) {
           expand(viewIRI, node);
         } else {
-          if(node && node.isNode() && node.locked()) {
-            node.unlock();
-          }
           showDetail(viewIRI, node);
         }
       } else {
@@ -151,9 +155,6 @@ function initCy( then ) {
           });
         } else {
           nodeViewSetsPromise.then(function() {
-            if(node && node.isNode() && node.locked()) {
-              node.unlock();
-            }
             let viewIRI = nodeViewSetsPromise.responseJSON.viewSets[0].defaultView;
             showDetail(viewIRI, node);
           });
@@ -340,12 +341,23 @@ function expand(view, node) {
     });
   }).then(function()  {
     graphP.responseJSON.edges.forEach(function(edge) {
+      let label;
+      for(let i = 0; i < graphP.responseJSON.types.length; i++) {
+        if(graphP.responseJSON.types[i].iri==edge.type) {
+          label = graphP.responseJSON.types[i].label ;
+          break;
+        }
+      }
       elements.push({
         groups: 'edges',
         data: {
           source: edge.source,
-          target: edge.target
-        }
+          target: edge.target,
+          label: label.substring(0,24),
+          fullLabel: label,
+          type: edge.type
+        },
+        classes: edge.classes
       });
     });
   }).then(function()  {

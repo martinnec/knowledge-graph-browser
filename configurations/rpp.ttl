@@ -366,7 +366,6 @@ CONSTRUCT {
     WHERE {
       ?vykonavatel l:vykonává-agendu ?node .
     }
-    GROUP BY ?node
   }
   
   {
@@ -374,7 +373,6 @@ CONSTRUCT {
     WHERE {
       ?cinnost l:je-vykonávána-v-agendě ?node .
     }
-    GROUP BY ?node
   }    
 }""" .
 
