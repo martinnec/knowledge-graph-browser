@@ -6,16 +6,23 @@ var detail = document.getElementById('detail');
 	randomize: true,
 	animate: true
 };*/
+var layoutOptions =  {
+	name: 'dagre'
+};
 var startingLayoutOptions = {
   name: 'concentric'  
 }
-var layoutOptions = {
+/*var layoutOptions = {
   name: 'cola',
   maxSimulationTime: 30000,
   fit: false,
   infinite: false,
   handleDisconnected: false  
-}
+}*/
+/*var layoutOptions = {
+  name: 'grid',
+  columns: 4  
+}*/
 var configIRI ;
 var stylesheetIRI ;
 var startResourceIRI ;
@@ -96,6 +103,8 @@ function initCy( then ) {
         style: style.properties
       });
     });
+    
+    console.log(styles);
     
     cy = cytoscape({
 
@@ -241,11 +250,16 @@ function showDetail(view, node) {
     
     html += "<table>";
     for(let property in detailJson.data)  {
+      let data = detailJson.data[property];
+      let htmlValue = data;
+      if(data.endsWith(".jpg") || data.endsWith(".jpeg") || data.endsWith(".png") || data.endsWith(".gif")) {
+        htmlValue = "<div style='width: 60%'><img style='max-width: 100%' src='" + data +  "' /></div>";
+      } 
       let propertyJson = typesMap.get(property);
       if(propertyJson)  {
-        html += "<tr><td><a href=\"" + property + "\">" + propertyJson.label + "</a></td><td>" + detailJson.data[property] + "</td></tr>";
+        html += "<tr><td><a href=\"" + property + "\">" + propertyJson.label + "</a></td><td>" + htmlValue + "</td></tr>";
       } else {
-        html += "<tr><td>" + property + "</td><td>" + detailJson.data[property] + "</td></tr>";
+        html += "<tr><td>" + property + "</td><td>" + htmlValue + "</td></tr>";
       }  
     }
     html += "</table>";
@@ -322,6 +336,7 @@ function expand(view, node) {
   let elements = [];
   
   Promise.all([ graphP ]).then(function() {
+    console.log(graphP.responseJSON);
     graphP.responseJSON.nodes.forEach(function(nodeJSON) {
       let nodeElement = {
         group: 'nodes',

@@ -24,7 +24,7 @@ app.get('/', function (req, res) {
 app.get('/view-sets', function (req, res)  {
 
   res.setHeader('Access-Control-Allow-Origin', '*');
-
+                 
   const configIRI = req.query.config ;
   const resourceIRI = req.query.resource ;
   
@@ -44,9 +44,15 @@ app.get('/view-sets', function (req, res)  {
               fetcher.load(fetchableURI(dataset.value)).then( reponse => {
                 const endpoint = store.any(dataset, VOID("sparqlEndpoint"), undefined);
                 const groundedCondition = condition.value.replace('ASK {', 'ASK { VALUES ?node {<' + resourceIRI + '>}');
-                const groundedConditionQueryURL = endpoint.value + '?query=' + encodeURI(groundedCondition) + '&format=text%2Fplain';
-                console.log("view-sets:\n" + groundedConditionQueryURL); 
-                request(groundedConditionQueryURL, function (error, response, body) {
+                const groundedConditionQueryURL = endpoint.value + '?query=' + encodeURI(groundedCondition) + '&format=text%2Fplain'
+                console.log("view-sets:\n" + groundedConditionQueryURL);
+                const options = {
+                  url: groundedConditionQueryURL,
+                  headers: {
+                    'User-Agent': 'https://github.com/martinnec/kgbrowser',
+                  }
+                }; 
+                request(options, function (error, response, body) {
                   try{
                     if(error) {
                       res.send("Oops, something happened and couldn't fetch data");
@@ -155,16 +161,33 @@ app.get('/expand', function (req, res)  {
       const groundedQuery = query.value.replace('WHERE {', 'WHERE { VALUES ?node {<' + resourceIRI + '>}');
       fetcher.load(fetchableURI(dataset.value)).then( reponse => {
         const endpoint = store.any(dataset, VOID("sparqlEndpoint"), undefined);
-        const groundedQueryURL = endpoint.value + '?query=' + encodeURIComponent(groundedQuery) + '&format=text%2Fplain';
-        console.log("expand:\n" + groundedQueryURL);
-        request(groundedQueryURL, function (error, response, body) {
+        const accept = store.any(dataset, BROWSER("accept"), undefined);
+        let options = {
+          headers: {
+            'User-Agent': 'https://github.com/martinnec/kgbrowser',
+          }
+        }; 
+        if(accept)  {
+          options.headers['Accept'] = accept.value ;
+          options.url = endpoint.value + '?query=' + encodeURIComponent(groundedQuery);      
+        } else {
+          options.headers['Accept'] = "text/turtle" ;
+          options.url = endpoint.value + '?query=' + encodeURIComponent(groundedQuery);
+        } 
+        console.log("expand:\n" + options.url); 
+        request(options, function (error, response, body) {
           try{
             if(error) {
               res.send("Oops, something happened and couldn't fetch data");
             } else {
               let resultStore = $rdf.graph();
-              $rdf.parse(body, resultStore, resourceIRI, "text/turtle");
+              if(options.headers['Accept'] == "application/sparql-results+json")  {
+                parseSPARQLResultsJSON(body, resultStore, resourceIRI);
+              } else {
+                $rdf.parse(body, resultStore, resourceIRI, options.headers['Accept']);
+              }
               let statements = resultStore.match(null, null, null);
+
               let output = {
                 nodes: [],
                 edges: [],
@@ -301,16 +324,32 @@ app.get('/preview', function (req, res)  {
       const groundedQuery = query.value.replace('WHERE {', 'WHERE { VALUES ?node {<' + resourceIRI + '>}');
       fetcher.load(fetchableURI(dataset.value)).then( reponse => {
         const endpoint = store.any(dataset, VOID("sparqlEndpoint"), undefined);
-        const groundedQueryURL = endpoint.value + '?query=' + encodeURIComponent(groundedQuery) + '&format=text%2Fplain';
-        console.log("preview:\n" + groundedQueryURL);
-        request(groundedQueryURL, function (error, response, body) {
+        const accept = store.any(dataset, BROWSER("accept"), undefined);
+        let options = {
+          headers: {
+            'User-Agent': 'https://github.com/martinnec/kgbrowser',
+          }
+        }; 
+        if(accept)  {
+          options.headers['Accept'] = accept.value ;
+          options.url = endpoint.value + '?query=' + encodeURIComponent(groundedQuery);      
+        } else {
+          options.headers['Accept'] = "text/turtle" ;
+          options.url = endpoint.value + '?query=' + encodeURIComponent(groundedQuery);
+        } 
+        console.log("preview:\n" + options.url); 
+        request(options, function (error, response, body) {
           try{
             if(error) {
               res.send("Oops, something happened and couldn't fetch data");
             } else {
               let resultStore = $rdf.graph();
               let resource = $rdf.sym(utf8ToUnicode(resourceIRI));
-              $rdf.parse(body, resultStore, resourceIRI, "text/turtle");
+              if(options.headers['Accept'] == "application/sparql-results+json")  {
+                parseSPARQLResultsJSON(body, resultStore, resourceIRI);
+              } else {
+                $rdf.parse(body, resultStore, resourceIRI, options.headers['Accept']);
+              }
               const label = getResourceLabel(resultStore, resource);
               let output =  {
                 nodes: [{
@@ -400,20 +439,36 @@ app.get('/detail', function (req, res)  {
     fetcher.load(fetchableURI(detail.value)).then( reponse => {
       const dataset = store.any(detail, BROWSER("hasDataset"), undefined);
       const query = store.any(detail, BROWSER("query"), undefined);
-      //const groundedQuery = query.value.replace('WHERE {', 'WHERE { VALUES ?node {<' + resourceIRI + '>}');
-      const groundedQuery = query.value.replace(/\?node/g, '<' + resourceIRI + '>');
+      const groundedQuery = query.value.replace('WHERE {', 'WHERE { VALUES ?node {<' + resourceIRI + '>}');
+      //const groundedQuery = query.value.replace(/\?node/g, '<' + resourceIRI + '>');
       fetcher.load(fetchableURI(dataset.value)).then( reponse => {
         const endpoint = store.any(dataset, VOID("sparqlEndpoint"), undefined);
-        const groundedQueryURL = endpoint.value + '?query=' + encodeURIComponent(groundedQuery) + '&format=text%2Fplain';
-        console.log("detail:\n" + groundedQueryURL);
-        request(groundedQueryURL, function (error, response, body) {
+        const accept = store.any(dataset, BROWSER("accept"), undefined);
+        let options = {
+          headers: {
+            'User-Agent': 'https://github.com/martinnec/kgbrowser',
+          }
+        }; 
+        if(accept)  {
+          options.headers['Accept'] = accept.value ;
+          options.url = endpoint.value + '?query=' + encodeURIComponent(groundedQuery);      
+        } else {
+          options.headers['Accept'] = "text/turtle" ;
+          options.url = endpoint.value + '?query=' + encodeURIComponent(groundedQuery);
+        } 
+        console.log("detail:\n" + options.url); 
+        request(options, function (error, response, body) {
           try{
             if(error) {
               res.send("Oops, something happened and couldn't fetch data");
             } else {
               let resultStore = $rdf.graph();
               let resource = $rdf.sym(utf8ToUnicode(resourceIRI));
-              $rdf.parse(body, resultStore, resourceIRI, "text/turtle");
+              if(options.headers['Accept'] == "application/sparql-results+json")  {
+                parseSPARQLResultsJSON(body, resultStore, resourceIRI);
+              } else {
+                $rdf.parse(body, resultStore, resourceIRI, options.headers['Accept']);
+              }
               const stmts = resultStore.match(resource, null);
               let node =  {
                 iri: unicodeToUTF8(resourceIRI),
@@ -509,10 +564,10 @@ app.get('/stylesheet', function (req, res)  {
             fetcher.load(fetchableURI(style.value)).then(response => {
               let selectorLiteral = store.any(style, BROWSER("hasSelector"), undefined).value ;
               let selector ;
-              if (selectorLiteral=="node") {
-                selector = "node";
-              } else if (selectorLiteral=="edge") {
-                selector = "edge";
+              if (selectorLiteral.startsWith("node")) {
+                selector = selectorLiteral;
+              } else if (selectorLiteral.startsWith("edge")) {
+                selector = selectorLiteral;
               } else if (selectorLiteral.startsWith("."))  {
                 selector = selectorLiteral;              
               } else {
@@ -553,7 +608,8 @@ app.get('/stylesheet', function (req, res)  {
       if(edgeStyleOutput) {
         finalStyles.push(edgeStyleOutput);
       }
-      output.styles = finalStyles.concat(output.styles);      
+      output.styles = finalStyles.concat(output.styles);
+      output.styles.sort( compareStyles );
       res.contentType('application/json');
       res.send(JSON.stringify(output));
     }, err => {
@@ -700,4 +756,46 @@ function getResourceDescription(store, resource)  {
 
   return null;
 
+}
+
+function parseSPARQLResultsJSON(body, store, source) {
+
+  let subject, predicate, object;
+  let bnodes = {};               
+  let why = $rdf.sym(source);
+  let parsedBody = JSON.parse(body);
+  
+  if(parsedBody.head.vars.includes("subject") && parsedBody.head.vars.includes("predicate") && parsedBody.head.vars.includes("object")) {
+    let data = parsedBody.results.bindings;
+    for(let i in data)  {
+      if(data[i].subject.type == "uri") {
+        subject = $rdf.sym(data[i].subject.value);
+        predicate = $rdf.sym(data[i].predicate.value);
+        if(data[i].object.type == "uri") {
+          object = $rdf.sym(data[i].object.value);
+          store.add(subject, predicate, object, why)
+        } else {
+          if(data[i].object.type == "literal") {
+            if(data[i].object["xml:lang"]) {
+              object = $rdf.literal(data[i].object.value, data[i].object["xml:lang"]);
+            } else {
+              object = $rdf.literal(data[i].object.value);
+            }
+          }
+        }
+        store.add(subject, predicate, object, why);
+      }
+    }
+  } 
+
+}
+
+function compareStyles( a, b ) {
+  if ( a.selector.length < b.selector.length ){
+    return -1;
+  }
+  if ( a.selector.length > b.selector.length ){
+    return 1;
+  }
+  return 0;
 }

@@ -445,7 +445,8 @@ CONSTRUCT {
 
 <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/psp> a void:Dataset ;
   dct:title "Píseček OpenData.cz" ;
-  void:sparqlEndpoint <https://xn--pseek-zsa0u.opendata.cz/sparql> .
+  void:sparqlEndpoint <https://xn--pseek-zsa0u.opendata.cz/sparql> ;
+  browser:accept "text/turtle" .
 
 #####################################
 # View vocabularies
