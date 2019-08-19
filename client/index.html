@@ -14,6 +14,15 @@
     Resource: <input type="text" name="resource" size="60" />
     View: <select name="view"></select>
     <input type="submit" value="Show" />
+    Layout:
+    <select name="layout">
+      <option value="euler" default="default">Euler</option>
+      <option value="dagre">Dagre</option>
+      <option value="concentric">Concentric</option>
+      <option value="cola">Cola</option>
+      <option value="cose-bilkent">CoSE Bilkent</option>
+      fcose
+    </select>
   </form>
   
   <div id="cy"></div>
@@ -32,7 +41,8 @@
   <script src="cytoscape-euler.js"></script>
   <script src="dagre.js"></script>
   <script src="cytoscape-dagre.js"></script>
-  
+  <script src="cytoscape-cose-bilkent.js"></script>
+    
   <script src="kgbrowserclient.js"></script>
 
 

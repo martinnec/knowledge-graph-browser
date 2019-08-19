@@ -1,45 +1,34 @@
 var cy;
 var detail = document.getElementById('detail');
-/*var layoutOptions =  {
+var eulerLayoutOptions =  {
 	name: 'euler',
   springLength: edge => 240,
 	randomize: true,
 	animate: true
-};*/
-var layoutOptions =  {
+};
+var dagreLayoutOptions =  {
 	name: 'dagre'
 };
-var startingLayoutOptions = {
+var concentricLayoutOptions = {
   name: 'concentric'  
 }
-/*var layoutOptions = {
+var colaLayoutOptions = {
   name: 'cola',
   maxSimulationTime: 30000,
   fit: false,
   infinite: false,
   handleDisconnected: false  
-}*/
-/*var layoutOptions = {
-  name: 'grid',
-  columns: 4  
-}*/
+};
+var coseBilkentLayoutOptions = {
+  name: 'cose-bilkent'  
+};
+var layoutOptions;
 var configIRI ;
 var stylesheetIRI ;
 var startResourceIRI ;
 var startViewIRI ;
 var styles = [];
 var layout ;
-
-/*var graphP = $.ajax({
-  url: 'http://localhost:3000/expand?view=https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/struktura-agendy&resource=https://rpp-opendata.egon.gov.cz/odrpp/zdroj/agenda/A1081',
-  // url: './data.json',
-  type: 'GET',
-  dataType: 'json'
-});
-
-Promise.all([ graphP ]).then(initCy);*/
-
-//initCy();
 
 $('#startForm').submit(function(e) {
 
@@ -85,7 +74,39 @@ $('#startForm').submit(function(e) {
 
 });
 
+$('#startForm select[name=layout]').on('change', function()  {
+  if(layout)  {
+    layout.stop();
+  }
+  setLayoutOptions();
+  layout.run();
+});
+
+function setLayoutOptions() {
+  const layoutName = $('#startForm select[name=layout]').val();
+  switch(layoutName)  {
+    case "euler":
+      layoutOptions = eulerLayoutOptions;
+      break;
+    case "dagre":
+      layoutOptions = dagreLayoutOptions;
+      break;
+    case "concentric":
+      layoutOptions = concentricLayoutOptions;
+      break;
+    case "cola":
+      layoutOptions = colaLayoutOptions;
+      break;
+    case "cose-bilkent":
+      layoutOptions = coseBilkentLayoutOptions;
+      break;
+  }
+  layout = cy.layout(layoutOptions);
+}
+
 function initCy( then ) {
+  
+  configIRI = $('#startForm input[name=config]').val();
   
   let stylesP = $.ajax({
     //url: 'http://localhost:3000/stylesheet?stylesheet=https://linked.opendata.cz/resource/knowledge-graph-browser/rpp/style-sheet',
@@ -102,9 +123,7 @@ function initCy( then ) {
         selector: style.selector,
         style: style.properties
       });
-    });
-    
-    console.log(styles);
+    });    
     
     cy = cytoscape({
 
@@ -116,9 +135,7 @@ function initCy( then ) {
                                                     
     });
     
-    /*cy.on('tap', 'node', function(evt){
-      
-    });*/
+    setLayoutOptions();
     
     var doubleClickDelayMs = 350;
     var previousTapStamp = 0;
@@ -176,7 +193,10 @@ function initCy( then ) {
       let node = evt.target;
       if(node && node.isNode()) {
         node.lock();
-        layout.run();
+        if(layout)  {
+          layout.stop();
+          layout.run();
+        }
       }
     });
     
@@ -216,13 +236,16 @@ function preview(view, resource) {
       group: 'nodes',
       data: {
         id: node.iri,
-        label: node.label.substring(0,24),
+        label: node.label,
         fullLabel: node.label,
         type: node.type 
       },
       classes: node.classes
     });
-    layout = cy.layout(startingLayoutOptions);
+    if(layout)  {
+      layout.stop();
+    }
+    layout = cy.layout(layoutOptions);
     layout.run();
   });
 }
@@ -342,7 +365,7 @@ function expand(view, node) {
         group: 'nodes',
         data: {
           id: nodeJSON.iri,
-          label: nodeJSON.label.substring(0,24),
+          label: nodeJSON.label,
           fullLabel: nodeJSON.label,
           type: nodeJSON.type
         },
@@ -368,7 +391,7 @@ function expand(view, node) {
         data: {
           source: edge.source,
           target: edge.target,
-          label: label.substring(0,24),
+          label: label,
           fullLabel: label,
           type: edge.type
         },
@@ -378,6 +401,9 @@ function expand(view, node) {
   }).then(function()  {
     cy.add(elements);
     cy.style().fromJson(styles);
+    if(layout)  {
+      layout.stop();
+    }
     layout = cy.layout(layoutOptions);
     layout.run();
   });
