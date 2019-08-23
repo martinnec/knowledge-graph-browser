@@ -35,38 +35,28 @@ $('#startForm').submit(function(e) {
   configIRI = $('#startForm input[name=config]').val();
   startResourceIRI = $('#startForm input[name=resource]').val();
   stylesheetIRI = $('#startForm input[name=stylesheet]').val();
-  startViewIRI = $('#startForm select[name=view]').val();
    
   if(configIRI && startResourceIRI && stylesheetIRI)  {
-    if(startViewIRI)  {
-      if(!cy)  {
-        initCy();
-      } else {
-        preview(startViewIRI, startResourceIRI);
-      }
-    } else {
+    if(!startViewIRI) {
       let nodeViewSetsPromise = $.ajax({
         url: 'http://localhost:3000/view-sets?config='+ configIRI + '&resource=' + startResourceIRI,
         type: 'GET',
         dataType: 'json'
       });
       nodeViewSetsPromise.then(function() {
-        console.log(nodeViewSetsPromise.responseJSON);
-        let viewsMap = new Map();
-        let nodeViews = [];
-        for(let i in nodeViewSetsPromise.responseJSON.views) {
-          viewsMap.set(nodeViewSetsPromise.responseJSON.views[i].iri, nodeViewSetsPromise.responseJSON.views[i]);
-        }
-        for(let i in nodeViewSetsPromise.responseJSON.viewSets) {
-          for(let j in nodeViewSetsPromise.responseJSON.viewSets[i].views) {
-            let view = viewsMap.get(nodeViewSetsPromise.responseJSON.viewSets[i].views[j]);
-            $('#startForm select[name=view]').append($('<option>', {
-              value: view.iri,
-              text: view.label
-            }));
-          }
+        startViewIRI = nodeViewSetsPromise.responseJSON.viewSets[0].defaultView;
+        if(!cy)  {
+          initCy();
+        } else {
+          preview(startViewIRI, startResourceIRI);
         }
       });
+    } else {
+      if(!cy)  {
+        initCy();
+      } else {
+        preview(startViewIRI, startResourceIRI);
+      }
     }
   }
   
@@ -80,6 +70,31 @@ $('#startForm select[name=layout]').on('change', function()  {
   }
   setLayoutOptions();
   layout.run();
+});
+
+$('#startForm select[name=predefined]').on('change', function()  {
+  
+  switch ($('#startForm select[name=predefined]').val())  {
+    case "rpp":
+      $('#startForm input[name=config]').val("https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/rpp");
+      $('#startForm input[name=stylesheet]').val("https://linked.opendata.cz/resource/knowledge-graph-browser/rpp/style-sheet");
+      $('#startForm input[name=resource]').val("https://rpp-opendata.egon.gov.cz/odrpp/zdroj/agenda/A116");
+      break;
+    case "psp":
+      $('#startForm input[name=config]').val("https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/psp");
+      $('#startForm input[name=stylesheet]').val("https://linked.opendata.cz/resource/knowledge-graph-browser/psp/style-sheet");
+      $('#startForm input[name=resource]').val("https://psp.opendata.cz/zdroj/osoba/5914");
+      break;
+    case "ssp":
+      $('#startForm input[name=config]').val("https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/sgov");
+      $('#startForm input[name=stylesheet]').val("https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style-sheet");
+      $('#startForm input[name=resource]').val("https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/orgán-veřejné-moci");
+      break;
+    case "wda":
+      $('#startForm input[name=config]').val("https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/wikidata/animals");
+      $('#startForm input[name=stylesheet]').val("https://linked.opendata.cz/resource/knowledge-graph-browser/wikidata/animals/style-sheet");
+      $('#startForm input[name=resource]').val("http://www.wikidata.org/entity/Q135022");  
+  } 
 });
 
 function setLayoutOptions() {
@@ -144,6 +159,10 @@ function initCy( then ) {
       let node = e.target;
       if(node && node.isNode() && node.locked()) {
         node.unlock();
+        if(layout)  {
+          layout.stop();
+          layout.run();
+        }
       }
     });
     

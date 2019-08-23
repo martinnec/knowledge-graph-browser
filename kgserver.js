@@ -228,7 +228,7 @@ app.get('/expand', function (req, res)  {
                     output.edges.push(edge);
                   }
                 } else {
-                  if(predicateIRI==RDFS("label").value) {
+                  if([RDFS("label").value, DCT("title").value, SKOS("prefLabel").value, DCE("title").value].includes(predicateIRI)) {
                     subject.label = objectValue ;
                   } else if(predicateIRI==BROWSER("class").value) {
                     if(!subject.classes)  {

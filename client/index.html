@@ -9,11 +9,18 @@
 </head>
 <body>
   <form id="startForm">
-    Config: <input type="text" name="config" size="60" />
-    Stylesheet: <input type="text" name="stylesheet" size="60" />
+    <div>
+      Predefined:
+      <select name="predefined">
+        <option value="rpp">RPP</option>
+        <option value="psp">PSP</option>
+        <option value="ssp">SSP</option>
+        <option value="wda">WDA</option>
+      </select>
+      Config: <input type="text" name="config" size="100" />
+      Stylesheet: <input type="text" name="stylesheet" size="100" />
+    </div>
     Resource: <input type="text" name="resource" size="60" />
-    View: <select name="view"></select>
-    <input type="submit" value="Show" />
     Layout:
     <select name="layout">
       <option value="euler" default="default">Euler</option>
@@ -21,8 +28,8 @@
       <option value="concentric">Concentric</option>
       <option value="cola">Cola</option>
       <option value="cose-bilkent">CoSE Bilkent</option>
-      fcose
     </select>
+    <input type="submit" value="Show" />
   </form>
   
   <div id="cy"></div>
