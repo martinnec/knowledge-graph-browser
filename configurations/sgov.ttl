@@ -24,7 +24,7 @@
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/sgov/object-type> a browser:ViewSet ;
   dct:title "Object type views"@en ;
-  browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/basic>,
+  browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/complete>,
     <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/inheritance> ,
     <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/inheritance-parent> ,
     <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/relation-types> ;
@@ -37,7 +37,7 @@ ASK {
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/sgov/trobe-type> a browser:ViewSet ;
   dct:title "Trobe type views"@en ;
-  browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/trobe-type/basic>,
+  browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/trobe-type/complete>,
     <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/trobe-type/inheritance> ,
     <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/trobe-type/object-type> ;
   browser:hasDefaultView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/trobe-type/object-type> ;
@@ -49,7 +49,7 @@ ASK {
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/sgov/relation-type> a browser:ViewSet ;
   dct:title "Relation type views"@en ;
-  browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/relation-type/basic>,
+  browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/relation-type/complete>,
     <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/relation-type/inheritance> ,
     <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/relation-type/object-type> ;
   browser:hasDefaultView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/relation-type/object-type> ;
@@ -63,81 +63,81 @@ ASK {
 # Views
 #####################################
   
-<https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/basic> a browser:View ;
-  dct:title "Basic object type view"@en ;
-  dct:description "A basic view of an object type which shows its inheritance neighbourhood and its associated trobe and relation types."@en ;
-  browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type/basic> ;
-  browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/object-type/basic> ;
-  browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/object-type/basic> .
+<https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/complete> a browser:View ;
+  dct:title "Complete object type view"@en ;
+  dct:description "A complete view of an object type which shows its inheritance neighbourhood and its associated trobe and relation types."@en ;
+  browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type/complete> ;
+  browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/object-type/complete> ;
+  browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/object-type/complete> .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/relation-types> a browser:View ;
   dct:title "Associated relation types"@en ;
   dct:description "A view of an object type which shows only relation types associated with the object type."@en ;
   browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type/relation-types> ;
-  browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/object-type/basic> ;
-  browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/object-type/basic> .
+  browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/object-type/complete> ;
+  browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/object-type/complete> .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/inheritance> a browser:View ;
   dct:title "Inheritance"@en ;
   dct:description "A view of an object type which shows only its inheritance neighbourhood."@en ;
   browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type/inheritance> ;
-  browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/object-type/basic> ;
-  browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/object-type/basic> .
+  browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/object-type/complete> ;
+  browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/object-type/complete> .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/inheritance-parent> a browser:View ;
   dct:title "Inherits from"@en ;
   dct:description "A view of an object type which shows only the type it inherits from."@en ;
   browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type/inheritance-parent> ;
-  browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/object-type/basic> ;
-  browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/object-type/basic> .
+  browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/object-type/complete> ;
+  browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/object-type/complete> .
   
-<https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/trobe-type/basic> a browser:View ;
+<https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/trobe-type/complete> a browser:View ;
   dct:title "Basic trobe type view"@en ;
   dct:description "A basic view of a trobe type which shows its inheritance neighbourhood and its associated object type."@en ;
-  browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/trobe-type/basic> ;
-  browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/trobe-type/basic> ;
-  browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/trobe-type/basic> .
+  browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/trobe-type/complete> ;
+  browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/trobe-type/complete> ;
+  browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/trobe-type/complete> .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/trobe-type/object-type> a browser:View ;
   dct:title "Associated object type"@en ;
   dct:description "A view of a trobe type which shows only the object type associated with the trobe type."@en ;
   browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/trobe-type/object-type> ;
-  browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/trobe-type/basic> ;
-  browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/trobe-type/basic> .
+  browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/trobe-type/complete> ;
+  browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/trobe-type/complete> .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/trobe-type/inheritance> a browser:View ;
   dct:title "Inheritance"@en ;
   dct:description "A view of a trobe type which shows only its inheritance neighbourhood."@en ;
   browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/trobe-type/inheritance> ;
-  browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/trobe-type/basic> ;
-  browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/trobe-type/basic> .
+  browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/trobe-type/complete> ;
+  browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/trobe-type/complete> .
   
-<https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/relation-type/basic> a browser:View ;
+<https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/relation-type/complete> a browser:View ;
   dct:title "Basic relation type view"@en ;
   dct:description "A basic view of a relation type which shows its inheritance neighbourhood and its associated object types."@en ;
-  browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/relation-type/basic> ;
-  browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/relation-type/basic> ;
-  browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/relation-type/basic> .
+  browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/relation-type/complete> ;
+  browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/relation-type/complete> ;
+  browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/relation-type/complete> .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/relation-type/object-type> a browser:View ;
   dct:title "Associated object types"@en ;
   dct:description "A view of a relation type which shows only the object types associated with the trobe type."@en ;
   browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/relation-type/object-type> ;
-  browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/relation-type/basic> ;
-  browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/relation-type/basic> .
+  browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/relation-type/complete> ;
+  browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/relation-type/complete> .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/relation-type/inheritance> a browser:View ;
   dct:title "Inheritance"@en ;
   dct:description "A view of a relation type which shows only its inheritance neighbourhood."@en ;
   browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/relation-type/inheritance> ;
-  browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/relation-type/basic> ;
-  browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/relation-type/basic> .
+  browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/relation-type/complete> ;
+  browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/relation-type/complete> .
   
 #####################################
 # Queries
 #####################################
 
-<https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type/basic> a browser:ExpansionQuery ;
+<https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type/complete> a browser:ExpansionQuery ;
   dct:title "Super- and sub-classes and associated trobe and relation types"@en ;
   browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/sgov> ;
   browser:query """PREFIX z: <https://slovník.gov.cz/základní/pojem/>
@@ -168,7 +168,7 @@ CONSTRUCT {
   ?typeRange a ?typeRangeClass ;
     rdfs:range ?node ;
     skos:prefLabel ?typeRangeLabel ;
-    browser:class ?typeRangeStylesheetClass .
+    browser:class ?typeRangeStylesheetClass, ?typeRangeGlossaryClass .
     
   rdfs:range browser:class ?rangeStylesheetClass, ?typeRangeGlossaryClass .
   
@@ -458,7 +458,7 @@ CONSTRUCT {
   AS ?parentGlossaryClass)
 }""" .
 
-<https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/object-type/basic> a browser:PreviewQuery ;
+<https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/object-type/complete> a browser:PreviewQuery ;
   dct:title "Basic object type preview" ;
   browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/sgov> ;
   browser:query """PREFIX z: <https://slovník.gov.cz/základní/pojem/>
@@ -491,7 +491,7 @@ CONSTRUCT {
   AS ?glossaryClass)
 }""" .
 
-<https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/object-type/basic> a browser:DetailQuery ;
+<https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/object-type/complete> a browser:DetailQuery ;
   dct:title "Basic object type detail" ;
   browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/sgov> ;
   browser:query """PREFIX z: <https://slovník.gov.cz/základní/pojem/>
@@ -512,7 +512,7 @@ CONSTRUCT {
     rdfs:label ?vocabularyLabel .
 }""" .
 
-<https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/trobe-type/basic> a browser:ExpansionQuery ;
+<https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/trobe-type/complete> a browser:ExpansionQuery ;
   dct:title "Inheritance neighbourhood and associated object type"@en ;
   browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/sgov> ;
   browser:query """PREFIX z: <https://slovník.gov.cz/základní/pojem/>
@@ -715,7 +715,7 @@ CONSTRUCT {
   }
 }""" .
 
-<https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/trobe-type/basic> a browser:PreviewQuery ;
+<https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/trobe-type/complete> a browser:PreviewQuery ;
   dct:title "Basic trobe type preview" ;
   browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/sgov> ;
   browser:query """PREFIX z: <https://slovník.gov.cz/základní/pojem/>
@@ -747,7 +747,7 @@ CONSTRUCT {
   AS ?glossaryClass)
 }""" .
 
-<https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/trobe-type/basic> a browser:DetailQuery ;
+<https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/trobe-type/complete> a browser:DetailQuery ;
   dct:title "Basic trobe type detail" ;
   browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/sgov> ;
   browser:query """PREFIX z: <https://slovník.gov.cz/základní/pojem/>
@@ -761,7 +761,7 @@ CONSTRUCT {
   ?node skos:prefLabel ?label .
 }""" .
 
-<https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/relation-type/basic> a browser:ExpansionQuery ;
+<https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/relation-type/complete> a browser:ExpansionQuery ;
   dct:title "Inheritance neighbourhood and associated object types"@en ;
   browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/sgov> ;
   browser:query """PREFIX z: <https://slovník.gov.cz/základní/pojem/>
@@ -1021,7 +1021,7 @@ CONSTRUCT {
   }
 }""" .
 
-<https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/relation-type/basic> a browser:PreviewQuery ;
+<https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/relation-type/complete> a browser:PreviewQuery ;
   dct:title "Basic relation type preview" ;
   browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/sgov> ;
   browser:query """PREFIX z: <https://slovník.gov.cz/základní/pojem/>
@@ -1053,7 +1053,7 @@ CONSTRUCT {
   AS ?glossaryClass)
 }""" .
 
-<https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/relation-type/basic> a browser:DetailQuery ;
+<https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/relation-type/complete> a browser:DetailQuery ;
   dct:title "Basic relation type detail" ;
   browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/sgov> ;
   browser:query """PREFIX z: <https://slovník.gov.cz/základní/pojem/>
@@ -1109,7 +1109,7 @@ browser-rpp:vocabularyLabel a owl:DatatypeProperty ;
   browser:shape "round-rectangle" ;
   browser:width "60px" ;
   browser:height "30px" ;
-  browser:font-size "8px" ;
+  browser:font-size "10px" ;
   browser:hasSelector ".object-type" .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/trobe-type> a browser:VisualStyle ;
@@ -1123,40 +1123,44 @@ browser-rpp:vocabularyLabel a owl:DatatypeProperty ;
   browser:shape "diamond" ;
   browser:width "30px" ;
   browser:height "30px" ;
-  browser:font-size "8px" ;
+  browser:font-size "10px" ;
   browser:hasSelector ".relation-type" .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/zsgov> a browser:VisualStyle ;
   browser:background-color "#944654" ;
   browser:border-color "#c49aa1" ;
-  browser:color "#c49aa1" ;
-  browser:text-outline-color "#944654" ;
+  browser:color "#000000" ;
+  #browser:color "#c49aa1" ;
+  #browser:text-outline-color "#944654" ;
   browser:hasSelector ".zsgov" .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/vsgov> a browser:VisualStyle ;
   browser:background-color "#a05c7b" ;
   browser:border-color "#cba6b7" ;
-  browser:color "#cba6b7" ;
-  browser:text-outline-color "#a05c7b" ;
+  browser:color "#000000" ;
+  #browser:color "#cba6b7" ;
+  #browser:text-outline-color "#a05c7b" ;
   browser:hasSelector ".vsgov" .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/lsgov> a browser:VisualStyle ;
   browser:background-color "#a6f4dc" ;
   browser:border-color "#6a9c8c" ;
-  browser:color "#6a9c8c" ;
-  browser:text-outline-color "#a6f4dc" ;
+  browser:color "#000000" ;
+  #browser:color "#6a9c8c" ;
+  #browser:text-outline-color "#a6f4dc" ;
   browser:hasSelector ".lsgov" .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/asgov> a browser:VisualStyle ;
   browser:background-color "#85ff9e" ;
   browser:border-color "#55a365" ;
-  browser:color "#55a365" ;
-  browser:text-outline-color "#85ff9e" ;
+  browser:color "#000000" ;
+  #browser:color "#55a365" ;
+  #browser:text-outline-color "#85ff9e" ;
   browser:hasSelector ".asgov" .  
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/node> a browser:VisualStyle ;
   browser:border-width "3px" ;
-  browser:text-outline-width "1px" ;
+  #browser:text-outline-width "1px" ;
   browser:text-wrap "wrap";
   browser:text-max-width "90px";
   browser:label "data(label)" ;

@@ -37,27 +37,19 @@ $('#startForm').submit(function(e) {
   stylesheetIRI = $('#startForm input[name=stylesheet]').val();
    
   if(configIRI && startResourceIRI && stylesheetIRI)  {
-    if(!startViewIRI) {
-      let nodeViewSetsPromise = $.ajax({
-        url: 'http://localhost:3000/view-sets?config='+ configIRI + '&resource=' + startResourceIRI,
-        type: 'GET',
-        dataType: 'json'
-      });
-      nodeViewSetsPromise.then(function() {
-        startViewIRI = nodeViewSetsPromise.responseJSON.viewSets[0].defaultView;
-        if(!cy)  {
-          initCy();
-        } else {
-          preview(startViewIRI, startResourceIRI);
-        }
-      });
-    } else {
+    let nodeViewSetsPromise = $.ajax({
+      url: 'http://localhost:3000/view-sets?config='+ configIRI + '&resource=' + startResourceIRI,
+      type: 'GET',
+      dataType: 'json'
+    });
+    nodeViewSetsPromise.then(function() {
+      startViewIRI = nodeViewSetsPromise.responseJSON.viewSets[0].defaultView;
       if(!cy)  {
         initCy();
       } else {
         preview(startViewIRI, startResourceIRI);
       }
-    }
+    });
   }
   
   e.preventDefault();
@@ -70,6 +62,24 @@ $('#startForm select[name=layout]').on('change', function()  {
   }
   setLayoutOptions();
   layout.run();
+});
+
+$('#export').on('click', function()  {
+  console.log(cy.json());
+});
+
+$('#import').on('click', function()  {
+  cy.json(JSON.parse($('#startForm input[name=jsonToImport]').val())); 
+});
+
+$('#showpng').on('click', function()  {
+  var png = cy.png({'full': true, 'scale': 2});
+  $('#graphimage').attr('src', png);
+  $('#pngexport').css('display', 'block'); 
+});
+
+$('#hidepng').on('click', function()  {
+  $('#pngexport').css('display', 'none'); 
 });
 
 $('#startForm select[name=predefined]').on('change', function()  {
@@ -93,7 +103,12 @@ $('#startForm select[name=predefined]').on('change', function()  {
     case "wda":
       $('#startForm input[name=config]').val("https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/wikidata/animals");
       $('#startForm input[name=stylesheet]').val("https://linked.opendata.cz/resource/knowledge-graph-browser/wikidata/animals/style-sheet");
-      $('#startForm input[name=resource]').val("http://www.wikidata.org/entity/Q135022");  
+      $('#startForm input[name=resource]').val("http://www.wikidata.org/entity/Q135022");
+      break;  
+    case "nkod":
+      $('#startForm input[name=config]').val("https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/nkod");
+      $('#startForm input[name=stylesheet]').val("https://linked.opendata.cz/resource/knowledge-graph-browser/nkod/style-sheet");
+      $('#startForm input[name=resource]').val("https://data.gov.cz/zdroj/katalog/NKOD");
   } 
 });
 
@@ -146,7 +161,9 @@ function initCy( then ) {
       
       style: styles,
     
-      elements: []
+      elements: [],
+      
+      wheelSensitivity: 0.5
                                                     
     });
     
@@ -207,6 +224,18 @@ function initCy( then ) {
       }
     });
 
+
+    cy.on('cxttap', function(evt){
+      let node = evt.target;
+      console.log('ctxtap');
+      if(node && node.isNode()) {
+        cy.remove(node);
+        if(layout)  {
+          layout.stop();
+          layout.run();
+        }
+      }
+    });
     
     cy.on('dragfree', 'node', function(evt){
       let node = evt.target;
@@ -322,7 +351,7 @@ function showDetail(view, node) {
         }
         for(let i in nodeViewSetsPromise.responseJSON.viewSets) {
           for(let j in nodeViewSetsPromise.responseJSON.viewSets[i].views) {
-            let view = viewsMap.get(nodeViewSetsPromise.responseJSON.viewSets[0].views[j]);
+            let view = viewsMap.get(nodeViewSetsPromise.responseJSON.viewSets[i].views[j]);
             view.isSelected = (view.iri == nodeViewSetsPromise.responseJSON.viewSets[0].defaultView);
             nodeViews.push(view);
           }

@@ -12,6 +12,7 @@
 
 <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/rpp> a browser:Configuration ;
   dct:title "Konfigurace procházení registru práv a povinností"@cs ;
+  browser:autocomplete <https://raw.githubusercontent.com/martinnec/kgbrowser/master/configurations/rpp-autocomplete.json> ;
   browser:hasViewSet <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/rpp/agenda>,
     <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/rpp/činnost>,
     <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/rpp/ovm>,
@@ -24,7 +25,7 @@
 #####################################
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/rpp/agenda> a browser:ViewSet ;
-  dct:title "Pohledy na agendy při procházení registru práv a povinností"@cs ;
+  dct:title "Pohledy na agendy"@cs ;
   browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/struktura-agendy>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/výkon-agendy>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/údaje-agendy>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/sdružené-údaje-agendy> ;
   browser:hasDefaultView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/struktura-agendy> ;
   browser:hasCondition """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/>
@@ -34,7 +35,7 @@ ASK {
   browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/rpp> .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/rpp/činnost> a browser:ViewSet ;
-  dct:title "Pohledy na činnosti při procházení registru práv a povinností"@cs ;
+  dct:title "Pohledy na činnosti"@cs ;
   browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/struktura-činnosti> ;
   browser:hasDefaultView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/struktura-činnosti> ;
   browser:hasCondition """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/>
@@ -44,8 +45,8 @@ ASK {
   browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/rpp> .
 
 <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/rpp/ovm> a browser:ViewSet ;
-  dct:title "Pohledy na orgány veřejné moci při procházení registru práv a povinností"@cs ;
-  browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/agendy-ovm> ;
+  dct:title "Pohledy na orgány veřejné moci"@cs ;
+  browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/agendy-ovm>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/kategorie-ovm> ;
   browser:hasDefaultView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/agendy-ovm> ;
   browser:hasCondition """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/>
 ASK {
@@ -54,9 +55,9 @@ ASK {
   browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/rpp> .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/rpp/kategorieovm> a browser:ViewSet ;
-  dct:title "Pohledy na kategorie orgánů veřejné moci při procházení registru práv a povinností"@cs ;
-  browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/agendy-ovm-kategorie> ;
-  browser:hasDefaultView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/agendy-ovm-kategorie> ;
+  dct:title "Pohledy na kategorie orgánů veřejné moci"@cs ;
+  browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/agendy-ovm-kategorie>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/ovm-kategorie-ovm> ;
+  browser:hasDefaultView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/ovm-kategorie-ovm> ;
   browser:hasCondition """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/>
 ASK {
   ?node a l:kategorie-orgánů-veřejné-moci .    
@@ -64,7 +65,7 @@ ASK {
   browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/rpp> .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/rpp/objekt-nebo-subjekt-údajů> a browser:ViewSet ;
-  dct:title "Pohledy na subjekty a objekty práva při procházení registru práv a povinností"@cs ;
+  dct:title "Pohledy na subjekty a objekty práva"@cs ;
   browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/objekt-nebo-subjekt-údajů/struktura>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/objekt-nebo-subjekt-údajů/oprávnění> ;
   browser:hasDefaultView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/objekt-nebo-subjekt-údajů/struktura> ;
   browser:hasCondition """PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/>
@@ -74,7 +75,7 @@ ASK {
   browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/rpp> .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/rpp/údaj> a browser:ViewSet ;
-  dct:title "Pohledy na údaje vedené v agendách při procházení registru práv a povinností"@cs ;
+  dct:title "Pohledy na údaje vedené v agendách"@cs ;
   browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/údaj/struktura>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/údaj/oprávnění> ;
   browser:hasDefaultView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/údaj/struktura> ;
   browser:hasCondition """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/>
@@ -129,10 +130,24 @@ ASK {
   browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/rpp/název-ovm> ;
   browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/rpp/ovm> .
   
+<https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/kategorie-ovm> a browser:View ;
+  dct:title "Kategorie orgánu veřejné moci"@cs ;
+  dct:description "Pohled na orgán veřejné moci tvořený kategoriemi, do kterých patří."@cs ;
+  browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/rpp/kategorie-ovm> ;
+  browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/rpp/název-ovm> ;
+  browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/rpp/ovm> .
+  
 <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/agendy-ovm-kategorie> a browser:View ;
   dct:title "Kategorie orgánů veřejné moci s vykonávanými agendami"@cs ;
   dct:description "Pohled na kategorii tvořený orgány veřejné moci a vykonávanými agendami."@cs ;
   browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/rpp/kategorie-ovm-vykonávané-agendy> ;
+  browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/rpp/název-kategorie-ovm> ;
+  browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/rpp/kategorie-ovm> .
+  
+<https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/ovm-kategorie-ovm> a browser:View ;
+  dct:title "Kategorie orgánů veřejné moci a jejich OVM"@cs ;
+  dct:description "Pohled na kategorii tvořený orgány veřejné moci, které do ní náleží."@cs ;
+  browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/rpp/kategorie-ovm-s-ovm> ;
   browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/rpp/název-kategorie-ovm> ;
   browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/rpp/kategorie-ovm> .
   
@@ -196,11 +211,10 @@ CONSTRUCT {
   BIND(CONCAT(?kodCinnosti, " - ", ?nazevCinnosti) AS ?labelCinnosti)
   
   ?ovm l:ohlašuje-agendu ?node ;
-    l:má-název-orgánu-veřejné-moci ?nazevOvm ; 
-    l:má-identifikátor-orgánu-veřejné-moci ?kodOvm .
+    l:má-název-orgánu-veřejné-moci ?nazevOvm .
   FILTER (LANG(?nazevOvm) = "cs")
   
-  BIND(CONCAT(?kodOvm, " - ", ?nazevOvm) AS ?labelOvm) 
+  BIND(?nazevOvm AS ?labelOvm) 
 }""" .
 
 <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/rpp/vykonavatelé-agendy> a browser:ExpansionQuery ;
@@ -218,11 +232,10 @@ CONSTRUCT {
   l:vykonává-agendu browser:class "vykonavaagendu" .
 } WHERE {  
   ?vykonavatel l:vykonává-agendu ?node ;
-    l:má-název-orgánu-veřejné-moci ?nazevOvm ; 
-    l:má-identifikátor-orgánu-veřejné-moci ?kodOvm .
+    l:má-název-orgánu-veřejné-moci ?nazevOvm .
   FILTER (LANG(?nazevOvm) = "cs")
   
-  BIND(CONCAT(?kodOvm, " - ", ?nazevOvm) AS ?labelOvm)  
+  BIND(?nazevOvm AS ?labelOvm)  
 }""" .
 
 <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/rpp/údaje-agendy> a browser:ExpansionQuery ;
@@ -383,11 +396,65 @@ CONSTRUCT {
     a:má-zařazený-subjekt ?ovm .
     
   ?ovm l:ohlašuje-agendu [] ;
-    l:má-název-orgánu-veřejné-moci ?nazevOvm ; 
-    l:má-identifikátor-orgánu-veřejné-moci ?kodOvm .
+    l:má-název-orgánu-veřejné-moci ?nazevOvm .
   FILTER (LANG(?nazevOvm) = "cs")
   
-  BIND(CONCAT(?kodOvm, " - ", ?nazevOvm) AS ?labelOvm) 
+  BIND(?nazevOvm AS ?labelOvm) 
+}""" .
+
+<https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/rpp/kategorie-ovm-s-ovm> a browser:ExpansionQuery ;
+  dct:title "Orgány veřejné moci v kategorii" ;
+  browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/rpp> ;
+  browser:query """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/>
+PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/>
+PREFIX v: <https://linked.opendata.cz/resource/vocabulary/knowledge-graph-browser/rpp/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX browser: <https://linked.opendata.cz/ontology/knowledge-graph-browser/> 
+
+CONSTRUCT {
+  ?node v:obsahuje-orgán-veřejné-moci ?ovm .
+  v:obsahuje-orgán-veřejné-moci browser:class "obsahujeovm" .
+  
+  ?ovm a l:orgán-veřejné-moci ;
+    rdfs:label ?labelOvm ;
+    browser:class "ovm" .
+} WHERE {
+  
+  [] a:zařazuje-do-kategorie ?node ;
+    a:má-zařazený-subjekt ?ovm .
+    
+  ?ovm l:má-název-orgánu-veřejné-moci ?nazevOvm .
+  FILTER (LANG(?nazevOvm) = "cs")
+  
+  BIND(?nazevOvm AS ?labelOvm) 
+}""" .
+
+<https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/rpp/kategorie-ovm> a browser:ExpansionQuery ;
+  dct:title "Kategorie orgánu veřejné moci" ;
+  browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/rpp> ;
+  browser:query """PREFIX l: <https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/>
+PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/>
+PREFIX v: <https://linked.opendata.cz/resource/vocabulary/knowledge-graph-browser/rpp/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX browser: <https://linked.opendata.cz/ontology/knowledge-graph-browser/> 
+
+CONSTRUCT {
+  ?kategorie v:obsahuje-orgán-veřejné-moci ?node .
+  v:obsahuje-orgán-veřejné-moci browser:class "obsahujeovm" .
+  
+  ?kategorie a l:kategorie ;
+    rdfs:label ?labelKategorie ;
+    browser:class "kategorieovm" .
+} WHERE {
+  
+  [] a:zařazuje-do-kategorie ?kategorie ;
+    a:má-zařazený-subjekt ?node .
+    
+  ?kategorie l:má-název-kategorie ?nazevKategorie ; 
+    l:má-identifikátor-kategorie ?kodKategorie .
+  FILTER (LANG(?nazevKategorie) = "cs")
+  
+  BIND(CONCAT(?kodKategorie, " - ", ?nazevKategorie) AS ?labelKategorie) 
 }""" .
 
 <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/rpp/název-agendy> a browser:PreviewQuery ;
@@ -441,11 +508,8 @@ CONSTRUCT {
     rdfs:label ?label ;
     browser:class "ovm" .
 } WHERE {
-  ?node l:má-název-orgánu-veřejné-moci ?nazev ; 
-    l:má-identifikátor-orgánu-veřejné-moci ?kod .
-  FILTER (LANG(?nazev) = "cs")
-  
-  BIND(CONCAT(?kod, " - ", ?nazev) AS ?label) 
+  ?node l:má-název-orgánu-veřejné-moci ?label .
+  FILTER (LANG(?label) = "cs") 
 }""" .
 
 <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/rpp/název-kategorie-ovm> a browser:PreviewQuery ;

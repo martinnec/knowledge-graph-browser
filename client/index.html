@@ -16,6 +16,7 @@
         <option value="psp">PSP</option>
         <option value="ssp">SSP</option>
         <option value="wda">WDA</option>
+        <option value="nkod">NKOD</option>
       </select>
       Config: <input type="text" name="config" size="100" />
       Stylesheet: <input type="text" name="stylesheet" size="100" />
@@ -30,7 +31,14 @@
       <option value="cose-bilkent">CoSE Bilkent</option>
     </select>
     <input type="submit" value="Show" />
+    <a href="#" id="export">save</a>
+    <input type="text" name="jsonToImport" size="40" />
+    <a href="#" id="import">load</a>&nbsp;
+    <a href="#" id="showpng">show image</a>&nbsp;
+    <a href="#" id="hidepng">hide image</a>
   </form>
+  
+  <div id="pngexport" style="display:none;width='100px';height='100px';">IMAGE<br><img id="graphimage"/></div>
   
   <div id="cy"></div>
   <div id="loading">
