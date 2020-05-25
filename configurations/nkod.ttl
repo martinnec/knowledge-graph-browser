@@ -11,6 +11,10 @@
 # Configurations
 #####################################
 
+# https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/nkod
+# https://linked.opendata.cz/resource/knowledge-graph-browser/nkod/style-sheet
+# https://rpp-opendata.egon.gov.cz/odrpp/zdroj/orgán-veřejné-moci/00025593
+
 <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/nkod> a browser:Configuration ;
   dct:title "Konfigurace procházení národního katalogu otevřených dat"@cs ;
   browser:hasViewSet <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/nkod/katalog>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/nkod/poskytovatel>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/rpp/kategorieovm>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/rpp/ovm> .
@@ -78,7 +82,7 @@ CONSTRUCT {
     rdfs:label ?label ;
     browser:class "katalog" .
     
-  ?node bnkod:má-katalogizovány-datové-sady-v-katalogu ?katalog ;
+  ?node bnkod:má-katalogizovány-datové-sady-v-katalogu ?katalog .
     
   bnkod:má-katalogizovány-datové-sady-v-katalogu browser:class "katalogizuje" . 
   
@@ -87,8 +91,9 @@ CONSTRUCT {
     ?katalog dcat:dataset/dct:publisher ?x .
   }
   
-  ?x owl:sameAs ?node ;
-    dct:title ?label .
+  ?x owl:sameAs ?node .
+  
+  ?katalog dct:title ?label .
   FILTER (LANG(?label) = "cs")
 }""" .
 
@@ -246,8 +251,11 @@ CONSTRUCT {
   browser:hasVisualStyle <https://linked.opendata.cz/resource/knowledge-graph-browser/nkod/style/www.w3.org/ns/dcat/Catalog>,
     <https://linked.opendata.cz/resource/knowledge-graph-browser/nkod/style/slovník.gov.cz/legislativní/sbírka/111/2009/pojem/orgán-veřejné-moci>,
     <https://linked.opendata.cz/resource/knowledge-graph-browser/nkod/style/poskytovatel>,
+    <https://linked.opendata.cz/resource/knowledge-graph-browser/rpp/style/slovník.gov.cz/legislativní/sbírka/111/2009/pojem/agenda>,
     <https://linked.opendata.cz/resource/knowledge-graph-browser/nkod/style/slovník.gov.cz/legislativní/sbírka/111/2009/pojem/kategorie-orgánů-veřejné-moci>,
-    <https://linked.opendata.cz/resource/knowledge-graph-browser/nkod/style/má-katalogizovány-datové-sady-v-katalogu>,    
+    <https://linked.opendata.cz/resource/knowledge-graph-browser/nkod/style/má-katalogizovány-datové-sady-v-katalogu>,
+    <https://linked.opendata.cz/resource/knowledge-graph-browser/rpp/style/slovník.gov.cz/legislativní/sbírka/111/2009/pojem/ohlašuje-agendu>,
+    <https://linked.opendata.cz/resource/knowledge-graph-browser/rpp/style/slovník.gov.cz/legislativní/sbírka/111/2009/pojem/vykonává-agendu>,    
     <https://linked.opendata.cz/resource/knowledge-graph-browser/nkod/style/node>,
     <https://linked.opendata.cz/resource/knowledge-graph-browser/nkod/style/edge> .  
 
@@ -319,4 +327,5 @@ CONSTRUCT {
   browser:line-color "black" ;
   browser:line-style "solid" ;
   browser:curve-style "straight" ;
+  browser:font-size "6px" ;
   browser:hasSelector "edge" .

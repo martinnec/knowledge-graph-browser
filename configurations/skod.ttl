@@ -7,17 +7,16 @@
   @prefix void: <http://rdfs.org/ns/void#> .
   @prefix l: <https://slovník.gov.cz/legislativní/sbírka/90/1995/pojem/> .
   @prefix a: <https://slovník.gov.cz/agendový/sgov/pojem/> .
-
-# https://slovník.gov.cz/generický/turistické-cíle/pojem/turistický-cíl
   
   #####################################
   # Configurations
   #####################################
   
-  <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/sgov> a browser:Configuration ;
-    dct:title "Configuration of SGOV browser"@en ;
-    browser:autocomplete <https://raw.githubusercontent.com/martinnec/kgbrowser/master/configurations/sgov-autocomplete.json> ;
-    browser:hasViewSet <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/sgov/object-type>,
+  <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/skod> a browser:Configuration ;
+    dct:title "Configuration of SKOD browser"@en ;
+    browser:hasViewSet <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/skod/dataset>,
+      <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/skod/item>,
+      <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/sgov/object-type>,
       <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/sgov/trobe-type>,
       <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/sgov/relation-type>,
       <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/sgov/glossary> .
@@ -26,22 +25,18 @@
   # ViewSets
   #####################################
     
-  <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/sgov/object-type> a browser:ViewSet ;
-    dct:title "Pohledy na typ objektu"@cs ;
-    browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/complete>,
-      <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/inheritance> ,
-      <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/inheritance-parent> ,
-      <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/trope-types> ,
-      <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/relation-types> ;
-    browser:hasDefaultView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/relation-types> ;
-    browser:hasCondition """PREFIX z: <https://slovník.gov.cz/základní/pojem/>
+  <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/skod/dataset> a browser:ViewSet ;
+    dct:title "Dataset views"@en ;
+    browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/skod/dataset/annotations> ;
+    browser:hasDefaultView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/skod/dataset/annotations> ;
+    browser:hasCondition """PREFIX dcat: <http://www.w3.org/ns/dcat#>
   ASK {  
-    ?node a z:typ-objektu .
+    ?node a dcat:Dataset .
   }""" ;
-    browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/sgov> .
+    browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/skod> .
     
   <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/sgov/trobe-type> a browser:ViewSet ;
-    dct:title "Pohledy na typ vlastnosti"@cs ;
+    dct:title "Trobe type views"@en ;
     browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/trobe-type/complete>,
       <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/trobe-type/inheritance> ,
       <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/trobe-type/object-type> ;
@@ -53,7 +48,7 @@
     browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/sgov> .
     
   <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/sgov/relation-type> a browser:ViewSet ;
-    dct:title "Pohledy na typ vztahu"@cs ;
+    dct:title "Relation type views"@en ;
     browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/relation-type/complete>,
       <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/relation-type/inheritance> ,
       <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/relation-type/object-type> ;
@@ -65,7 +60,7 @@
     browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/sgov> .
     
   <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/sgov/glossary> a browser:ViewSet ;
-    dct:title "Pohledy na slovník"@cs ;
+    dct:title "Glossary views"@en ;
     browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/glossary/complete> ;
     browser:hasDefaultView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/glossary/complete> ;
     browser:hasCondition """PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
@@ -79,84 +74,77 @@
   #####################################
     
   <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/complete> a browser:View ;
-    dct:title "Kompletní struktura typu objektu"@cs ;
+    dct:title "Complete object type view"@en ;
     dct:description "A complete view of an object type which shows its inheritance neighbourhood and its associated trobe and relation types."@en ;
     browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type/complete> ;
     browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/object-type/complete> ;
     browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/object-type/complete> .
-
-  <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/trope-types> a browser:View ;
-    dct:title "Typy vlastností patřících typu objektu"@cs ;
-    dct:description "A view of an object type which shows only relation types associated with the object type."@en ;
-    browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type/trope-types> ;
-    browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/object-type/complete> ;
-    browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/object-type/complete> .
     
   <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/relation-types> a browser:View ;
-    dct:title "Typy vztahů, kterých se typ objektu účastní"@cs ;
+    dct:title "Associated relation types"@en ;
     dct:description "A view of an object type which shows only relation types associated with the object type."@en ;
     browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type/relation-types> ;
     browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/object-type/complete> ;
     browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/object-type/complete> .
     
   <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/inheritance> a browser:View ;
-    dct:title "Dědičnost typu objektu"@cs ;
+    dct:title "Inheritance"@en ;
     dct:description "A view of an object type which shows only its inheritance neighbourhood."@en ;
     browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type/inheritance> ;
     browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/object-type/complete> ;
     browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/object-type/complete> .
     
   <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/inheritance-parent> a browser:View ;
-    dct:title "Prvky, od kterých typ objektu dědí"@cs ;
+    dct:title "Inherits from"@en ;
     dct:description "A view of an object type which shows only the type it inherits from."@en ;
     browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type/inheritance-parent> ;
     browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/object-type/complete> ;
     browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/object-type/complete> .
     
   <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/trobe-type/complete> a browser:View ;
-    dct:title "Kompletní struktura typu vlastnosti"@cs ;
+    dct:title "Basic trobe type view"@en ;
     dct:description "A basic view of a trobe type which shows its inheritance neighbourhood and its associated object type."@en ;
     browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/trobe-type/complete> ;
     browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/trobe-type/complete> ;
     browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/trobe-type/complete> .
     
   <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/trobe-type/object-type> a browser:View ;
-    dct:title "Typ objektu, ke kterému typ vztahu patří"@cs ;
+    dct:title "Associated object type"@en ;
     dct:description "A view of a trobe type which shows only the object type associated with the trobe type."@en ;
     browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/trobe-type/object-type> ;
     browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/trobe-type/complete> ;
     browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/trobe-type/complete> .
     
   <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/trobe-type/inheritance> a browser:View ;
-    dct:title "Dědičnost typu vztahu"@cs ;
+    dct:title "Inheritance"@en ;
     dct:description "A view of a trobe type which shows only its inheritance neighbourhood."@en ;
     browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/trobe-type/inheritance> ;
     browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/trobe-type/complete> ;
     browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/trobe-type/complete> .
     
   <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/relation-type/complete> a browser:View ;
-    dct:title "Kompletní struktura typu vztahu"@cs ;
+    dct:title "Basic relation type view"@en ;
     dct:description "A basic view of a relation type which shows its inheritance neighbourhood and its associated object types."@en ;
     browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/relation-type/complete> ;
     browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/relation-type/complete> ;
     browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/relation-type/complete> .
     
   <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/relation-type/object-type> a browser:View ;
-    dct:title "Typy objektů, které se účastní typu vztahu"@cs ;
+    dct:title "Associated object types"@en ;
     dct:description "A view of a relation type which shows only the object types associated with the trobe type."@en ;
     browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/relation-type/object-type> ;
     browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/relation-type/complete> ;
     browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/relation-type/complete> .
     
   <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/relation-type/inheritance> a browser:View ;
-    dct:title "Dědičnost typu vztahu"@cs ;
+    dct:title "Inheritance"@en ;
     dct:description "A view of a relation type which shows only its inheritance neighbourhood."@en ;
     browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/relation-type/inheritance> ;
     browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/relation-type/complete> ;
     browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/relation-type/complete> .
     
   <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/glossary/complete> a browser:View ;
-    dct:title "Prvky definované ve slovníku"@cs ;
+    dct:title "Basic glossary view"@en ;
     dct:description "A basic view of a glossary which shows all concepts defined in the glossary with their inheritance."@en ;
     browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/glossary/complete> ;
     browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/glossary/complete> ;
@@ -387,48 +375,6 @@
         )
       AS ?typeRangeGlossaryClass)
     }
-  }""" .
-  
-  <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type/trope-types> a browser:ExpansionQuery ;
-    dct:title "Associated relation types" ;
-    browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/sgov> ;
-    browser:query """PREFIX z: <https://slovník.gov.cz/základní/pojem/>
-  PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-  PREFIX browser: <https://linked.opendata.cz/ontology/knowledge-graph-browser/>
-  
-  CONSTRUCT {
-    ?typeDomain a z:typ-vlastnosti ;
-      rdfs:domain ?node ;
-      skos:prefLabel ?typeDomainLabel ;
-      browser:class "trobe-type", ?typeDomainGlossaryClass .
-    rdfs:domain browser:class ?domainStylesheetClass .
-  } WHERE {
-    OPTIONAL {
-      ?typeDomain a z:typ-vlastnosti ;
-        rdfs:domain ?node ;
-        skos:prefLabel ?typeDomainLabel ;
-        skos:inScheme ?typeDomainGlossary .
-      FILTER (LANG(?typeDomainLabel) = "cs")
-      BIND("trobe-type" AS ?typeDomainStylesheetClass)
-      BIND("domain" AS ?domainStylesheetClass)
-      BIND(
-        IF(
-          ?typeDomainGlossary = <https://slovník.gov.cz/základní/glosář>,
-          "zsgov",
-          IF(
-            ?typeDomainGlossary = <https://slovník.gov.cz/veřejný-sektor/glosář>,
-            "vsgov",
-            IF(
-              CONTAINS(STR(?typeDomainGlossary), "legislativní"),
-              "lsgov",
-              "asgov"
-            )  
-          )  
-        )
-      AS ?typeDomainGlossaryClass)
-    }
-    
   }""" .
   
   <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type/inheritance> a browser:ExpansionQuery ;
