@@ -28,11 +28,13 @@
     
   <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/sgov/object-type> a browser:ViewSet ;
     dct:title "Pohledy na typ objektu"@cs ;
-    browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/complete>,
-      <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/inheritance> ,
+    browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/inheritance> ,
       <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/inheritance-parent> ,
+      <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/inheritance-child> ,
       <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/trope-types> ,
-      <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/relation-types> ;
+      <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/relation-types> ,
+      <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/relation-types-domain> ,
+      <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/relation-types-range> ;
     browser:hasDefaultView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/relation-types> ;
     browser:hasCondition """PREFIX z: <https://slovník.gov.cz/základní/pojem/>
   ASK {  
@@ -42,8 +44,7 @@
     
   <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/sgov/trobe-type> a browser:ViewSet ;
     dct:title "Pohledy na typ vlastnosti"@cs ;
-    browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/trobe-type/complete>,
-      <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/trobe-type/inheritance> ,
+    browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/trobe-type/inheritance> ,
       <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/trobe-type/object-type> ;
     browser:hasDefaultView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/trobe-type/object-type> ;
     browser:hasCondition """PREFIX z: <https://slovník.gov.cz/základní/pojem/>
@@ -54,8 +55,7 @@
     
   <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/sgov/relation-type> a browser:ViewSet ;
     dct:title "Pohledy na typ vztahu"@cs ;
-    browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/relation-type/complete>,
-      <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/relation-type/inheritance> ,
+    browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/relation-type/inheritance> ,
       <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/relation-type/object-type> ;
     browser:hasDefaultView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/relation-type/object-type> ;
     browser:hasCondition """PREFIX z: <https://slovník.gov.cz/základní/pojem/>
@@ -78,13 +78,6 @@
   # Views
   #####################################
     
-  <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/complete> a browser:View ;
-    dct:title "Kompletní struktura typu objektu"@cs ;
-    dct:description "A complete view of an object type which shows its inheritance neighbourhood and its associated trobe and relation types."@en ;
-    browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type/complete> ;
-    browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/object-type/complete> ;
-    browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/object-type/complete> .
-
   <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/trope-types> a browser:View ;
     dct:title "Typy vlastností patřících typu objektu"@cs ;
     dct:description "A view of an object type which shows only relation types associated with the object type."@en ;
@@ -96,6 +89,20 @@
     dct:title "Typy vztahů, kterých se typ objektu účastní"@cs ;
     dct:description "A view of an object type which shows only relation types associated with the object type."@en ;
     browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type/relation-types> ;
+    browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/object-type/complete> ;
+    browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/object-type/complete> .
+    
+  <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/relation-types-domain> a browser:View ;
+    dct:title "Typy vztahů, kterých je typ objektu doménou"@cs ;
+    dct:description "A view of an object type which shows only relation types associated with the object type and where the object type is a domain."@en ;
+    browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type/relation-types-domain> ;
+    browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/object-type/complete> ;
+    browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/object-type/complete> .
+    
+  <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/relation-types-range> a browser:View ;
+    dct:title "Typy vztahů, kterých je typ objektu oborem hodnot"@cs ;
+    dct:description "A view of an object type which shows only relation types associated with the object type and where the object type is a range."@en ;
+    browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type/relation-types-range> ;
     browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/object-type/complete> ;
     browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/object-type/complete> .
     
@@ -113,36 +120,29 @@
     browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/object-type/complete> ;
     browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/object-type/complete> .
     
-  <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/trobe-type/complete> a browser:View ;
-    dct:title "Kompletní struktura typu vlastnosti"@cs ;
-    dct:description "A basic view of a trobe type which shows its inheritance neighbourhood and its associated object type."@en ;
-    browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/trobe-type/complete> ;
-    browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/trobe-type/complete> ;
-    browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/trobe-type/complete> .
-    
+  <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/object-type/inheritance-child> a browser:View ;
+    dct:title "Prvky, které dědí od typu objektu"@cs ;
+    dct:description "A view of an object type which shows only the types which inherits from it."@en ;
+    browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type/inheritance-child> ;
+    browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/object-type/complete> ;
+    browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/object-type/complete> .
+        
   <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/trobe-type/object-type> a browser:View ;
-    dct:title "Typ objektu, ke kterému typ vztahu patří"@cs ;
+    dct:title "Prvek, ke kterému typ vlastnosti patří"@cs ;
     dct:description "A view of a trobe type which shows only the object type associated with the trobe type."@en ;
     browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/trobe-type/object-type> ;
     browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/trobe-type/complete> ;
     browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/trobe-type/complete> .
     
   <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/trobe-type/inheritance> a browser:View ;
-    dct:title "Dědičnost typu vztahu"@cs ;
+    dct:title "Dědičnost typu vlastnosti"@cs ;
     dct:description "A view of a trobe type which shows only its inheritance neighbourhood."@en ;
     browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/trobe-type/inheritance> ;
     browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/trobe-type/complete> ;
     browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/trobe-type/complete> .
-    
-  <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/relation-type/complete> a browser:View ;
-    dct:title "Kompletní struktura typu vztahu"@cs ;
-    dct:description "A basic view of a relation type which shows its inheritance neighbourhood and its associated object types."@en ;
-    browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/relation-type/complete> ;
-    browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/relation-type/complete> ;
-    browser:hasDetail <https://linked.opendata.cz/resource/knowledge-graph-browser/detail-query/relation-type/complete> .
-    
+        
   <https://linked.opendata.cz/resource/knowledge-graph-browser/view/sgov/relation-type/object-type> a browser:View ;
-    dct:title "Typy objektů, které se účastní typu vztahu"@cs ;
+    dct:title "Prkvy, které se účastní typu vztahu"@cs ;
     dct:description "A view of a relation type which shows only the object types associated with the trobe type."@en ;
     browser:hasExpansion <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/relation-type/object-type> ;
     browser:hasPreview <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/relation-type/complete> ;
@@ -206,6 +206,7 @@
       ?node rdfs:subClassOf ?parent .
       ?parent skos:prefLabel ?parentLabel ;
         skos:inScheme ?parentGlossary .
+      FILTER( ?parentGlossary != <https://slovník.gov.cz/základní/glosář> )
       FILTER (LANG(?parentLabel) = "cs")
       BIND("sub-class-of" AS ?subClassOfStylesheetClass)
       BIND(
@@ -218,7 +219,15 @@
             IF(
               CONTAINS(STR(?parentGlossary), "legislativní"),
               "lsgov",
-              "asgov"
+              IF(
+                CONTAINS(STR(?parentGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?parentGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
             )  
           )  
         )
@@ -229,23 +238,32 @@
       ?child rdfs:subClassOf ?node ;
         skos:prefLabel ?childLabel ;
         skos:inScheme ?childGlossary .
+      FILTER( ?childGlossary != <https://slovník.gov.cz/základní/glosář> )
       FILTER (LANG(?childLabel) = "cs")
-        BIND("sub-class-of" AS ?subClassOfStylesheetClass)
-        BIND(
+      BIND("sub-class-of" AS ?subClassOfStylesheetClass)
+      BIND(
+        IF(
+          ?childGlossary = <https://slovník.gov.cz/základní/glosář>,
+          "zsgov",
           IF(
-            ?childGlossary = <https://slovník.gov.cz/základní/glosář>,
-            "zsgov",
+            ?childGlossary = <https://slovník.gov.cz/veřejný-sektor/glosář>,
+            "vsgov",
             IF(
-              ?childGlossary = <https://slovník.gov.cz/veřejný-sektor/glosář>,
-              "vsgov",
+              CONTAINS(STR(?parentGlossary), "legislativní"),
+              "lsgov",
               IF(
-                CONTAINS(STR(?childGlossary), "legislativní"),
-                "lsgov",
-                "asgov"
-              )  
+                CONTAINS(STR(?parentGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?parentGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
             )  
-          )
-        AS ?childGlossaryClass)
+          )  
+        )
+      AS ?childGlossaryClass)
     }
   
     OPTIONAL {
@@ -273,7 +291,15 @@
             IF(
               CONTAINS(STR(?typeDomainGlossary), "legislativní"),
               "lsgov",
-              "asgov"
+              IF(
+                CONTAINS(STR(?typeDomainGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?typeDomainGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
             )  
           )  
         )
@@ -306,7 +332,15 @@
             IF(
               CONTAINS(STR(?typeRangeGlossary), "legislativní"),
               "lsgov",
-              "asgov"
+              IF(
+                CONTAINS(STR(?typeRangeGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?typeRangeGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
             )  
           )  
         )
@@ -357,7 +391,15 @@
             IF(
               CONTAINS(STR(?typeDomainGlossary), "legislativní"),
               "lsgov",
-              "asgov"
+              IF(
+                CONTAINS(STR(?typeDomainGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?typeDomainGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
             )  
           )  
         )
@@ -381,7 +423,15 @@
             IF(
               CONTAINS(STR(?typeRangeGlossary), "legislativní"),
               "lsgov",
-              "asgov"
+              IF(
+                CONTAINS(STR(?typeRangeGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?typeRangeGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
             )  
           )  
         )
@@ -389,8 +439,185 @@
     }
   }""" .
   
+  <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type/relation-types-domain> a browser:ExpansionQuery ;
+    dct:title "Associated relation types via domain" ;
+    browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/sgov> ;
+    browser:query """PREFIX z: <https://slovník.gov.cz/základní/pojem/>
+  PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+  PREFIX browser: <https://linked.opendata.cz/ontology/knowledge-graph-browser/>
+  
+  CONSTRUCT {
+    ?typeDomain a ?typeDomainClass ;
+      rdfs:domain ?node ;
+      rdfs:range ?nodeRange ;
+      skos:prefLabel ?typeDomainLabel ;
+      browser:class "relation-type", ?typeDomainGlossaryClass .
+      
+    rdfs:domain browser:class ?domainStylesheetClass .
+    
+    ?nodeRange a z:typ-objektu ;
+      skos:prefLabel ?nodeRangeLabel ;
+      browser:class "object-type", ?nodeRangeGlossaryClass .
+      
+    rdfs:range browser:class ?rangeStylesheetClass .
+    
+  } WHERE {
+    
+    OPTIONAL {
+      ?typeDomain a z:typ-vztahu ;
+        rdfs:domain ?node ;
+        rdfs:range ?nodeRange ;
+        skos:prefLabel ?typeDomainLabel ;
+        skos:inScheme ?typeDomainGlossary .
+      FILTER (LANG(?typeDomainLabel) = "cs")  
+      
+      BIND("domain" AS ?domainStylesheetClass)
+      BIND(
+        IF(
+          ?typeDomainGlossary = <https://slovník.gov.cz/základní/glosář>,
+          "zsgov",
+          IF(
+            ?typeDomainGlossary = <https://slovník.gov.cz/veřejný-sektor/glosář>,
+            "vsgov",
+            IF(
+              CONTAINS(STR(?typeDomainGlossary), "legislativní"),
+              "lsgov",
+              IF(
+                CONTAINS(STR(?typeDomainGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?typeDomainGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
+            )  
+          )  
+        )
+      AS ?typeDomainGlossaryClass)
+      
+      ?nodeRange skos:prefLabel ?nodeRangeLabel ;
+        skos:inScheme ?nodeRangeGlossary .
+      FILTER (LANG(?nodeRangeLabel) = "cs")
+      
+      BIND("range" AS ?rangeStylesheetClass)
+      BIND(
+        IF(
+          ?nodeRangeGlossary = <https://slovník.gov.cz/základní/glosář>,
+          "zsgov",
+          IF(
+            ?nodeRangeGlossary = <https://slovník.gov.cz/veřejný-sektor/glosář>,
+            "vsgov",
+            IF(
+              CONTAINS(STR(?nodeRangeGlossary), "legislativní"),
+              "lsgov",
+              IF(
+                CONTAINS(STR(?nodeRangeGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?nodeRangeGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
+            )  
+          )  
+        )
+      AS ?nodeRangeGlossaryClass)
+    }
+  }""" .
+  
+  <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type/relation-types-range> a browser:ExpansionQuery ;
+    dct:title "Associated relation types via range" ;
+    browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/sgov> ;
+    browser:query """PREFIX z: <https://slovník.gov.cz/základní/pojem/>
+  PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+  PREFIX browser: <https://linked.opendata.cz/ontology/knowledge-graph-browser/>
+  
+  CONSTRUCT {
+    ?typeRange a ?typeRangeClass ;
+      rdfs:domain ?nodeDomain ;
+      rdfs:range ?node ;
+      skos:prefLabel ?typeRangeLabel ;
+      browser:class "relation-type", ?typeRangeGlossaryClass .
+      
+    rdfs:range browser:class ?rangeStylesheetClass .
+    
+    ?nodeDomain a z:typ-objektu ;
+      skos:prefLabel ?nodeDomainLabel ;
+      browser:class "object-type", ?nodeDomainGlossaryClass .
+      
+    rdfs:domain browser:class ?domainStylesheetClass .
+    
+  } WHERE {
+    
+    OPTIONAL {
+      ?typeRange a z:typ-vztahu ;
+        rdfs:domain ?nodeDomain ;
+        rdfs:range ?node ;
+        skos:prefLabel ?typeRangeLabel ;
+        skos:inScheme ?typeRangeGlossary .
+      FILTER (LANG(?typeRangeLabel) = "cs")
+      
+      BIND("range" AS ?rangeStylesheetClass)
+      BIND(
+        IF(
+          ?typeRangeGlossary = <https://slovník.gov.cz/základní/glosář>,
+          "zsgov",
+          IF(
+            ?typeRangeGlossary = <https://slovník.gov.cz/veřejný-sektor/glosář>,
+            "vsgov",
+            IF(
+              CONTAINS(STR(?typeRangeGlossary), "legislativní"),
+              "lsgov",
+              IF(
+                CONTAINS(STR(?typeRangeGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?typeRangeGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
+            )  
+          )  
+        )
+      AS ?typeRangeGlossaryClass)
+      
+      ?nodeDomain skos:prefLabel ?nodeDomainLabel ;
+        skos:inScheme ?nodeDomainGlossary .
+      FILTER (LANG(?nodeDomainLabel) = "cs")
+       BIND("domain" AS ?domainStylesheetClass)
+      BIND(
+        IF(
+          ?nodeDomainGlossary = <https://slovník.gov.cz/základní/glosář>,
+          "zsgov",
+          IF(
+            ?nodeDomainGlossary = <https://slovník.gov.cz/veřejný-sektor/glosář>,
+            "vsgov",
+            IF(
+              CONTAINS(STR(?nodeDomainGlossary), "legislativní"),
+              "lsgov",
+              IF(
+                CONTAINS(STR(?nodeDomainGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?nodeDomainGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
+            )  
+          )  
+        )
+      AS ?nodeDomainGlossaryClass)
+    }
+  }""" .
+  
   <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type/trope-types> a browser:ExpansionQuery ;
-    dct:title "Associated relation types" ;
+    dct:title "Associated trobe types" ;
     browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/sgov> ;
     browser:query """PREFIX z: <https://slovník.gov.cz/základní/pojem/>
   PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
@@ -422,7 +649,15 @@
             IF(
               CONTAINS(STR(?typeDomainGlossary), "legislativní"),
               "lsgov",
-              "asgov"
+              IF(
+                CONTAINS(STR(?typeDomainGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?typeDomainGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
             )  
           )  
         )
@@ -457,6 +692,7 @@
       ?node rdfs:subClassOf ?parent .
       ?parent skos:prefLabel ?parentLabel ;
         skos:inScheme ?parentGlossary .
+      FILTER( ?parentGlossary != <https://slovník.gov.cz/základní/glosář> )
       FILTER (LANG(?parentLabel) = "cs")
       BIND("sub-class-of" AS ?subClassOfStylesheetClass)
       BIND(
@@ -469,7 +705,15 @@
             IF(
               CONTAINS(STR(?parentGlossary), "legislativní"),
               "lsgov",
-              "asgov"
+              IF(
+                CONTAINS(STR(?parentGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?parentGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
             )  
           )  
         )
@@ -480,6 +724,7 @@
       ?child rdfs:subClassOf ?node ;
         skos:prefLabel ?childLabel ;
         skos:inScheme ?childGlossary .
+      FILTER( ?childGlossary != <https://slovník.gov.cz/základní/glosář> )
       FILTER (LANG(?childLabel) = "cs")
       BIND("sub-class-of" AS ?subClassOfStylesheetClass)
       BIND(
@@ -492,7 +737,15 @@
             IF(
               CONTAINS(STR(?childGlossary), "legislativní"),
               "lsgov",
-              "asgov"
+              IF(
+                CONTAINS(STR(?childGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?childGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
             )  
           )  
         )
@@ -520,6 +773,7 @@
     ?node rdfs:subClassOf ?parent .
     ?parent skos:prefLabel ?parentLabel ;
       skos:inScheme ?parentGlossary .
+    FILTER( ?parentGlossary != <https://slovník.gov.cz/základní/glosář> )
     FILTER (LANG(?parentLabel) = "cs")
     BIND("sub-class-of" AS ?subClassOfStylesheetClass)
     BIND(
@@ -532,11 +786,67 @@
           IF(
             CONTAINS(STR(?parentGlossary), "legislativní"),
             "lsgov",
-            "asgov"
+            IF(
+                CONTAINS(STR(?parentGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?parentGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
           )  
         )  
       )
     AS ?parentGlossaryClass)
+  }""" .
+  
+  <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type/inheritance-child> a browser:ExpansionQuery ;
+    dct:title "Specific classes"@en ;
+    browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/sgov> ;
+    browser:query """PREFIX z: <https://slovník.gov.cz/základní/pojem/>
+  PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+  PREFIX browser: <https://linked.opendata.cz/ontology/knowledge-graph-browser/>
+  
+  CONSTRUCT {
+    ?child rdfs:subClassOf ?node .
+    ?child a z:typ-objektu ;
+      skos:prefLabel ?childLabel ;
+      browser:class "object-type", ?childGlossaryClass .
+  
+    rdfs:subClassOf browser:class ?subClassOfStylesheetClass .
+    
+  } WHERE {
+    ?child rdfs:subClassOf ?node .
+    ?child skos:prefLabel ?childLabel ;
+      skos:inScheme ?childGlossary .
+    FILTER( ?childGlossary != <https://slovník.gov.cz/základní/glosář> )
+    FILTER (LANG(?childLabel) = "cs")
+    BIND("sub-class-of" AS ?subClassOfStylesheetClass)
+    BIND(
+      IF(
+        ?childGlossary = <https://slovník.gov.cz/základní/glosář>,
+        "zsgov",
+        IF(
+          ?childGlossary = <https://slovník.gov.cz/veřejný-sektor/glosář>,
+          "vsgov",
+          IF(
+            CONTAINS(STR(?childGlossary), "legislativní"),
+            "lsgov",
+            IF(
+                CONTAINS(STR(?childGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?childGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
+          )  
+        )  
+      )
+    AS ?childGlossaryClass)
   }""" .
   
   <https://linked.opendata.cz/resource/knowledge-graph-browser/preview-query/object-type/complete> a browser:PreviewQuery ;
@@ -566,7 +876,15 @@
           IF(
             CONTAINS(STR(?glossary), "legislativní"),
             "lsgov",
-            "asgov"
+            IF(
+                CONTAINS(STR(?glossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?glossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
           )  
         )  
       )
@@ -656,7 +974,15 @@
             IF(
               CONTAINS(STR(?parentGlossary), "legislativní"),
               "lsgov",
-              "asgov"
+              IF(
+                CONTAINS(STR(?parentGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?parentGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
             )  
           )  
         )
@@ -679,7 +1005,15 @@
             IF(
               CONTAINS(STR(?childGlossary), "legislativní"),
               "lsgov",
-              "asgov"
+              IF(
+                CONTAINS(STR(?childGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?childGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
             )  
           )  
         )
@@ -703,7 +1037,15 @@
             IF(
               CONTAINS(STR(?domainGlossary), "legislativní"),
               "lsgov",
-              "asgov"
+              IF(
+                CONTAINS(STR(?domainGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?domainGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
             )  
           )  
         )
@@ -745,7 +1087,15 @@
             IF(
               CONTAINS(STR(?domainGlossary), "legislativní"),
               "lsgov",
-              "asgov"
+              IF(
+                CONTAINS(STR(?domainGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?domainGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
             )  
           )  
         )
@@ -789,7 +1139,15 @@
             IF(
               CONTAINS(STR(?parentGlossary), "legislativní"),
               "lsgov",
-              "asgov"
+              IF(
+                CONTAINS(STR(?parentGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?parentGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
             )  
           )  
         )
@@ -812,7 +1170,15 @@
             IF(
               CONTAINS(STR(?childGlossary), "legislativní"),
               "lsgov",
-              "asgov"
+              IF(
+                CONTAINS(STR(?childGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?childGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
             )  
           )  
         )
@@ -847,7 +1213,15 @@
           IF(
             CONTAINS(STR(?glossary), "legislativní"),
             "lsgov",
-            "asgov"
+            IF(
+                CONTAINS(STR(?glossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?glossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
           )  
         )  
       )
@@ -936,7 +1310,15 @@
             IF(
               CONTAINS(STR(?parentGlossary), "legislativní"),
               "lsgov",
-              "asgov"
+              IF(
+                CONTAINS(STR(?parentGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?parentGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
             )  
           )  
         )
@@ -959,7 +1341,15 @@
             IF(
               CONTAINS(STR(?childGlossary), "legislativní"),
               "lsgov",
-              "asgov"
+              IF(
+                CONTAINS(STR(?childGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?childGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
             )  
           )  
         )
@@ -983,7 +1373,15 @@
             IF(
               CONTAINS(STR(?domainGlossary), "legislativní"),
               "lsgov",
-              "asgov"
+              IF(
+                CONTAINS(STR(?domainGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?domainGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
             )  
           )  
         )
@@ -1007,7 +1405,15 @@
             IF(
               CONTAINS(STR(?rangeGlossary), "legislativní"),
               "lsgov",
-              "asgov"
+              IF(
+                CONTAINS(STR(?rangeGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?rangeGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
             )  
           )  
         )
@@ -1057,7 +1463,15 @@
             IF(
               CONTAINS(STR(?domainGlossary), "legislativní"),
               "lsgov",
-              "asgov"
+              IF(
+                CONTAINS(STR(?domainGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?domainGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
             )  
           )  
         )
@@ -1077,7 +1491,15 @@
             IF(
               CONTAINS(STR(?rangeGlossary), "legislativní"),
               "lsgov",
-              "asgov"
+              IF(
+                CONTAINS(STR(?rangeGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?rangeGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
             )  
           )  
         )
@@ -1121,7 +1543,15 @@
             IF(
               CONTAINS(STR(?parentGlossary), "legislativní"),
               "lsgov",
-              "asgov"
+              IF(
+                CONTAINS(STR(?parentGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?parentGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
             )  
           )  
         )
@@ -1144,7 +1574,15 @@
             IF(
               CONTAINS(STR(?childGlossary), "legislativní"),
               "lsgov",
-              "asgov"
+              IF(
+                CONTAINS(STR(?childGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?childGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
             )  
           )  
         )
@@ -1179,7 +1617,15 @@
           IF(
             CONTAINS(STR(?glossary), "legislativní"),
             "lsgov",
-            "asgov"
+            IF(
+                CONTAINS(STR(?glossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?glossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
           )  
         )  
       )
@@ -1256,7 +1702,15 @@
           IF(
             CONTAINS(STR(?node), "legislativní"),
             "lsgov",
-            "asgov"
+            IF(
+                CONTAINS(STR(?node), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?node), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
           )  
         )  
       )
@@ -1283,7 +1737,15 @@
             IF(
               CONTAINS(STR(?parentGlossary), "legislativní"),
               "lsgov",
-              "asgov"
+              IF(
+                CONTAINS(STR(?parentGlossary), "agendový"),
+                "asgov",
+                IF(
+                  CONTAINS(STR(?parentGlossary), "generický"),
+                  "gsgov",
+                  "dsgov"
+                )
+              )
             )  
           )  
         )
@@ -1355,6 +1817,8 @@
       <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/vsgov>,
       <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/lsgov>,
       <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/asgov>,
+      <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/gsgov>,
+      <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/dsgov>,
       <https://linked.opendata.cz/resource/knowledge-graph-browser/nkod/style/www.w3.org/2004/02/skos/core/scheme>,
       <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/node>,
       <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/rdfs/subClassOf>,
@@ -1391,36 +1855,42 @@
     browser:hasSelector ".relation-type" .
     
   <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/zsgov> a browser:VisualStyle ;
-    browser:background-color "#944654" ;
-    browser:border-color "#c49aa1" ;
+    browser:background-color "#FFC2C4" ;
+    browser:border-color "#8F0005" ;
     browser:color "#000000" ;
     #browser:color "#c49aa1" ;
     #browser:text-outline-color "#944654" ;
     browser:hasSelector ".zsgov" .
     
   <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/vsgov> a browser:VisualStyle ;
-    browser:background-color "#a05c7b" ;
-    browser:border-color "#cba6b7" ;
+    browser:background-color "#FFCA3A" ;
+    browser:border-color "#B88700" ;
     browser:color "#000000" ;
-    #browser:color "#cba6b7" ;
-    #browser:text-outline-color "#a05c7b" ;
     browser:hasSelector ".vsgov" .
     
   <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/lsgov> a browser:VisualStyle ;
-    browser:background-color "#a6f4dc" ;
-    browser:border-color "#6a9c8c" ;
+    browser:background-color "#8AC926" ;
+    browser:border-color "#476714" ;
     browser:color "#000000" ;
-    #browser:color "#6a9c8c" ;
-    #browser:text-outline-color "#a6f4dc" ;
     browser:hasSelector ".lsgov" .
     
   <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/asgov> a browser:VisualStyle ;
-    browser:background-color "#85ff9e" ;
-    browser:border-color "#55a365" ;
+    browser:background-color "#5DB4EA" ;
+    browser:border-color "#136090" ;
     browser:color "#000000" ;
-    #browser:color "#55a365" ;
-    #browser:text-outline-color "#85ff9e" ;
     browser:hasSelector ".asgov" .
+    
+  <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/gsgov> a browser:VisualStyle ;
+    browser:background-color "#70FFD7" ;
+    browser:border-color "#008F66" ;
+    browser:color "#000000" ;
+    browser:hasSelector ".gsgov" .
+    
+  <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/dsgov> a browser:VisualStyle ;
+    browser:background-color "#C0CEA1" ;
+    browser:border-color "#66783F" ;
+    browser:color "#000000" ;
+    browser:hasSelector ".dsgov" .
     
   <https://linked.opendata.cz/resource/knowledge-graph-browser/nkod/style/www.w3.org/2004/02/skos/core/scheme> a browser:VisualStyle ;
     browser:background-color "#90e0f3" ;
@@ -1438,9 +1908,9 @@
     browser:text-wrap "ellipsis";
     browser:text-max-width "180px";
     browser:label "data(label)" ;
-    browser:padding "2px" ;
     browser:width "label" ;
-    browser:height "10px" ;
+    browser:height "label" ;
+    browser:padding "5px" ;
     browser:text-halign "center" ;
     browser:text-valign "center" ;
     browser:background-color "#A9A5A7" ;
