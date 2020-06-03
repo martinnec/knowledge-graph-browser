@@ -847,7 +847,7 @@
 {"@id":"https://slovník.gov.cz/generický/pracovní-místa/pojem/je-součástí","label":"je součástí - generický slovník pracovních míst - glosář","type":"https://slovník.gov.cz/základní/pojem/typ-vztahu"},
 {"@id":"https://slovník.gov.cz/generický/pracovní-místa/pojem/kvalifikace","label":"kvalifikace - generický slovník pracovních míst - glosář","type":"https://slovník.gov.cz/základní/pojem/typ-objektu"},
 {"@id":"https://slovník.gov.cz/generický/pracovní-místa/pojem/maximální-mzda","label":"maximální mzda - generický slovník pracovních míst - glosář","type":"https://slovník.gov.cz/základní/pojem/typ-vztahu"},
-"https://slovník.gov.cz/generický/pracovní-místa/pojem/minimální-mzda","minimální mzda""@cs - generický slovník pracovních míst - glosář","https://slovník.gov.cz/základní/pojem/typ-vztahu"
+{"@id":"https://slovník.gov.cz/generický/pracovní-místa/pojem/minimální-mzda","label":"minimální mzda - generický slovník pracovních míst - glosář","type":"https://slovník.gov.cz/základní/pojem/typ-vztahu"},
 {"@id":"https://slovník.gov.cz/generický/pracovní-místa/pojem/mzda","label":"mzda - generický slovník pracovních míst - glosář","type":"https://slovník.gov.cz/základní/pojem/typ-vztahu"},
 {"@id":"https://slovník.gov.cz/generický/pracovní-místa/pojem/má-akademický-obor","label":"akademický obor - generický slovník pracovních míst - glosář","type":"https://slovník.gov.cz/základní/pojem/typ-vztahu"},
 {"@id":"https://slovník.gov.cz/generický/pracovní-místa/pojem/má-kontakt","label":"kontakt - generický slovník pracovních míst - glosář","type":"https://slovník.gov.cz/základní/pojem/typ-vztahu"},
