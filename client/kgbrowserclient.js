@@ -100,6 +100,11 @@ $('#startForm select[name=predefined]').on('change', function()  {
       $('#startForm input[name=stylesheet]').val("https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style-sheet");
       $('#startForm input[name=resource]').val("https://slovník.gov.cz/legislativní/sbírka/111/2009/pojem/orgán-veřejné-moci");
       break;
+    case "ssp-skos":
+      $('#startForm input[name=config]').val("https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/sgov-skos");
+      $('#startForm input[name=stylesheet]').val("https://linked.opendata.cz/resource/knowledge-graph-browser/sgov-skos/style-sheet");
+      $('#startForm input[name=resource]').val("https://slovník.gov.cz/základní/glosář");
+      break;
     case "wda":
       $('#startForm input[name=config]').val("https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/wikidata/animals");
       $('#startForm input[name=stylesheet]').val("https://linked.opendata.cz/resource/knowledge-graph-browser/wikidata/animals/style-sheet");

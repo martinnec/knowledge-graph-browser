@@ -206,7 +206,6 @@
       ?node rdfs:subClassOf ?parent .
       ?parent skos:prefLabel ?parentLabel ;
         skos:inScheme ?parentGlossary .
-      FILTER( ?parentGlossary != <https://slovník.gov.cz/základní/glosář> )
       FILTER (LANG(?parentLabel) = "cs")
       BIND("sub-class-of" AS ?subClassOfStylesheetClass)
       BIND(
@@ -238,7 +237,6 @@
       ?child rdfs:subClassOf ?node ;
         skos:prefLabel ?childLabel ;
         skos:inScheme ?childGlossary .
-      FILTER( ?childGlossary != <https://slovník.gov.cz/základní/glosář> )
       FILTER (LANG(?childLabel) = "cs")
       BIND("sub-class-of" AS ?subClassOfStylesheetClass)
       BIND(
@@ -692,7 +690,6 @@
       ?node rdfs:subClassOf ?parent .
       ?parent skos:prefLabel ?parentLabel ;
         skos:inScheme ?parentGlossary .
-      FILTER( ?parentGlossary != <https://slovník.gov.cz/základní/glosář> )
       FILTER (LANG(?parentLabel) = "cs")
       BIND("sub-class-of" AS ?subClassOfStylesheetClass)
       BIND(
@@ -724,7 +721,6 @@
       ?child rdfs:subClassOf ?node ;
         skos:prefLabel ?childLabel ;
         skos:inScheme ?childGlossary .
-      FILTER( ?childGlossary != <https://slovník.gov.cz/základní/glosář> )
       FILTER (LANG(?childLabel) = "cs")
       BIND("sub-class-of" AS ?subClassOfStylesheetClass)
       BIND(
@@ -773,7 +769,6 @@
     ?node rdfs:subClassOf ?parent .
     ?parent skos:prefLabel ?parentLabel ;
       skos:inScheme ?parentGlossary .
-    FILTER( ?parentGlossary != <https://slovník.gov.cz/základní/glosář> )
     FILTER (LANG(?parentLabel) = "cs")
     BIND("sub-class-of" AS ?subClassOfStylesheetClass)
     BIND(
@@ -821,7 +816,6 @@
     ?child rdfs:subClassOf ?node .
     ?child skos:prefLabel ?childLabel ;
       skos:inScheme ?childGlossary .
-    FILTER( ?childGlossary != <https://slovník.gov.cz/základní/glosář> )
     FILTER (LANG(?childLabel) = "cs")
     BIND("sub-class-of" AS ?subClassOfStylesheetClass)
     BIND(
