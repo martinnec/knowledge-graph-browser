@@ -1,0 +1,25 @@
+{
+  "name": "kgbrowser",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "kgserver": "node kgserver.js",
+    "wikidatatest": "node wikidatatest.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skodapetr/kgbrowser.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/skodapetr/kgbrowser/issues"
+  },
+  "homepage": "https://github.com/skodapetr/kgbrowser#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "rdflib": "^1.2.2",
+    "request": "^2.88.2",
+    "uri-js": "^4.2.2"
+  }
+}
