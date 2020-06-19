@@ -66,7 +66,7 @@ ASK {
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/rpp/objekt-nebo-subjekt-údajů> a browser:ViewSet ;
   dct:title "Pohledy na subjekty a objekty práva"@cs ;
-  browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/objekt-nebo-subjekt-údajů/struktura>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/objekt-nebo-subjekt-údajů/oprávnění>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/objekt-nebo-subjekt-údajů/agenda> ;
+  browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/objekt-nebo-subjekt-údajů/struktura>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/objekt-nebo-subjekt-údajů/oprávnění>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/objekt-nebo-subjekt-��dajů/agenda> ;
   browser:hasDefaultView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/objekt-nebo-subjekt-údajů/struktura> ;
   browser:hasCondition """PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/>
 ASK {
