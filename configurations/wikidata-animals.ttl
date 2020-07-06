@@ -15,7 +15,14 @@
 #####################################
 
 <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/wikidata/animals> a browser:Configuration ;
-  dct:title "Configuration for browsing animals from Wikidata"@en ;
+  dct:title "Browsing animals and plants from Wikidata"@en,
+   "Procházení živočichů a rostlin z Wikipedie"@cs;
+  dct:description "Classification of all organisms, plants and animals, into taxa."@en,
+   "Možnost procházet sítí taxonů všech zvířat a rostil jež jsou na Wikipedii."@cs;
+  browser:hasVisualStyleSheet <https://linked.opendata.cz/resource/knowledge-graph-browser/wikidata/animals/style-sheet>;
+  browser:startingNode <http://www.wikidata.org/entity/Q7377>,
+   <http://www.wikidata.org/entity/Q192154>;
+  browser:resourceUriPattern "^http://www\.wikidata\.org/entity/Q[1-9][0-9]*$";
   browser:hasViewSet <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/wikidata/animals/taxon> .
 
 #####################################
