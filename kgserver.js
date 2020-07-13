@@ -623,37 +623,37 @@ app.get('/stylesheet', function (req, res)  {
 });
 
 /**
- * Handles requests to get a metaconfiguration.
- * Metaconfiguration is like a directory for other metaconfigurations and configurations.
+ * Handles requests to get a meta configuration.
+ * Meta configuration is like a directory for other meta configurations and configurations.
  *
- * Returns the metaconfiguration, basic info about sub-metaconfigurations and full info about sub-configurations
+ * Returns the meta configuration, basic info about meta sub-configurations and full info about sub-configurations
  *
- * Parameters: iri Iri of the metaconfiguration
+ * Parameters: iri Iri of the meta configuration
  *             languages Comma separated ISO 639-1 languages. If there is not at least one literal for one given language, random (language) is returned.
  */
-app.get('/metaconfiguration', function (req, res) {
+app.get('/meta-configuration', function (req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    const metaconfigurationIRI = req.query.iri;
+    const metaConfigurationIRI = req.query.iri;
     const languages = req.query.languages.split(",");
 
     let store = $rdf.graph();
-    const mconf = $rdf.sym(utf8ToUnicode(metaconfigurationIRI));
+    const mconf = $rdf.sym(utf8ToUnicode(metaConfigurationIRI));
     const fetcher = new $rdf.Fetcher(store);
 
     // Load the resource and its neighbours
-    fetcher.load(fetchableURI(metaconfigurationIRI)).then(response => {
+    fetcher.load(fetchableURI(metaConfigurationIRI)).then(response => {
         // Data sent to client
-        let result = getMetaconfigurationInfo(store, mconf, languages);
-        result.has_metaconfigurations = [];
+        let result = getMetaConfigurationInfo(store, mconf, languages);
+        result.has_meta_configurations = [];
         result.has_configurations = [];
 
         let promises = [];
 
-        // Process metaconfigurations
-        const childMConfs = store.each(mconf, BROWSER("hasMetaconficuration"));
+        // Process meta configurations
+        const childMConfs = store.each(mconf, BROWSER("hasMetaConficuration"));
         promises = promises.concat(childMConfs.map(childMConf => new Promise((resolve, reject) => {
             fetcher.load(fetchableURI(childMConf.value)).then(response => {
-                result.has_metaconfigurations.push(getMetaconfigurationInfo(store, childMConf, languages));
+                result.has_meta_configurations.push(getMetaConfigurationInfo(store, childMConf, languages));
                 resolve();
             });
         })));
@@ -676,7 +676,7 @@ app.get('/metaconfiguration', function (req, res) {
 
 /**
  * Handles requests to get a configuration.
- * Does not need to be used if the configuration was obtained from metaconfiguration query
+ * Does not need to be used if the configuration was obtained from meta configuration query
  *
  * Returns full info about sub-configuration
  *
@@ -703,15 +703,15 @@ app.get('/configuration', function (req, res) {
 });
 
 /**
- * Gives basic information about the metaconfiguration
+ * Gives basic information about the meta configuration
  */
-function getMetaconfigurationInfo(store, metaconfiguration, languages) {
-    const titleLiterals = store.each(metaconfiguration, DCT("title"));
-    const descriptionLiterals = store.each(metaconfiguration, DCT("description"));
-    const imageLiteral = store.any(metaconfiguration, BROWSER("image"));
+function getMetaConfigurationInfo(store, metaConfiguration, languages) {
+    const titleLiterals = store.each(metaConfiguration, DCT("title"));
+    const descriptionLiterals = store.each(metaConfiguration, DCT("description"));
+    const imageLiteral = store.any(metaConfiguration, BROWSER("image"));
 
     return {
-        iri: metaconfiguration.value,
+        iri: metaConfiguration.value,
         title: processLiteralsByLanguage(titleLiterals, languages),
         description: processLiteralsByLanguage(descriptionLiterals, languages),
         image: imageLiteral ? imageLiteral.value : null,
