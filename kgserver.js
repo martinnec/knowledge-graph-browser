@@ -734,12 +734,6 @@ function getConfigurationInfo(store, configuration, languages) {
         starting_node: [],
         // Regular expression how resource uri looks like
         resource_pattern: null,
-/*        // For constructing resource IRI from ID (For example wikidata Q12345)
-        resource_id_pattern: null, /*{
-            before: string,
-            after: string,
-            id_pattern: regex,
-        }*/
     };
 
     const stylesheet = store.any(configuration, BROWSER("hasVisualStyleSheet"));
@@ -755,9 +749,9 @@ function getConfigurationInfo(store, configuration, languages) {
     autocompletes.forEach(autocomplete => result.autocomplete.push(autocomplete.value));
 
     const startingNodes = store.each(configuration, BROWSER("startingNode"));
-    startingNodes.forEach(node => result.start_node.push(node.value));
+    startingNodes.forEach(node => result.starting_node.push(node.value));
 
-    const uri = store.any(configuration, BROWSER("resourceUriPattern"));
+    const uri = store.any(configuration, BROWSER("resourceIriPattern"));
     if (uri) result.resource_pattern = uri.value;
 
     return result;
@@ -767,7 +761,7 @@ function getConfigurationInfo(store, configuration, languages) {
  * Takes list of literals and creates an object like {en: "apple", cs: "jablko"} for specified languages.
  * @param {literal[]} literals
  * @param {string[]} languages
- * @return {{[lang: string]: string}}
+ * @return {{[lang: string]: string|null}}
  */
 function processLiteralsByLanguage(literals, languages) {
     let foundAny = false;
@@ -777,7 +771,7 @@ function processLiteralsByLanguage(literals, languages) {
         var literal = literals.find(literal => literal.language == languages[i]);
         if (literal) {
             result[languages[i]] = literal.value;
-            foundAny = true;
+            if (literal.value !== null) foundAny = true;
         } else {
             result[languages[i]] = null;
         }

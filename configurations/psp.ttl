@@ -11,7 +11,11 @@
 #####################################
 
 <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/psp> a browser:Configuration ;
-  dct:title "Konfigurace procházení dat Poslanecké sněmovny Parlamentu České republiky"@cs ;
+  dct:title "Poslanecká sněmovna parlamentu České republiky"@cs,
+    "Chamber of deputies - Parliament of the Czech Republic"@en;
+  browser:hasVisualStyleSheet <https://linked.opendata.cz/resource/knowledge-graph-browser/psp/style-sheet>;
+  browser:startingNode <https://psp.opendata.cz/zdroj/osoba/5914>;
+  browser:resourceIriPattern "^https://psp\\.opendata\\.cz/zdroj/";
   browser:hasViewSet <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/psp/tisk> ;
   browser:hasViewSet <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/psp/poslanec> .
 

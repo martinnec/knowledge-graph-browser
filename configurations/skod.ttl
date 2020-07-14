@@ -13,7 +13,9 @@
   #####################################
   
   <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/skod> a browser:Configuration ;
-    dct:title "Configuration of SKOD browser"@en ;
+    dct:title "Configuration of SKOD browser"@en,
+      "Konfigurace SKOD browseru"@cs ;
+    browser:hasVisualStyleSheet <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style-sheet>;
     browser:hasViewSet <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/skod/dataset>,
       <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/skod/item>,
       <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/sgov/object-type>,

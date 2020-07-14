@@ -5,6 +5,9 @@
   dct:title
     "Supported configurations"@en,
     "Podporované konfigurace"@cs ;
+  dct:description
+    "List of all supported cofigurations of the knowledge graph browser."@en,
+    "Seznam všech podporovaných konfigurací knowledge graph browseru."@cs ;
   browser:hasMetaConficuration
     <https://linked.opendata.cz/resource/knowledge-graph-browser/meta-configuration/czech-government>,
     <https://linked.opendata.cz/resource/knowledge-graph-browser/meta-configuration/wikidata> .
