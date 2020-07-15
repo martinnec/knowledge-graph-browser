@@ -622,6 +622,168 @@ app.get('/stylesheet', function (req, res)  {
                                     
 });
 
+/**
+ * Handles requests to get a meta configuration.
+ * Meta configuration is like a directory for other meta configurations and configurations.
+ *
+ * Returns the meta configuration, basic info about meta sub-configurations and full info about sub-configurations
+ *
+ * Parameters: iri Iri of the meta configuration
+ *             languages Comma separated ISO 639-1 languages. If there is not at least one literal for one given language, random (language) is returned.
+ */
+app.get('/meta-configuration', function (req, res) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    const metaConfigurationIRI = req.query.iri;
+    const languages = req.query.languages.split(",");
+
+    let store = $rdf.graph();
+    const mconf = $rdf.sym(utf8ToUnicode(metaConfigurationIRI));
+    const fetcher = new $rdf.Fetcher(store);
+
+    // Load the resource and its neighbours
+    fetcher.load(fetchableURI(metaConfigurationIRI)).then(response => {
+        // Data sent to client
+        let result = getMetaConfigurationInfo(store, mconf, languages);
+        result.has_meta_configurations = [];
+        result.has_configurations = [];
+
+        let promises = [];
+
+        // Process meta configurations
+        const childMConfs = store.each(mconf, BROWSER("hasMetaConficuration"));
+        promises = promises.concat(childMConfs.map(childMConf => new Promise((resolve, reject) => {
+            fetcher.load(fetchableURI(childMConf.value)).then(response => {
+                result.has_meta_configurations.push(getMetaConfigurationInfo(store, childMConf, languages));
+                resolve();
+            });
+        })));
+
+        // Process configurations
+        const childConfs = store.each(mconf, BROWSER("hasConfiguration"));
+        promises = promises.concat(childConfs.map(childConf => new Promise((resolve, reject) => {
+            fetcher.load(fetchableURI(childConf.value)).then(response => {
+                result.has_configurations.push(getConfigurationInfo(store, childConf, languages));
+                resolve();
+            });
+        })));
+
+        Promise.all(promises).then(response => {
+            res.contentType('application/json');
+            res.send(JSON.stringify(result));
+        });
+    });
+});
+
+/**
+ * Handles requests to get a configuration.
+ * Does not need to be used if the configuration was obtained from meta configuration query
+ *
+ * Returns full info about sub-configuration
+ *
+ * Parameters: iri Iri of the configuration
+ *             languages Comma separated ISO 639-1 languages. If there is not at least one literal for one given language, random (language) is returned.
+ */
+app.get('/configuration', function (req, res) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    const configurationIRI = req.query.iri;
+    const languages = req.query.languages.split(",");
+
+    let store = $rdf.graph();
+    const conf = $rdf.sym(utf8ToUnicode(configurationIRI));
+    const fetcher = new $rdf.Fetcher(store);
+
+    // Load the resource and its neighbours
+    fetcher.load(fetchableURI(configurationIRI)).then(response => {
+        // Data sent to client
+        let result = getConfigurationInfo(store, conf, languages);
+
+        res.contentType('application/json');
+        res.send(JSON.stringify(result));
+    });
+});
+
+/**
+ * Gives basic information about the meta configuration
+ */
+function getMetaConfigurationInfo(store, metaConfiguration, languages) {
+    const titleLiterals = store.each(metaConfiguration, DCT("title"));
+    const descriptionLiterals = store.each(metaConfiguration, DCT("description"));
+    const imageLiteral = store.any(metaConfiguration, BROWSER("image"));
+
+    return {
+        iri: metaConfiguration.value,
+        title: processLiteralsByLanguage(titleLiterals, languages),
+        description: processLiteralsByLanguage(descriptionLiterals, languages),
+        image: imageLiteral ? imageLiteral.value : null,
+    };
+}
+
+/**
+ * Gives basic information about the configuration
+ */
+function getConfigurationInfo(store, configuration, languages) {
+    let result = {
+        // Configuration IRI
+        iri: configuration.value,
+        // Stylesheet IRI
+        stylesheet: [],
+        title: {},
+        description: {},
+        // List of .json files
+        autocomplete: [],
+        starting_node: [],
+        // Regular expression how resource uri looks like
+        resource_pattern: null,
+    };
+
+    const stylesheet = store.any(configuration, BROWSER("hasVisualStyleSheet"));
+    if (stylesheet) result.stylesheet = [stylesheet.value];
+
+    const titleLiterals = store.each(configuration, DCT("title"));
+    result.title = processLiteralsByLanguage(titleLiterals, languages);
+
+    const descriptionLiterals = store.each(configuration, DCT("description"));
+    result.description = processLiteralsByLanguage(descriptionLiterals, languages);
+
+    const autocompletes = store.each(configuration, BROWSER("autocomplete"));
+    autocompletes.forEach(autocomplete => result.autocomplete.push(autocomplete.value));
+
+    const startingNodes = store.each(configuration, BROWSER("startingNode"));
+    startingNodes.forEach(node => result.starting_node.push(node.value));
+
+    const uri = store.any(configuration, BROWSER("resourceIriPattern"));
+    if (uri) result.resource_pattern = uri.value;
+
+    return result;
+}
+
+/**
+ * Takes list of literals and creates an object like {en: "apple", cs: "jablko"} for specified languages.
+ * @param {literal[]} literals
+ * @param {string[]} languages
+ * @return {{[lang: string]: string|null}}
+ */
+function processLiteralsByLanguage(literals, languages) {
+    let foundAny = false;
+    let result = {};
+
+    for (var i = 0; i < languages.length; i++) {
+        var literal = literals.find(literal => literal.language == languages[i]);
+        if (literal) {
+            result[languages[i]] = literal.value;
+            if (literal.value !== null) foundAny = true;
+        } else {
+            result[languages[i]] = null;
+        }
+    }
+
+    if (!foundAny && literals.length) {
+        result[literals[0].language] = literals[0].value;
+    }
+
+    return result;
+}
+
 app.listen(port, () => console.log(`Knowledge graph browser server listening on port ${port}!`));
 
 function fetchableURI(source) {

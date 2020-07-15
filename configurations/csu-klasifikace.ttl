@@ -5,6 +5,8 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xkos: <http://rdf-vocabulary.ddialliance.org/xkos#> .
 @prefix browser-csu: <https://linked.opendata.cz/resource/vocabulary/knowledge-graph-browser/čsú/> .
+@prefix void: <http://rdfs.org/ns/void#> .
+
 
 # https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/čsú-klasifikace
 # https://linked.opendata.cz/resource/knowledge-graph-browser/čsú-klasifikace/style-sheet
@@ -15,7 +17,10 @@
 #####################################
 
 <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/čsú-klasifikace> a browser:Configuration ;
-  dct:title "Konfigurace procházení klasifikací ČSÚ"@cs ;
+  dct:title "Klasifikace ČSÚ"@cs,
+    "Czech Statistical Office classification"@en;
+  browser:hasVisualStyleSheet <https://linked.opendata.cz/resource/knowledge-graph-browser/čsú-klasifikace/style-sheet>;
+  browser:startingNode <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/čsú-klasifikace>;
   browser:hasViewSet <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/čsú-klasifikace/klasifikace>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/čsú-klasifikace/úroveň>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/čsú-klasifikace/prvek> .
 
 #####################################
