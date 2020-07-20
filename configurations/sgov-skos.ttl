@@ -17,6 +17,8 @@
 
 <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/sgov-skos> a browser:Configuration ;
   dct:title "Konfigurace procházení slovníku vyjádřeného jako SKOS"@cs ;
+  browser:hasVisualStyleSheet <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov-skos/style-sheet>;
+  browser:startingNode <https://slovník.gov.cz/generický/turistické-cíle/pojem/turistický-cíl>;
   browser:hasViewSet <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/sgov-skos/scheme>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/sgov-skos/concept> .
 
 #####################################

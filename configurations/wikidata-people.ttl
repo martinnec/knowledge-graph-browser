@@ -25,7 +25,15 @@
 #####################################
 
 <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/wikidata/people> a browser:Configuration ;
-  dct:title "Procházení lidí z Wikidata"@cs ;
+  dct:title "Slavné osobnosti"@cs,
+    "Famous personalities"@en;
+  dct:description "Procházení fimařů, herců a spisovatelů."@cs,
+    "Browsing through the film makers, actors and writers."@en;
+  browser:hasVisualStyleSheet <https://linked.opendata.cz/resource/knowledge-graph-browser/wikidata/people/style-sheet>;
+  browser:startingNode <http://www.wikidata.org/entity/Q80>, <http://www.wikidata.org/entity/Q92743>, <http://www.wikidata.org/entity/Q62843>,
+    <http://www.wikidata.org/entity/Q937>,
+    <http://www.wikidata.org/entity/Q7186>;
+  browser:resourceIriPattern "^http://www\\.wikidata\\.org/entity/Q[1-9][0-9]*$";
   browser:hasViewSet <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/wikidata/person>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/wikidata/place/people>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/wikidata/creative-work>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/wikidata/award>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/wikidata/discovery>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/wikidata/entity> .
 
 #####################################
