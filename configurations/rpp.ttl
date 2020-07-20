@@ -1057,13 +1057,7 @@ CONSTRUCT {
   rdfs:domain l:kategorie-orgánů-veřejné-moci ;
   rdfs:range l:agenda .
   
-<https://linked.opendata.cz/resource/vocabulary/knowledge-graph-browser/rpp/poskytuje> a owl:ObjectProperty ;
-  rdfs:label "poskytuje"@cs ;
-  rdfs:comment "Agenda poskytuje údaj nebo poskytuje údaje sdružené v objekt nebo subjekt údajů."@cs ;
-  rdfs:domain l:agenda ;
-  rdfs:range [
-    owl:unionOf (l:údaj a:objekt-nebo-subjekt-údajů)
-  ] .
+c
 
 <https://linked.opendata.cz/resource/vocabulary/knowledge-graph-browser/rpp/poskytuje-agende> a owl:ObjectProperty ;
   rdfs:label "poskytuje agendě"@cs ;
