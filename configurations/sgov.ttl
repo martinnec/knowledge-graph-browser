@@ -928,7 +928,7 @@ CONSTRUCT {
   }
 
   OPTIONAL {
-    ?node dct:source ?source .
+    ?node dct:source|dct:relation ?source .
     BIND(SUBSTR(REPLACE(REPLACE(STR(?source), "https://esbirka.opendata.cz/zdroj/předpis/[0-9]+/[0-9]+/sekce((/[^/]+)+)", "$1"), "/", "-"), 2) AS ?anchor)
     BIND(STRDT(CONCAT(REPLACE(STR(?source), "https://esbirka.opendata.cz/zdroj/předpis/([0-9]+)/([0-9]+)/sekce((/[^/]+)+)", "https://zakonyprolidi.cz/cs/$2-$1#p"), ?anchor), xsd:anyURI) AS ?legal)
   }
@@ -1281,28 +1281,55 @@ CONSTRUCT {
   browser:query """PREFIX z: <https://slovník.gov.cz/základní/pojem/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX dce: <http://purl.org/dc/elements/1.1/>
 PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX browser-sgov: <https://linked.opendata.cz/ontology/knowledge-graph-browser/sgov/>
 PREFIX browser: <https://linked.opendata.cz/ontology/knowledge-graph-browser/>
+PREFIX fel: <http://onto.fel.cvut.cz/ontologies/slovník/agendový/popis-dat/pojem/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 CONSTRUCT {
   ?node skos:prefLabel ?label ;
+    browser-sgov:vocabularyLabel ?vocabularyLabel ;
     skos:definition ?definition ;
-    dct:description ?description .    
+    browser-sgov:legal ?legal ;
+    browser-sgov:numberOfChildren ?numberOfChildren ;
+    browser-sgov:numberOfParents ?numberOfParents .
 } WHERE {
-  ?node skos:prefLabel ?label .
+  ?node skos:prefLabel ?label ;
+    skos:inScheme ?glossary .
   FILTER (LANG(?label) = "cs")
+    
+  ?vocabulary a fel:slovník ;
+    owl:imports ?glossary ;
+    dct:title ?vocabularyLabel .
+    
   OPTIONAL {
     ?node skos:definition ?definition .
     FILTER (LANG(?definition) = "cs")
   }
+
   OPTIONAL {
-    {
-      ?node dce:description ?description .
-    } UNION {
-      ?node dct:description ?description .
+    ?node dct:source|dct:relation ?source .
+    BIND(SUBSTR(REPLACE(REPLACE(STR(?source), "https://esbirka.opendata.cz/zdroj/předpis/[0-9]+/[0-9]+/sekce((/[^/]+)+)", "$1"), "/", "-"), 2) AS ?anchor)
+    BIND(STRDT(CONCAT(REPLACE(STR(?source), "https://esbirka.opendata.cz/zdroj/předpis/([0-9]+)/([0-9]+)/sekce((/[^/]+)+)", "https://zakonyprolidi.cz/cs/$2-$1#p"), ?anchor), xsd:anyURI) AS ?legal)
+  }
+
+  OPTIONAL {
+    SELECT ?node (COUNT(?child) AS ?numberOfChildren)
+    WHERE {
+      ?child rdfs:subClassOf ?node .
     }
-    FILTER (LANG(?description) = "cs")
+    GROUP BY ?node
+  }
+
+  OPTIONAL {
+    SELECT ?node (COUNT(?parent) AS ?numberOfParents)
+    WHERE {
+      ?node rdfs:subClassOf ?parent .
+    }
+    GROUP BY ?node
   }
 }""" .
 
@@ -1685,28 +1712,55 @@ CONSTRUCT {
   browser:query """PREFIX z: <https://slovník.gov.cz/základní/pojem/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX dce: <http://purl.org/dc/elements/1.1/>
 PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX browser-sgov: <https://linked.opendata.cz/ontology/knowledge-graph-browser/sgov/>
 PREFIX browser: <https://linked.opendata.cz/ontology/knowledge-graph-browser/>
+PREFIX fel: <http://onto.fel.cvut.cz/ontologies/slovník/agendový/popis-dat/pojem/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 CONSTRUCT {
   ?node skos:prefLabel ?label ;
+    browser-sgov:vocabularyLabel ?vocabularyLabel ;
     skos:definition ?definition ;
-    dct:description ?description .    
+    browser-sgov:legal ?legal ;
+    browser-sgov:numberOfChildren ?numberOfChildren ;
+    browser-sgov:numberOfParents ?numberOfParents .
 } WHERE {
-  ?node skos:prefLabel ?label .
+  ?node skos:prefLabel ?label ;
+    skos:inScheme ?glossary .
   FILTER (LANG(?label) = "cs")
+    
+  ?vocabulary a fel:slovník ;
+    owl:imports ?glossary ;
+    dct:title ?vocabularyLabel .
+    
   OPTIONAL {
     ?node skos:definition ?definition .
     FILTER (LANG(?definition) = "cs")
   }
+
   OPTIONAL {
-    {
-      ?node dce:description ?description .
-    } UNION {
-      ?node dct:description ?description .
+    ?node dct:source|dct:relation ?source .
+    BIND(SUBSTR(REPLACE(REPLACE(STR(?source), "https://esbirka.opendata.cz/zdroj/předpis/[0-9]+/[0-9]+/sekce((/[^/]+)+)", "$1"), "/", "-"), 2) AS ?anchor)
+    BIND(STRDT(CONCAT(REPLACE(STR(?source), "https://esbirka.opendata.cz/zdroj/předpis/([0-9]+)/([0-9]+)/sekce((/[^/]+)+)", "https://zakonyprolidi.cz/cs/$2-$1#p"), ?anchor), xsd:anyURI) AS ?legal)
+  }
+
+  OPTIONAL {
+    SELECT ?node (COUNT(?child) AS ?numberOfChildren)
+    WHERE {
+      ?child rdfs:subClassOf ?node .
     }
-    FILTER (LANG(?description) = "cs")
+    GROUP BY ?node
+  }
+
+  OPTIONAL {
+    SELECT ?node (COUNT(?parent) AS ?numberOfParents)
+    WHERE {
+      ?node rdfs:subClassOf ?parent .
+    }
+    GROUP BY ?node
   }
 }""" .
 

@@ -17,7 +17,7 @@
 
 <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/nkod> a browser:Configuration ;
   dct:title "Národní katalog otevřených dat"@cs,
-    "National Catalog of Open Data (NKOD)"@en ;
+    "National Catalog of Open Data"@en ;
   browser:hasVisualStyleSheet <https://linked.opendata.cz/resource/knowledge-graph-browser/nkod/style-sheet>;
   browser:startingNode <https://rpp-opendata.egon.gov.cz/odrpp/zdroj/orgán-veřejné-moci/00025593>;
   browser:hasViewSet <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/nkod/katalog>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/nkod/poskytovatel>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/rpp/kategorieovm>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/rpp/ovm> .
