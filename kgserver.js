@@ -31,7 +31,7 @@ app.get('/view-sets', function (req, res)  {
   
   let store = $rdf.graph();
   const config = $rdf.sym(utf8ToUnicode(configIRI));
-  const fetcher = new $rdf.Fetcher(store);
+  const fetcher = createRdfFetcher(store);
     
   fetcher.load(fetchableURI(configIRI)).then(response => {
     let viewSets = store.each(config, BROWSER("hasViewSet"), undefined);
@@ -143,6 +143,12 @@ app.get('/view-sets', function (req, res)  {
                                     
 });
 
+function createRdfFetcher(store) {
+  const fetcher = new $rdf.Fetcher(store);
+  fetcher.mediatypes["application/xhtml+xml"] = { "q": 0.9 };
+  return fetcher;
+}
+
 app.get('/expand', function (req, res)  {
 
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -152,7 +158,7 @@ app.get('/expand', function (req, res)  {
   
   let store = $rdf.graph();
   const view = $rdf.sym(utf8ToUnicode(viewIRI));
-  const fetcher = new $rdf.Fetcher(store);
+  const fetcher = createRdfFetcher(store);
     
   fetcher.load(fetchableURI(viewIRI)).then(response => {
     const expansion = store.any(view, BROWSER("hasExpansion"), undefined);
@@ -258,7 +264,7 @@ app.get('/expand', function (req, res)  {
               for(let typeIRIUTF8 of typesSet)  {
                 promises.push(new Promise((resolve, reject) => {
                   let store = $rdf.graph();
-                  const fetcher = new $rdf.Fetcher(store);
+                  const fetcher = createRdfFetcher(store);
                   const typeIRI = fetchableURI(typeIRIUTF8);
                   const typeIRIUnicode = utf8ToUnicode(typeIRIUTF8);
                   const type = $rdf.sym(typeIRIUnicode);
@@ -315,7 +321,7 @@ app.get('/preview', function (req, res)  {
   
   let store = $rdf.graph();
   const view = $rdf.sym(utf8ToUnicode(viewIRI));
-  const fetcher = new $rdf.Fetcher(store);
+  const fetcher = createRdfFetcher(store);
     
   fetcher.load(fetchableURI(viewIRI)).then(response => {
     const preview = store.any(view, BROWSER("hasPreview"), undefined);
@@ -379,7 +385,7 @@ app.get('/preview', function (req, res)  {
               for(let typeIRIUnicode of typesSet)  {
                 promises.push(new Promise((resolve, reject) => {
                   let store = $rdf.graph();
-                  const fetcher = new $rdf.Fetcher(store);
+                  const fetcher = createRdfFetcher(store);
                   const typeIRI = fetchableURI(typeIRIUnicode);
                   const type = $rdf.sym(typeIRIUnicode);
                   fetcher.load(typeIRI).then(response => {
@@ -434,7 +440,7 @@ app.get('/detail', function (req, res)  {
   
   let store = $rdf.graph(); 
   const view = $rdf.sym(utf8ToUnicode(viewIRI));
-  const fetcher = new $rdf.Fetcher(store);    
+  const fetcher = createRdfFetcher(store);
   fetcher.load(fetchableURI(viewIRI)).then(response => {
     const detail = store.any(view, BROWSER("hasDetail"), undefined);    
     fetcher.load(fetchableURI(detail.value)).then( reponse => {
@@ -495,7 +501,7 @@ app.get('/detail', function (req, res)  {
               for(let typeIRIUnicode of typesSet)  {
                 promises.push(new Promise((resolve, reject) => {
                   let store = $rdf.graph();
-                  const fetcher = new $rdf.Fetcher(store);
+                  const fetcher = createRdfFetcher(store);
                   const typeIRI = fetchableURI(typeIRIUnicode);
                   const type = $rdf.sym(typeIRIUnicode);
                   fetcher.load(typeIRI).then(response => {
@@ -549,7 +555,7 @@ app.get('/stylesheet', function (req, res)  {
   
   let store = $rdf.graph();
   const stylesheet = $rdf.sym(utf8ToUnicode(stylesheetIRI));
-  const fetcher = new $rdf.Fetcher(store);
+  const fetcher = createRdfFetcher(store);
     
   fetcher.load(fetchableURI(stylesheetIRI)).then(response => {
     let styles = store.each(stylesheet, BROWSER("hasVisualStyle"), undefined);
@@ -638,7 +644,7 @@ app.get('/meta-configuration', function (req, res) {
 
     let store = $rdf.graph();
     const mconf = $rdf.sym(utf8ToUnicode(metaConfigurationIRI));
-    const fetcher = new $rdf.Fetcher(store);
+    const fetcher = createRdfFetcher(store);
 
     // Load the resource and its neighbours
     fetcher.load(fetchableURI(metaConfigurationIRI)).then(response => {
@@ -690,7 +696,7 @@ app.get('/configuration', function (req, res) {
 
     let store = $rdf.graph();
     const conf = $rdf.sym(utf8ToUnicode(configurationIRI));
-    const fetcher = new $rdf.Fetcher(store);
+    const fetcher = createRdfFetcher(store);
 
     // Load the resource and its neighbours
     fetcher.load(fetchableURI(configurationIRI)).then(response => {
