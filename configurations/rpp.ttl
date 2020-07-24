@@ -69,7 +69,9 @@ ASK {
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/rpp/objekt-nebo-subjekt-údajů> a browser:ViewSet ;
   dct:title "Pohledy na subjekty a objekty práva"@cs ;
-  browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/objekt-nebo-subjekt-údajů/struktura>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/objekt-nebo-subjekt-údajů/oprávnění>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/objekt-nebo-subjekt-��dajů/agenda> ;
+  browser:hasView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/objekt-nebo-subjekt-údajů/struktura>,
+  <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/objekt-nebo-subjekt-údajů/oprávnění>,
+  <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/objekt-nebo-subjekt-údajů/agenda> ;
   browser:hasDefaultView <https://linked.opendata.cz/resource/knowledge-graph-browser/view/rpp/objekt-nebo-subjekt-údajů/struktura> ;
   browser:hasCondition """PREFIX a: <https://slovník.gov.cz/agendový/104/pojem/>
 ASK {
@@ -1060,7 +1062,13 @@ CONSTRUCT {
   rdfs:domain l:kategorie-orgánů-veřejné-moci ;
   rdfs:range l:agenda .
   
-c
+<https://linked.opendata.cz/resource/vocabulary/knowledge-graph-browser/rpp/poskytuje> a owl:ObjectProperty ;
+  rdfs:label "poskytuje"@cs ;
+  rdfs:comment "Agenda poskytuje údaj nebo poskytuje údaje sdružené v objekt nebo subjekt údajů."@cs ;
+  rdfs:domain l:agenda ;
+  rdfs:range [
+    owl:unionOf (l:údaj a:objekt-nebo-subjekt-údajů)
+  ] .
 
 <https://linked.opendata.cz/resource/vocabulary/knowledge-graph-browser/rpp/poskytuje-agende> a owl:ObjectProperty ;
   rdfs:label "poskytuje agendě"@cs ;
