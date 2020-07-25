@@ -717,7 +717,7 @@ function getMetaConfigurationInfo(store, metaConfiguration, languages) {
     const imageLiteral = store.any(metaConfiguration, BROWSER("image"));
 
     return {
-        iri: metaConfiguration.value,
+        iri: unicodeToUTF8(metaConfiguration.value),
         title: processLiteralsByLanguage(titleLiterals, languages),
         description: processLiteralsByLanguage(descriptionLiterals, languages),
         image: imageLiteral ? imageLiteral.value : null,
@@ -730,7 +730,7 @@ function getMetaConfigurationInfo(store, metaConfiguration, languages) {
 function getConfigurationInfo(store, configuration, languages) {
     let result = {
         // Configuration IRI
-        iri: configuration.value,
+        iri: unicodeToUTF8(configuration.value),
         // Stylesheet IRI
         stylesheet: [],
         title: {},
@@ -743,7 +743,7 @@ function getConfigurationInfo(store, configuration, languages) {
     };
 
     const stylesheet = store.any(configuration, BROWSER("hasVisualStyleSheet"));
-    if (stylesheet) result.stylesheet = [stylesheet.value];
+    if (stylesheet) result.stylesheet = [unicodeToUTF8(stylesheet.value)];
 
     const titleLiterals = store.each(configuration, DCT("title"));
     result.title = processLiteralsByLanguage(titleLiterals, languages);
@@ -755,7 +755,7 @@ function getConfigurationInfo(store, configuration, languages) {
     autocompletes.forEach(autocomplete => result.autocomplete.push(autocomplete.value));
 
     const startingNodes = store.each(configuration, BROWSER("startingNode"));
-    startingNodes.forEach(node => result.starting_node.push(node.value));
+    startingNodes.forEach(node => result.starting_node.push(unicodeToUTF8(node.value)));
 
     const uri = store.any(configuration, BROWSER("resourceIriPattern"));
     if (uri) result.resource_pattern = uri.value;
