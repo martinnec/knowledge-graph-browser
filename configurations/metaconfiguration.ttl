@@ -25,7 +25,8 @@
     <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/nkod>,
     <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/rpp>,
     <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/psp>,
-    <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/sgov> .
+    <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/sgov>,
+    <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/sgov-colored> .
 
 <https://linked.opendata.cz/resource/knowledge-graph-browser/meta-configuration/wikidata> a browser:MetaConfiguration ;
   dct:title
