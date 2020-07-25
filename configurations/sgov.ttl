@@ -1979,16 +1979,18 @@ browser-sgov:legal a owl:DatatypeProperty ;
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/trobe-type> a browser:VisualStyle ;
   browser:shape "ellipse" ;
-  browser:width "20px" ;
-  browser:height "20px" ;
+  browser:width "12px" ;
+  browser:height "12px" ;
   browser:text-wrap "wrap";
-  browser:font-size "8px" ;
+  browser:font-size "10px" ;
   browser:hasSelector ".trobe-type" .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/relation-type> a browser:VisualStyle ;
-  browser:shape "cut-rectangle" ;
-  browser:height "16px" ;
+  browser:shape "diamond" ;
+  browser:width "12px" ;
+  browser:height "12px" ;
   browser:font-size "10px" ;
+  browser:text-valign "top" ;
   browser:hasSelector ".relation-type" .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/zsgov> a browser:VisualStyle ;
@@ -2060,17 +2062,20 @@ browser-sgov:legal a owl:DatatypeProperty ;
   browser:target-arrow-shape "triangle" ;
   browser:target-arrow-fill "hollow" ;
   browser:target-arrow-color "#303633" ;
-  browser:arrow-scale "1.5";
+  browser:label "" ;
+  browser:arrow-scale "2";
   browser:hasSelector ".sub-class-of" .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/rdfs/domain> a browser:VisualStyle ;
-  browser:target-arrow-shape "vee" ;
-  browser:target-arrow-color "#303633" ;
+  browser:source-arrow-shape "vee" ;
+  browser:source-arrow-color "#303633" ;
+  browser:label "" ;
   browser:hasSelector ".domain" .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/rdfs/range> a browser:VisualStyle ;
   browser:target-arrow-shape "vee" ;
   browser:target-arrow-color "#303633" ;
+  browser:label "" ;
   browser:hasSelector ".range" .
   
 <https://linked.opendata.cz/resource/knowledge-graph-browser/sgov/style/edge> a browser:VisualStyle ;
