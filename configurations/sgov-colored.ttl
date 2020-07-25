@@ -414,6 +414,129 @@ CONSTRUCT {
   }
 }""" .
 
+<https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type-colored/relation-types> a browser:ExpansionQuery ;
+  dct:title "Associated relation types" ;
+  browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/sgov> ;
+  browser:query """PREFIX z: <https://slovník.gov.cz/základní/pojem/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX browser: <https://linked.opendata.cz/ontology/knowledge-graph-browser/>
+
+CONSTRUCT {
+  ?typeDomain a ?typeDomainClass ;
+    rdfs:domain ?node ;
+    skos:prefLabel ?typeDomainLabel ;
+    browser:class "relation-type", ?typeDomainGlossaryClass .
+    
+  rdfs:domain browser:class ?domainStylesheetClass .
+
+  ?typeRange a ?typeRangeClass ;
+    rdfs:range ?node ;
+    skos:prefLabel ?typeRangeLabel ;
+    browser:class "relation-type", ?typeRangeGlossaryClass .
+    
+  rdfs:range browser:class ?rangeStylesheetClass .
+  
+} WHERE {
+  
+  OPTIONAL {
+    ?typeDomain a z:typ-vztahu ;
+      rdfs:domain ?node ;
+      skos:prefLabel ?typeDomainLabel ;
+      skos:inScheme ?typeDomainGlossary .
+    FILTER (LANG(?typeDomainLabel) = "cs")  
+    
+    BIND("domain" AS ?domainStylesheetClass)
+    BIND(
+      IF(
+        ?typeDomainGlossary = <https://slovník.gov.cz/základní/glosář>,
+        "zsgov",
+        IF(
+          ?typeDomainGlossary = <https://slovník.gov.cz/veřejný-sektor/glosář>,
+          "vsgov",
+          IF(
+            CONTAINS(STR(?typeDomainGlossary), "legislativní/sbírka/111/2009"),
+            "lsgov1112009",
+            IF(
+              CONTAINS(STR(?typeDomainGlossary), "legislativní/sbírka/56/2001"),
+              "lsgov562001",
+              IF(
+                CONTAINS(STR(?typeDomainGlossary), "legislativní/sbírka/361/2000"),
+                "lsgov3612000",
+                IF(
+                  CONTAINS(STR(?typeDomainGlossary), "legislativní/sbírka/185/2001"),
+                  "lsgov1852001",
+                  IF(
+                    CONTAINS(STR(?typeDomainGlossary), "legislativní"),
+                    "lsgov",
+                    IF(
+                      CONTAINS(STR(?typeDomainGlossary), "agendový"),
+                      "asgov",
+                      IF(
+                        CONTAINS(STR(?typeDomainGlossary), "generický"),
+                        "gsgov",
+                        "dsgov"
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )  
+        )  
+      )
+    AS ?typeDomainGlossaryClass)
+  }
+  
+  OPTIONAL {
+    ?typeRange a z:typ-vztahu ;
+      rdfs:range ?node ;
+      skos:prefLabel ?typeRangeLabel ;
+      skos:inScheme ?typeRangeGlossary .
+    FILTER (LANG(?typeRangeLabel) = "cs")
+    BIND("range" AS ?rangeStylesheetClass)
+    BIND(
+      IF(
+        ?typeRangeGlossary = <https://slovník.gov.cz/základní/glosář>,
+        "zsgov",
+        IF(
+          ?typeRangeGlossary = <https://slovník.gov.cz/veřejný-sektor/glosář>,
+          "vsgov",
+          IF(
+            CONTAINS(STR(?typeRangeGlossary), "legislativní/sbírka/111/2009"),
+            "lsgov1112009",
+            IF(
+              CONTAINS(STR(?typeRangeGlossary), "legislativní/sbírka/56/2001"),
+              "lsgov562001",
+              IF(
+                CONTAINS(STR(?typeRangeGlossary), "legislativní/sbírka/361/2000"),
+                "lsgov3612000",
+                IF(
+                  CONTAINS(STR(?typeRangeGlossary), "legislativní/sbírka/185/2001"),
+                  "lsgov1852001",
+                  IF(
+                    CONTAINS(STR(?typeRangeGlossary), "legislativní"),
+                    "lsgov",
+                    IF(
+                      CONTAINS(STR(?typeRangeGlossary), "agendový"),
+                      "asgov",
+                      IF(
+                        CONTAINS(STR(?typeRangeGlossary), "generický"),
+                        "gsgov",
+                        "dsgov"
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )  
+        )  
+      )
+    AS ?typeRangeGlossaryClass)
+  }
+}""" .
+
 <https://linked.opendata.cz/resource/knowledge-graph-browser/expansion-query/object-type-colored/relation-types-domain> a browser:ExpansionQuery ;
   dct:title "Associated relation types via domain" ;
   browser:hasDataset <https://linked.opendata.cz/resource/knowledge-graph-browser/dataset/sgov-colored> ;
