@@ -10,32 +10,32 @@
     "Seznam všech podporovaných konfigurací knowledge graph browseru."@cs ;
   browser:hasMetaConficuration
     <https://linked.opendata.cz/resource/knowledge-graph-browser/meta-configuration/czech-government>,
-    <https://linked.opendata.cz/resource/knowledge-graph-browser/meta-configuration/wikidata> .
+    <https://linked.opendata.cz/resource/knowledge-graph-browser/meta-configuration/encyclopedia> .
 
 <https://linked.opendata.cz/resource/knowledge-graph-browser/meta-configuration/czech-government> a browser:MetaConfiguration ;
   dct:title
     "Public administration of Czechia"@en,
     "Státní správa České republiky"@cs ;
   dct:description
-    "Browsing data describing public administration of Czechia."@en,
-    "Procházení dat popisujících veřejnou správu České republiky."@cs ;
+    "Explore knowledge graphs about state administration of Czechia."@en,
+    "Procházejte znalostní grafy o státní správě České republiky."@cs ;
   browser:image "https://upload.wikimedia.org/wikipedia/commons/c/cb/Flag_of_the_Czech_Republic.svg" ;
   browser:hasConfiguration
     <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/čsú-klasifikace>,
     <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/nkod>,
     <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/rpp>,
     <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/psp>,
-    <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/sgov>,
-    <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/sgov-colored> .
+    <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/sgov-full-simplified> .
 
-<https://linked.opendata.cz/resource/knowledge-graph-browser/meta-configuration/wikidata> a browser:MetaConfiguration ;
+<https://linked.opendata.cz/resource/knowledge-graph-browser/meta-configuration/encyclopedia> a browser:MetaConfiguration ;
   dct:title
-    "Wikidata"@en,
-    "Wikidata"@cs ;
+    "Encyclopedie"@en,
+    "Encyclopedia"@cs ;
   dct:description
-    "Browsing data from largest online encyclopedia."@en,
-    "Procházení dat největší online encyklopedie."@cs ;
+    "Explore encyclopedic knowledge graphs."@en,
+    "Procházejte encyclopedické znalostní grafy."@cs ;
   browser:image "https://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg" ;
   browser:hasConfiguration
     <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/wikidata/animals>,
-    <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/wikidata/people> .
+    <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/wikidata/personalities>,
+    <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/people-by-groups> .

@@ -20,7 +20,7 @@
   dct:title "Klasifikace ČSÚ"@cs,
     "Czech Statistical Office classification"@en;
   browser:hasVisualStyleSheet <https://linked.opendata.cz/resource/knowledge-graph-browser/čsú-klasifikace/style-sheet>;
-  browser:startingNode <https://linked.opendata.cz/resource/knowledge-graph-browser/configuration/čsú-klasifikace>;
+  browser:startingNode <https://csu.opendata.cz/zdroj/klasifikace/CZ-NACE/R2/A>;
   browser:hasViewSet <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/čsú-klasifikace/klasifikace>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/čsú-klasifikace/úroveň>, <https://linked.opendata.cz/resource/knowledge-graph-browser/view-set/čsú-klasifikace/prvek> .
 
 #####################################
