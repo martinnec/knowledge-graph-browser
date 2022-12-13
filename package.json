@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/skodapetr/kgbrowser#readme",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "rdflib": "^1.2.2",
     "request": "^2.88.2",
     "uri-js": "^4.2.2"
